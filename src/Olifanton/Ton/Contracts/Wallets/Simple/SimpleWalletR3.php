@@ -4,8 +4,9 @@ namespace Olifanton\Ton\Contracts\Wallets\Simple;
 
 use Olifanton\Boc\Cell;
 use Olifanton\Ton\Contracts\Wallet;
+use Olifanton\Ton\Contracts\Wallets\AbstractWallet;
 
-class SimpleWalletR3 extends SimpleWallet implements Wallet
+class SimpleWalletR3 extends AbstractWallet implements Wallet
 {
     public static function getName(): string
     {

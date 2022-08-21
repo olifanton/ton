@@ -50,4 +50,16 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
 
         return $this->address;
     }
+
+    /**
+     * @throws \Olifanton\Boc\Exceptions\BitStringException
+     */
+    protected function createData(): Cell
+    {
+        $cell = new Cell();
+        $cell->bits->writeUint(0, 32); // seqno
+        $cell->bits->writeBytes($this->getPublicKey());
+
+        return $cell;
+    }
 }

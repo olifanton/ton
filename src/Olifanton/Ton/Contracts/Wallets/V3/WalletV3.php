@@ -23,6 +23,8 @@ abstract class WalletV3 extends AbstractWallet implements Wallet
 
     protected function getWalletId(): int
     {
+        // @TODO: Create option `walletId`
+
         return 698983191 + $this->getWc();
     }
 }

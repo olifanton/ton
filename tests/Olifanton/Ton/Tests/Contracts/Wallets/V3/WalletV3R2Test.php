@@ -7,7 +7,7 @@ use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R2;
 use Olifanton\Ton\Tests\Stubs\StubWords;
 use PHPUnit\Framework\TestCase;
 
-class WalletV2R2Test extends TestCase
+class WalletV3R2Test extends TestCase
 {
     public function testGetName(): void
     {
