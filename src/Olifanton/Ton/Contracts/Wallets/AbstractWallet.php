@@ -4,8 +4,11 @@ namespace Olifanton\Ton\Contracts\Wallets;
 
 use ajf\TypedArrays\Uint8Array;
 use Olifanton\Boc\Cell;
+use Olifanton\Boc\Exceptions\BitStringException;
+use Olifanton\Boc\Exceptions\CellException;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Wallet;
+use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Messages\StateInit;
 use Olifanton\Utils\Address;
 use Olifanton\Utils\Bytes;
@@ -34,32 +37,33 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
         return $this->wc;
     }
 
-    /**
-     * @throws \Olifanton\Boc\Exceptions\BitStringException
-     * @throws \Olifanton\Boc\Exceptions\CellException
-     */
     public function getAddress(): Address
     {
         if (!$this->address) {
-            $cell = new Cell();
-            $state = new StateInit($this->getCode(), $this->getData());
-            $state->writeTo($cell);
+            try {
+                $cell = new Cell();
+                $state = new StateInit($this->getCode(), $this->getData());
+                $state->writeTo($cell);
 
-            return new Address($this->getWc() . ":" . Bytes::bytesToHexString($cell->hash()));
+                return new Address($this->getWc() . ":" . Bytes::bytesToHexString($cell->hash()));
+            } catch (BitStringException | CellException $e) {
+                throw new WalletException("Address calculation error: " . $e->getMessage(), $e->getCode(), $e);
+            }
         }
 
         return $this->address;
     }
 
-    /**
-     * @throws \Olifanton\Boc\Exceptions\BitStringException
-     */
     protected function createData(): Cell
     {
-        $cell = new Cell();
-        $cell->bits->writeUint(0, 32); // seqno
-        $cell->bits->writeBytes($this->getPublicKey());
+        try {
+            $cell = new Cell();
+            $cell->bits->writeUint(0, 32); // seqno
+            $cell->bits->writeBytes($this->getPublicKey());
 
-        return $cell;
+            return $cell;
+        } catch (BitStringException $e) {
+            throw new WalletException("Wallet data creation error: " . $e->getMessage(), $e->getCode(), $e);
+        }
     }
 }

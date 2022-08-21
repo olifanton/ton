@@ -2,7 +2,10 @@
 
 namespace Olifanton\Ton\Tests\Contracts\Wallets\Simple;
 
+use Olifanton\Mnemonic\Exceptions\TonMnemonicException;
 use Olifanton\Mnemonic\TonMnemonic;
+use Olifanton\Ton\Contracts\Exceptions\ContractException;
+use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Contracts\Wallets\Simple\SimpleWalletR1;
 use Olifanton\Ton\Tests\Stubs\StubWords;
 use PHPUnit\Framework\TestCase;
@@ -15,9 +18,7 @@ class SimpleWalletR1Test extends TestCase
     }
 
     /**
-     * @throws \Olifanton\Boc\Exceptions\BitStringException
-     * @throws \Olifanton\Boc\Exceptions\CellException
-     * @throws \Olifanton\Mnemonic\Exceptions\TonMnemonicException
+     * @throws ContractException|WalletException|TonMnemonicException
      */
     public function testAddress(): void
     {

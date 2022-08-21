@@ -4,6 +4,7 @@ namespace Olifanton\Ton\Contracts;
 
 use Olifanton\Boc\Cell;
 use Olifanton\Ton\Contract;
+use Olifanton\Ton\Contracts\Exceptions\ContractException;
 
 abstract class AbstractContract implements Contract
 {
@@ -11,8 +12,14 @@ abstract class AbstractContract implements Contract
 
     protected ?Cell $data = null;
 
+    /**
+     * @throws ContractException
+     */
     protected abstract function createCode(): Cell;
 
+    /**
+     * @throws ContractException
+     */
     protected abstract function createData(): Cell;
 
     public function getCode(): Cell

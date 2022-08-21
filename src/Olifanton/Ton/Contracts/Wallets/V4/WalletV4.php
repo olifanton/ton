@@ -3,23 +3,26 @@
 namespace Olifanton\Ton\Contracts\Wallets\V4;
 
 use Olifanton\Boc\Cell;
+use Olifanton\Boc\Exceptions\BitStringException;
 use Olifanton\Ton\Contracts\Wallet;
 use Olifanton\Ton\Contracts\Wallets\AbstractWallet;
+use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 
 abstract class WalletV4 extends AbstractWallet implements Wallet
 {
-    /**
-     * @throws \Olifanton\Boc\Exceptions\BitStringException
-     */
     protected function createData(): Cell
     {
-        $cell = new Cell();
-        $cell->bits->writeUint(0, 32);
-        $cell->bits->writeUint($this->getWalletId(), 32);
-        $cell->bits->writeBytes($this->getPublicKey());
-        $cell->bits->writeUint(0, 1);
+        try {
+            $cell = new Cell();
+            $cell->bits->writeUint(0, 32);
+            $cell->bits->writeUint($this->getWalletId(), 32);
+            $cell->bits->writeBytes($this->getPublicKey());
+            $cell->bits->writeUint(0, 1);
 
-        return $cell;
+            return $cell;
+        } catch (BitStringException $e) {
+            throw new WalletException("Wallet data creation error: " . $e->getMessage(), $e->getCode(), $e);
+        }
     }
 
     protected function getWalletId(): int
