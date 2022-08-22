@@ -5,9 +5,10 @@ PHP SDK for Toncenter HTTP API
 
 `⚠️ This project is under active development!`
 
+<!--
 ## Install
 
-<!-- ```bash
+```bash
 composer require olifanton/ton
 ``` -->
 
