@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "raw.fullAccountState",
+    "balance": 0,
+    "code": "",
+    "data": "",
+    "last_transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "0",
+      "hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+    },
+    "block_id": {
+      "@type": "ton.blockIdExt",
+      "workchain": -1,
+      "shard": "-9223372036854775808",
+      "seqno": 23630593,
+      "root_hash": "isttJl5gI4VAtL39BTR9I8afTuo7oRKdWLKu8CfeXNg=",
+      "file_hash": "78rXvC+19uv4PGMYXEB2bjGxVtz/+XE9KU5QxHG5GIw="
+    },
+    "frozen_hash": "",
+    "sync_utime": 1663506642,
+    "@extra": "1663506661.4179938:3:0.7233475031280844",
+    "state": "uninitialized"
+  },
+  "jsonrpc": "2.0"
+}

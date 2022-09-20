@@ -3,3 +3,4 @@
 /phpunit.xml    export-ignore
 /tests          export-ignore
 /build          export-ignore
+/.env.dist      export-ignore

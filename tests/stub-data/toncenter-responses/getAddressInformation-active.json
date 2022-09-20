@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "raw.fullAccountState",
+    "balance": "4981639170606546912",
+    "code": "te6cckEBAQEATgAAmP8AIN0gggFMl7qXMO1E0NcLH+Ck8mCBAgDXGCDXCx/tRNDTH9P/0VESuvKhIvkBVBBE+RDyovgAAdMfMdMH1NEB+wCkyMsfy//J7VRwECKG",
+    "data": "te6cckEBAQEAJgAASAAAABw2dcDNNLAgeSopYhPchzWDSGbJpJx5gVTk2NmopHSBQyIsV48=",
+    "last_transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "3607013000001",
+      "hash": "RDwPOlV8Ka+EPgB1igMI/PPcRepLqCgpj0YH3SySQf0="
+    },
+    "block_id": {
+      "@type": "ton.blockIdExt",
+      "workchain": -1,
+      "shard": "-9223372036854775808",
+      "seqno": 3296617,
+      "root_hash": "OLEF5b+cnGHBp4GPy7bfZeqwfYOit1RvEGSpuWmB1go=",
+      "file_hash": "jhl23eQQHLWrVe2K6DxSJtehzwtoSsmhIcrT1nNWR8c="
+    },
+    "frozen_hash": "",
+    "sync_utime": 1663488131,
+    "@extra": "1663488146.2973502:4:0.6186517547571144",
+    "state": "active"
+  },
+  "jsonrpc": "2.0"
+}
