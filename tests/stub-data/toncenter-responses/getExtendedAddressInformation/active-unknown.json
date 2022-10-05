@@ -1,0 +1,34 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "fullAccountState",
+    "address": {
+      "@type": "accountAddress",
+      "account_address": "EQC72vpFsACenrjlTLRBEb2gVjXeM3-PtDlhQOwofIuk3Ymi"
+    },
+    "balance": "29997945725",
+    "last_transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "31630489000001",
+      "hash": "La8q0GD2faitgS0dXcQ6y5C2/zm3xcZ0XeepdsyZfLw="
+    },
+    "block_id": {
+      "@type": "ton.blockIdExt",
+      "workchain": -1,
+      "shard": "-9223372036854775808",
+      "seqno": 23928769,
+      "root_hash": "l3ghfP/+2I+CzMiIr86UQmf/eGmchK4m7eXivOCVZM0=",
+      "file_hash": "QmAVIECroNPcLso0M86keX4yEDvGxPMvNlgxYXbKFYo="
+    },
+    "sync_utime": 1664552810,
+    "account_state": {
+      "@type": "raw.accountState",
+      "code": "te6cckECFAEAAtQAART/APSkE/S88sgLAQIBIAIDAgFIBAUE+PKDCNcYINMf0x/THwL4I7vyZO1E0NMf0x/T//QE0VFDuvKhUVG68qIF+QFUEGT5EPKj+AAkpMjLH1JAyx9SMMv/UhD0AMntVPgPAdMHIcAAn2xRkyDXSpbTB9QC+wDoMOAhwAHjACHAAuMAAcADkTDjDQOkyMsfEssfy/8QERITAubQAdDTAyFxsJJfBOAi10nBIJJfBOAC0x8hghBwbHVnvSKCEGRzdHK9sJJfBeAD+kAwIPpEAcjKB8v/ydDtRNCBAUDXIfQEMFyBAQj0Cm+hMbOSXwfgBdM/yCWCEHBsdWe6kjgw4w0DghBkc3RyupJfBuMNBgcCASAICQB4AfoA9AQw+CdvIjBQCqEhvvLgUIIQcGx1Z4MesXCAGFAEywUmzxZY+gIZ9ADLaRfLH1Jgyz8gyYBA+wAGAIpQBIEBCPRZMO1E0IEBQNcgyAHPFvQAye1UAXKwjiOCEGRzdHKDHrFwgBhQBcsFUAPPFiP6AhPLassfyz/JgED7AJJfA+ICASAKCwBZvSQrb2omhAgKBrkPoCGEcNQICEekk30pkQzmkD6f+YN4EoAbeBAUiYcVnzGEAgFYDA0AEbjJftRNDXCx+AA9sp37UTQgQFA1yH0BDACyMoHy//J0AGBAQj0Cm+hMYAIBIA4PABmtznaiaEAga5Drhf/AABmvHfaiaEAQa5DrhY/AAG7SB/oA1NQi+QAFyMoHFcv/ydB3dIAYyMsFywIizxZQBfoCFMtrEszMyXP7AMhAFIEBCPRR8qcCAHCBAQjXGPoA0z/IVCBHgQEI9FHyp4IQbm90ZXB0gBjIywXLAlAGzxZQBPoCFMtqEssfyz/Jc/sAAgBsgQEI1xj6ANM/MFIkgQEI9Fnyp4IQZHN0cnB0gBjIywXLAlAFzxZQA/oCE8tqyx8Syz/Jc/sAAAr0AMntVGliJeU=",
+      "data": "te6cckEBAQEAKwAAUQAAA1QpqaMXvMQB7f/VCp92VGlKdDW5ZDUP8wgCpJhehst3Ao3l3R9AJRpmXg==",
+      "frozen_hash": ""
+    },
+    "revision": 0,
+    "@extra": "1664552831.3895102:8:0.15887386416391047"
+  },
+  "jsonrpc": "2.0"
+}

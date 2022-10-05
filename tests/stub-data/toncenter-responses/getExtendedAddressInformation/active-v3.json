@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "fullAccountState",
+    "address": {
+      "@type": "accountAddress",
+      "account_address": "EQDxxpeLM0R2HH3nmtDoQsRL959eYb4pRW1tNL257U30KBOX"
+    },
+    "balance": "181587202878",
+    "last_transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "1853463000003",
+      "hash": "yLMjCZ5lK1a9Elo6iXHg/zo4mF9QS9wuK8X61X379dA="
+    },
+    "block_id": {
+      "@type": "ton.blockIdExt",
+      "workchain": -1,
+      "shard": "-9223372036854775808",
+      "seqno": 3651654,
+      "root_hash": "Cfi9aWmd6sXIRDFnHRdW45IVO+tobzHDTBDsy/tucxI=",
+      "file_hash": "LRHmAUMwjTQG+ELXppzdERFlx2a53DmnARsw65LaN94="
+    },
+    "sync_utime": 1664552653,
+    "account_state": {
+      "@type": "wallet.v3.accountState",
+      "wallet_id": "698983191",
+      "seqno": 16
+    },
+    "revision": 2,
+    "@extra": "1664552672.2848659:5:0.41609666508576637"
+  },
+  "jsonrpc": "2.0"
+}

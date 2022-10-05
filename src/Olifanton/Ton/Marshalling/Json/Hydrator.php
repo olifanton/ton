@@ -69,11 +69,12 @@ class Hydrator
             $param1 = $mapParams["param0"];
 
             try {
+                $jsonValue = self::getJsonValue($data, $jsonPropertyName);
                 $val = match ($serializer) {
-                    JsonMap::SER_DEFAULT => self::deserializeDefault($data[$jsonPropertyName] ?? null, $phpType, $typeAllowsNull),
-                    JsonMap::SER_BIGINT => self::deserializeBigInt($data[$jsonPropertyName] ?? null, $typeAllowsNull),
-                    JsonMap::SER_CELL => self::deserializeCell($data[$jsonPropertyName] ?? null, $typeAllowsNull),
-                    JsonMap::SER_TYPE => self::deserializeType($data[$jsonPropertyName] ?? null, $param0, $typeAllowsNull),
+                    JsonMap::SER_DEFAULT => self::deserializeDefault($jsonValue, $phpType, $typeAllowsNull),
+                    JsonMap::SER_BIGINT => self::deserializeBigInt($jsonValue, $typeAllowsNull),
+                    JsonMap::SER_CELL => self::deserializeCell($jsonValue, $typeAllowsNull),
+                    JsonMap::SER_TYPE => self::deserializeType($jsonValue, $param0, $typeAllowsNull),
                     default => throw new \InvalidArgumentException("Unknown serializer type: " . $propertyName),
                 };
                 $proxySetter->call($instance, $propertyName, $val);
@@ -137,5 +138,29 @@ class Hydrator
         }
 
         return self::extract($typeClazz, $jsonValue);
+    }
+
+    private static function getJsonValue(array $data, string $jsonPropertyName): mixed
+    {
+        if (str_contains($jsonPropertyName, ".")) {
+            $path = explode(".", $jsonPropertyName);
+            $prevValue = $data;
+
+            foreach ($path as $key) {
+                if (is_array($prevValue) && isset($prevValue[$key])) {
+                    $prevValue = $prevValue[$key];
+                } else {
+                    return null;
+                }
+            }
+
+            return $prevValue;
+        } else {
+            if (isset($data[$jsonPropertyName])) {
+                return $data[$jsonPropertyName];
+            }
+        }
+
+        return null;
     }
 }

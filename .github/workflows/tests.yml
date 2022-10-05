@@ -1,0 +1,91 @@
+name: 'Tests'
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.gitattributes'
+      - '.gitignore'
+      - '.phpstorm.meta.php'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
+      - 'README.md'
+      - '.env.dist'
+
+  pull_request:
+    paths-ignore:
+      - '.gitattributes'
+      - '.gitignore'
+      - '.phpstorm.meta.php'
+      - 'CHANGELOG.md'
+      - 'LICENSE'
+      - 'README.md'
+      - '.env.dist'
+
+jobs:
+  tests:
+    name: PHP ${{ matrix.php }}-${{ matrix.os }}
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+
+        php:
+          - 8.1
+
+    env:
+      extensions: xdebug
+      TONCENTER_API_KEY: ${{ secrets.TONCENTER_API_KEY }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        env:
+          update: true
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.extensions }}
+          ini-values: date.timezone='UTC'
+          tools: composer:v2
+
+      - name: Setup composer cache directory
+        if: matrix.os == 'ubuntu-latest'
+        run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV
+
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.COMPOSER_CACHE_DIR }}
+          key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            php${{ matrix.php }}-composer-
+
+      - name: Update composer
+        run: composer self-update
+
+      - name: Install dependencies with composer
+        run: composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+
+      - name: Prepare environment variables
+        run: |
+          cp .env.dist .env
+          sed -i -e "s/\%TONCENTER_API_KEY\%/${{ env.TONCENTER_API_KEY }}/g" .env
+
+      - name: Run tests with Phpunit
+        run: |
+          composer run test
+
+      - name: Generate test coverage badge
+        if: github.ref == 'refs/heads/main'
+        uses: timkrase/phpunit-coverage-badge@v1.2.0
+        with:
+          coverage_badge_path: '.github/badges/coverage.svg'
+          push_badge: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}

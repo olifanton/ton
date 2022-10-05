@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "fullAccountState",
+    "address": {
+      "@type": "accountAddress",
+      "account_address": "UQClkP6tXXx-ln5ahF24FR_MfPv9cZR9tbyU8deXtgjjOLVm"
+    },
+    "balance": "-1",
+    "last_transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "0",
+      "hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+    },
+    "block_id": {
+      "@type": "ton.blockIdExt",
+      "workchain": -1,
+      "shard": "-9223372036854775808",
+      "seqno": 23929063,
+      "root_hash": "9rGlxl+gKiVX4K/xT+E9IhUb/oQTqCeDGNambVYVuuc=",
+      "file_hash": "8paLgoRePvUcrZKbtkOTC1DbRoSzh8dV6u5m0IVAscE="
+    },
+    "sync_utime": 1664553825,
+    "account_state": {
+      "@type": "uninited.accountState",
+      "frozen_hash": ""
+    },
+    "revision": 0,
+    "@extra": "1664553844.3098824:1:0.650381152313962"
+  },
+  "jsonrpc": "2.0"
+}

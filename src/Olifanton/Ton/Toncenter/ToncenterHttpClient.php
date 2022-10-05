@@ -15,6 +15,7 @@ use Olifanton\Ton\Models\TonResponse;
 use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
+use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\ToncenterClient;
 use Olifanton\Ton\Version;
@@ -52,16 +53,25 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function getExtendedAddressInformation(Address $address): TonResponse
+    public function getExtendedAddressInformation(Address $address): ExtendedFullAccountState
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "getExtendedAddressInformation",
                 "params" => [
                     "address" => (string)$address,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(ExtendedFullAccountState::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract FullAccountState response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

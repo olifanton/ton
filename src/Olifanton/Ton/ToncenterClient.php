@@ -8,6 +8,7 @@ use Olifanton\Ton\Models\TonResponse;
 use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
+use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Utils\Address;
 
@@ -35,7 +36,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function getExtendedAddressInformation(Address $address): TonResponse;
+    public function getExtendedAddressInformation(Address $address): ExtendedFullAccountState;
 
     /**
      * Retrieve wallet information.
