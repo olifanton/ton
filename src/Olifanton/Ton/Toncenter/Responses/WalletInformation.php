@@ -22,8 +22,8 @@ class WalletInformation
     #[JsonMap]
     public readonly ?int $seqno;
 
-    #[JsonMap("last_transaction_id", JsonMap::SER_TYPE, LastTransactionId::class)]
-    public readonly ?LastTransactionId $lastTransactionId;
+    #[JsonMap("last_transaction_id", JsonMap::SER_TYPE, TransactionId::class)]
+    public readonly ?TransactionId $lastTransactionId;
 
     #[JsonMap("wallet_id")]
     public readonly ?int $walletId;

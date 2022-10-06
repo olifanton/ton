@@ -17,8 +17,8 @@ class FullAccountState
     #[JsonMap(serializer: JsonMap::SER_CELL)]
     public readonly ?Cell $data;
 
-    #[JsonMap("last_transaction_id", JsonMap::SER_TYPE, LastTransactionId::class)]
-    public readonly ?LastTransactionId $lastTransactionId;
+    #[JsonMap("last_transaction_id", JsonMap::SER_TYPE, TransactionId::class)]
+    public readonly ?TransactionId $lastTransactionId;
 
     #[JsonMap("block_id", JsonMap::SER_TYPE, BlockIdExt::class)]
     public readonly ?BlockIdExt $blockId;

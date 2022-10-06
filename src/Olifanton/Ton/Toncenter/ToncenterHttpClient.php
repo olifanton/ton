@@ -17,6 +17,7 @@ use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
+use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterClient;
 use Olifanton\Ton\Version;
@@ -107,7 +108,7 @@ class ToncenterHttpClient implements ToncenterClient
                                     ?int $lt = null,
                                     ?string $hash = null,
                                     ?int $toLt = null,
-                                    ?bool $archival = null): TonResponse
+                                    ?bool $archival = null): TransactionsList
     {
         $params = [
             "address" => (string)$address,
@@ -133,12 +134,23 @@ class ToncenterHttpClient implements ToncenterClient
             $params["archival"] = $archival;
         }
 
-        return $this
-            ->query([
+        $response = $this->query([
+            "method" => "getWalletInformation",
+            "params" => [
                 "method" => "getTransactions",
                 "params" => $params,
-            ])
-            ->asTonResponse();
+            ],
+        ]);
+
+        try {
+            return Hydrator::extract(TransactionsList::class, ["items" => $response->result]);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract array of Transactions: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

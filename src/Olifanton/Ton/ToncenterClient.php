@@ -10,6 +10,7 @@ use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
+use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Utils\Address;
 
@@ -69,7 +70,7 @@ interface ToncenterClient
                                     ?int $lt = null,
                                     ?string $hash = null,
                                     ?int $toLt = null,
-                                    ?bool $archival = null): TonResponse;
+                                    ?bool $archival = null): TransactionsList;
 
     /**
      * Get balance (in nanotons) of a given address.

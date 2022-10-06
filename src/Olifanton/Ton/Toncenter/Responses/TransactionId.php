@@ -4,7 +4,7 @@ namespace Olifanton\Ton\Toncenter\Responses;
 
 use Olifanton\Ton\Marshalling\Attributes\JsonMap;
 
-class LastTransactionId
+class TransactionId
 {
     #[JsonMap]
     public readonly string $lt;

@@ -75,6 +75,7 @@ class Hydrator
                     JsonMap::SER_BIGINT => self::deserializeBigInt($jsonValue, $typeAllowsNull),
                     JsonMap::SER_CELL => self::deserializeCell($jsonValue, $typeAllowsNull),
                     JsonMap::SER_TYPE => self::deserializeType($jsonValue, $param0, $typeAllowsNull),
+                    JsonMap::SER_ARR_OF => self::deserializeArrayOfType($jsonValue, $param0),
                     default => throw new \InvalidArgumentException("Unknown serializer type: " . $propertyName),
                 };
                 $proxySetter->call($instance, $propertyName, $val);
@@ -138,6 +139,20 @@ class Hydrator
         }
 
         return self::extract($typeClazz, $jsonValue);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    private static function deserializeArrayOfType(array $jsonValue, string $typeClazz): array
+    {
+        $result = [];
+
+        foreach ($jsonValue as $item) {
+            $result[] = self::deserializeType($item, $typeClazz, false);
+        }
+
+        return $result;
     }
 
     private static function getJsonValue(array $data, string $jsonPropertyName): mixed
