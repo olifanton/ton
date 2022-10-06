@@ -7,9 +7,7 @@ use Olifanton\Utils\Address;
 class GetAddressInformationIntegrationTest extends ToncenterHttpClientIntegrationTestCase
 {
     /**
-     * @throws \Olifanton\Ton\Toncenter\Exceptions\ClientException
-     * @throws \Olifanton\Ton\Toncenter\Exceptions\TimeoutException
-     * @throws \Olifanton\Ton\Toncenter\Exceptions\ValidationException
+     * @throws \Throwable
      */
     public function testSuccess(): void
     {
