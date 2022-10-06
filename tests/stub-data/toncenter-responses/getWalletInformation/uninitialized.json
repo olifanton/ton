@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "result": {
+    "wallet": false,
+    "balance": 0,
+    "account_state": "uninitialized",
+    "last_transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "0",
+      "hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+    }
+  },
+  "jsonrpc": "2.0"
+}

@@ -17,6 +17,7 @@ use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
+use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterClient;
 use Olifanton\Ton\Version;
 use Olifanton\Utils\Address;
@@ -67,7 +68,7 @@ class ToncenterHttpClient implements ToncenterClient
             return Hydrator::extract(ExtendedFullAccountState::class, $response->result);
         } catch (MarshallingException $e) {
             throw new ClientException(
-                "Unable to extract FullAccountState response: " . $e->getMessage(),
+                "Unable to extract ExtendedFullAccountState response: " . $e->getMessage(),
                 $e->getCode(),
                 $e,
             );
@@ -77,16 +78,25 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function getWalletInformation(Address $address): TonResponse
+    public function getWalletInformation(Address $address): WalletInformation
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "getWalletInformation",
                 "params" => [
                     "address" => (string)$address,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(WalletInformation::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract WalletInformation response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

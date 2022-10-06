@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "result": {
+    "wallet": true,
+    "balance": "181587202878",
+    "account_state": "active",
+    "wallet_type": "wallet v3 r2",
+    "seqno": 16,
+    "last_transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "1853463000003",
+      "hash": "yLMjCZ5lK1a9Elo6iXHg/zo4mF9QS9wuK8X61X379dA="
+    },
+    "wallet_id": 698983191
+  },
+  "jsonrpc": "2.0"
+}

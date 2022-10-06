@@ -10,6 +10,7 @@ use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
+use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Utils\Address;
 
 /**
@@ -47,7 +48,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function getWalletInformation(Address $address): TonResponse;
+    public function getWalletInformation(Address $address): WalletInformation;
 
     /**
      * Get transaction history of a given address.
