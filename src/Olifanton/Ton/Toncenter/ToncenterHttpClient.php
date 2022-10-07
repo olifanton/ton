@@ -135,11 +135,8 @@ class ToncenterHttpClient implements ToncenterClient
         }
 
         $response = $this->query([
-            "method" => "getWalletInformation",
-            "params" => [
-                "method" => "getTransactions",
-                "params" => $params,
-            ],
+            "method" => "getTransactions",
+            "params" => $params,
         ]);
 
         try {

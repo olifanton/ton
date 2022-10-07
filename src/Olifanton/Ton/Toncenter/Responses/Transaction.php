@@ -23,7 +23,7 @@ class Transaction
     #[JsonMap("storage_fee", JsonMap::SER_BIGINT)]
     public readonly BigInteger $storageFee;
 
-    #[JsonMap("storage_fee", JsonMap::SER_BIGINT)]
+    #[JsonMap("other_fee", JsonMap::SER_BIGINT)]
     public readonly BigInteger $otherFee;
 
     #[JsonMap("in_msg", JsonMap::SER_TYPE, Message::class)]
