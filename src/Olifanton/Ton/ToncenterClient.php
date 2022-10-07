@@ -2,6 +2,7 @@
 
 namespace Olifanton\Ton;
 
+use Brick\Math\BigInteger;
 use Olifanton\Boc\Cell;
 use Olifanton\Ton\Models\JsonRpcResponse;
 use Olifanton\Ton\Models\TonResponse;
@@ -79,7 +80,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function getAddressBalance(Address $address): TonResponse;
+    public function getAddressBalance(Address $address): BigInteger;
 
     /**
      * Get state of a given address. State can be either `unitialized`, `active` or `frozen`.

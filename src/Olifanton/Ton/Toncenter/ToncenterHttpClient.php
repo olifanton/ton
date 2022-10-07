@@ -2,6 +2,7 @@
 
 namespace Olifanton\Ton\Toncenter;
 
+use Brick\Math\BigInteger;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request;
@@ -153,16 +154,17 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function getAddressBalance(Address $address): TonResponse
+    public function getAddressBalance(Address $address): BigInteger
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "getAddressBalance",
                 "params" => [
                     "address" => (string)$address,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        return BigInteger::fromBase((string)$response->result, 10);
     }
 
     /**
