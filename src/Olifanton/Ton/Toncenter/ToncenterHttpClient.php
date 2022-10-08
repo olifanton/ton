@@ -11,6 +11,7 @@ use Olifanton\Boc\Exceptions\CellException;
 use Olifanton\Ton\ClientOptions;
 use Olifanton\Ton\Marshalling\Exceptions\MarshallingException;
 use Olifanton\Ton\Marshalling\Json\Hydrator;
+use Olifanton\Ton\Models\AddressState;
 use Olifanton\Ton\Models\JsonRpcResponse;
 use Olifanton\Ton\Models\TonResponse;
 use Olifanton\Ton\Toncenter\Exceptions\ClientException;
@@ -170,16 +171,21 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function getAddressState(Address $address): TonResponse
+    public function getAddressState(Address $address): AddressState
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "getAddressState",
                 "params" => [
                     "address" => (string)$address,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        if ($state = AddressState::tryFrom($response->result)) {
+            return $state;
+        }
+
+        return AddressState::UNKNOWN;
     }
 
     /**
