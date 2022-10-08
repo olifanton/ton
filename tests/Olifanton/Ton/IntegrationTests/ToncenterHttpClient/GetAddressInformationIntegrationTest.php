@@ -2,6 +2,7 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
+use Olifanton\Ton\Models\AddressState;
 use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Utils\Address;
 
@@ -14,7 +15,7 @@ class GetAddressInformationIntegrationTest extends ToncenterHttpClientIntegratio
     {
         $client = $this->getInstance();
         $resp = $client->getAddressInformation(new Address("Ef8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAU"));
-        $this->assertEquals("active", $resp->state);
+        $this->assertEquals(AddressState::ACTIVE, $resp->state);
     }
 
     /**

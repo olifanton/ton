@@ -5,6 +5,7 @@ namespace Olifanton\Ton\Toncenter\Responses;
 use Brick\Math\BigInteger;
 use Olifanton\Boc\Cell;
 use Olifanton\Ton\Marshalling\Attributes\JsonMap;
+use Olifanton\Ton\Models\AddressState;
 
 class FullAccountState
 {
@@ -29,6 +30,6 @@ class FullAccountState
     #[JsonMap("sync_utime")]
     public readonly int $syncUtime;
 
-    #[JsonMap]
-    public readonly string $state;
+    #[JsonMap(serializer: JsonMap::SER_ENUM, param0: AddressState::class)]
+    public readonly AddressState $state;
 }

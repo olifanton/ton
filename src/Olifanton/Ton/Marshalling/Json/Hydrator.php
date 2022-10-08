@@ -76,6 +76,7 @@ class Hydrator
                     JsonMap::SER_CELL => self::deserializeCell($jsonValue, $typeAllowsNull),
                     JsonMap::SER_TYPE => self::deserializeType($jsonValue, $param0, $typeAllowsNull),
                     JsonMap::SER_ARR_OF => self::deserializeArrayOfType($jsonValue, $param0),
+                    JsonMap::SER_ENUM => self::deserializeEnum($jsonValue, $param0, $typeAllowsNull),
                     default => throw new \InvalidArgumentException("Unknown serializer type: " . $propertyName),
                 };
                 $proxySetter->call($instance, $propertyName, $val);
@@ -118,7 +119,7 @@ class Hydrator
     /**
      * @throws \Olifanton\Boc\Exceptions\CellException
      */
-    private static function deserializeCell(mixed $jsonValue,  ?bool $typeAllowsNull): ?Cell
+    private static function deserializeCell(mixed $jsonValue, ?bool $typeAllowsNull): ?Cell
     {
         if ($jsonValue === "" || $jsonValue === null && $typeAllowsNull) {
             return null;
@@ -153,6 +154,18 @@ class Hydrator
         }
 
         return $result;
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    private static function deserializeEnum(string | int | null $jsonValue, string $enumClazz, ?bool $typeAllowsNull): mixed
+    {
+        if ($jsonValue === null && $typeAllowsNull) {
+            return null;
+        }
+
+        return call_user_func_array([$enumClazz, "from"], [$jsonValue]);
     }
 
     private static function getJsonValue(array $data, string $jsonPropertyName): mixed

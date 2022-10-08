@@ -12,6 +12,7 @@ class JsonMap
     public const SER_CELL = 'Cell';
     public const SER_TYPE = 'type';
     public const SER_ARR_OF = 'array_of';
+    public const SER_ENUM = 'enum';
 
     public function __construct(
         private readonly ?string $propertyName = null,

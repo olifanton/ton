@@ -2,6 +2,7 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
+use Olifanton\Ton\Models\AddressState;
 use Olifanton\Utils\Bytes;
 
 class GetAddressInformationUnitTest extends ToncenterHttpClientUnitTestCase
@@ -32,7 +33,7 @@ class GetAddressInformationUnitTest extends ToncenterHttpClientUnitTestCase
         $this->assertEquals("78rXvC+19uv4PGMYXEB2bjGxVtz/+XE9KU5QxHG5GIw=", $result->blockId->fileHash);
         $this->assertEquals("", $result->frozenHash);
         $this->assertEquals(1663506642, $result->syncUtime);
-        $this->assertEquals("uninitialized", $result->state);
+        $this->assertEquals(AddressState::UNINITIALIZED, $result->state);
     }
 
     /**
@@ -67,6 +68,6 @@ class GetAddressInformationUnitTest extends ToncenterHttpClientUnitTestCase
         $this->assertEquals("jhl23eQQHLWrVe2K6DxSJtehzwtoSsmhIcrT1nNWR8c=", $result->blockId->fileHash);
         $this->assertEquals("", $result->frozenHash);
         $this->assertEquals(1663488131, $result->syncUtime);
-        $this->assertEquals("active", $result->state);
+        $this->assertEquals(AddressState::ACTIVE, $result->state);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
+use Olifanton\Ton\Models\AddressState;
 use Olifanton\Utils\Address;
 
 class GetWalletInformationIntegrationTest extends ToncenterHttpClientIntegrationTestCase
@@ -13,7 +14,7 @@ class GetWalletInformationIntegrationTest extends ToncenterHttpClientIntegration
     {
         $client = $this->getInstance();
         $resp = $client->getWalletInformation(new Address("Ef8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAU"));
-        $this->assertEquals("active", $resp->accountState);
+        $this->assertEquals(AddressState::ACTIVE, $resp->accountState);
         $this->assertNotNull($resp->lastTransactionId);
         $this->assertFalse($resp->wallet);
     }

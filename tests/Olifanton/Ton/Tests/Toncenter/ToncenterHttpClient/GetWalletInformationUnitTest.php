@@ -2,6 +2,9 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
+use Olifanton\Ton\Models\AddressState;
+use Olifanton\Ton\Toncenter\Responses\AccountState;
+
 class GetWalletInformationUnitTest extends ToncenterHttpClientUnitTestCase
 {
     /**
@@ -20,7 +23,7 @@ class GetWalletInformationUnitTest extends ToncenterHttpClientUnitTestCase
 
         $this->assertFalse($result->wallet);
         $this->assertEquals("0", $result->balance->toBase(10));
-        $this->assertEquals("uninitialized", $result->accountState);
+        $this->assertEquals(AddressState::UNINITIALIZED, $result->accountState);
         $this->assertEquals("0", $result->lastTransactionId->lt);
         $this->assertEquals("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=", $result->lastTransactionId->hash);
     }
@@ -41,7 +44,7 @@ class GetWalletInformationUnitTest extends ToncenterHttpClientUnitTestCase
 
         $this->assertTrue($result->wallet);
         $this->assertEquals("181587202878", $result->balance->toBase(10));
-        $this->assertEquals("active", $result->accountState);
+        $this->assertEquals(AddressState::ACTIVE, $result->accountState);
         $this->assertEquals("wallet v3 r2", $result->walletType);
         $this->assertEquals(16, $result->seqno);
         $this->assertEquals("1853463000003", $result->lastTransactionId->lt);
