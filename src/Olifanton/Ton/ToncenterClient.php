@@ -103,7 +103,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function packAddress(string $rawAddress): TonResponse;
+    public function packAddress(string $rawAddress): string;
 
     /**
      * Convert an address from human-readable to raw format.

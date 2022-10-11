@@ -191,16 +191,17 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function packAddress(string $rawAddress): TonResponse
+    public function packAddress(string $rawAddress): string
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "packAddress",
                 "params" => [
                     "address" => $rawAddress,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        return (string)$response->result;
     }
 
     /**
