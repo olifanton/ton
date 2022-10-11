@@ -112,7 +112,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function unpackAddress(Address $address): TonResponse;
+    public function unpackAddress(string $address): string;
 
     /**
      * Get all possible address forms.

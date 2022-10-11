@@ -207,16 +207,17 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function unpackAddress(Address $address): TonResponse
+    public function unpackAddress(string $address): string
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "unpackAddress",
                 "params" => [
-                    "address" => (string)$address,
+                    "address" => $address,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        return (string)$response->result;
     }
 
     /**
