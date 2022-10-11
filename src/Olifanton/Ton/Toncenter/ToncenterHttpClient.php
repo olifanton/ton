@@ -17,6 +17,7 @@ use Olifanton\Ton\Models\TonResponse;
 use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
+use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
@@ -223,16 +224,24 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function detectAddress(Address|string $address): TonResponse
+    public function detectAddress(Address|string $address): AddressDetectionResult
     {
-        return $this
-            ->query([
-                "method" => "detectAddress",
-                "params" => [
-                    "address" => (string)$address,
-                ],
-            ])
-            ->asTonResponse();
+        $response = $this->query([
+            "method" => "detectAddress",
+            "params" => [
+                "address" => (string)$address,
+            ],
+        ]);
+
+        try {
+            return Hydrator::extract(AddressDetectionResult::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract array of Transactions: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

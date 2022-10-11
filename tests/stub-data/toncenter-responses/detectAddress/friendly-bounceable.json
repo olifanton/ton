@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "result": {
+    "raw_form": "0:83dfd552e63729b472fcbcc8c45ebcc6691702558b68ec7527e1ba403a0f31a8",
+    "bounceable": {
+      "b64": "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N",
+      "b64url": "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N"
+    },
+    "non_bounceable": {
+      "b64": "UQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqEBI",
+      "b64url": "UQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqEBI"
+    },
+    "given_type": "friendly_bounceable",
+    "test_only": false
+  },
+  "jsonrpc": "2.0"
+}
