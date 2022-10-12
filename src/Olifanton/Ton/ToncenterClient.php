@@ -13,6 +13,7 @@ use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
+use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Utils\Address;
@@ -131,7 +132,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function getMasterchainInfo(): TonResponse;
+    public function getMasterchainInfo(): MasterchainInfo;
 
     /**
      * Get consensus block and its update timestamp.

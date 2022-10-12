@@ -20,6 +20,7 @@ use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
+use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterClient;
@@ -237,7 +238,7 @@ class ToncenterHttpClient implements ToncenterClient
             return Hydrator::extract(AddressDetectionResult::class, $response->result);
         } catch (MarshallingException $e) {
             throw new ClientException(
-                "Unable to extract array of Transactions: " . $e->getMessage(),
+                "Unable to extract AddressDetectionResult response: " . $e->getMessage(),
                 $e->getCode(),
                 $e,
             );
@@ -247,14 +248,22 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function getMasterchainInfo(): TonResponse
+    public function getMasterchainInfo(): MasterchainInfo
     {
-        return $this
-            ->query([
-                "method" => "getMasterchainInfo",
-                "params" => [],
-            ])
-            ->asTonResponse();
+        $response = $this->query([
+            "method" => "getMasterchainInfo",
+            "params" => [],
+        ]);
+
+        try {
+            return Hydrator::extract(MasterchainInfo::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract MasterchainInfo response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**
