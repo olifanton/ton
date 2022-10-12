@@ -19,16 +19,7 @@ class GetTransactionsUnitTest extends ToncenterHttpClientUnitTestCase
             ->andReturn($response);
 
         $instance = $this->getInstance();
-
-        try {
-            $result = $instance->getTransactions($this->createAddressStub());
-        } catch (ClientException $e) {
-            if (str_contains($e->getMessage(), "lt not in db")) {
-                // FIXME: Dirty hack, should be reworked later
-                $this->addToAssertionCount(1);
-                return;
-            }
-        }
+        $result = $instance->getTransactions($this->createAddressStub());
 
         $this->assertCount(10, $result->items);
 
