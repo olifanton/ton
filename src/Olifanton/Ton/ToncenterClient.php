@@ -11,6 +11,7 @@ use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
+use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
@@ -141,7 +142,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function getConsensusBlock(): TonResponse;
+    public function getConsensusBlock(): ConsensusBlock;
 
     /**
      * Look up block by either seqno, lt or unixtime.

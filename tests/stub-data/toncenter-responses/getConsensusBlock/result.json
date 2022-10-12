@@ -1,0 +1,8 @@
+{
+  "ok": true,
+  "result": {
+    "consensus_block": 24227230,
+    "timestamp": 1665589396.873616
+  },
+  "jsonrpc": "2.0"
+}

@@ -18,6 +18,7 @@ use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
+use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
@@ -269,14 +270,22 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function getConsensusBlock(): TonResponse
+    public function getConsensusBlock(): ConsensusBlock
     {
-        return $this
-            ->query([
-                "method" => "getConsensusBlock",
-                "params" => [],
-            ])
-            ->asTonResponse();
+        $response = $this->query([
+            "method" => "getConsensusBlock",
+            "params" => [],
+        ]);
+
+        try {
+            return Hydrator::extract(ConsensusBlock::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract ConsensusBlock response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**
