@@ -11,6 +11,7 @@ use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
+use Olifanton\Ton\Toncenter\Responses\BlockIdExt;
 use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
@@ -148,7 +149,7 @@ interface ToncenterClient
      * Look up block by either seqno, lt or unixtime.
      *
      * @param int $workchain Workchain id to look up block in
-     * @param int $shard Shard id to look up block in
+     * @param string $shard Shard id to look up block in
      * @param int|null $seqno Block's height
      * @param int|null $lt Block's logical time
      * @param int|null $unixtime Block's unixtime
@@ -158,10 +159,10 @@ interface ToncenterClient
      * @throws ClientException
      */
     public function lookupBlock(int $workchain,
-                                int $shard,
+                                string $shard,
                                 ?int $seqno = null,
                                 ?int $lt = null,
-                                ?int $unixtime = null): TonResponse;
+                                ?int $unixtime = null): BlockIdExt;
 
     /**
      * Get shards information.

@@ -18,6 +18,7 @@ use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
+use Olifanton\Ton\Toncenter\Responses\BlockIdExt;
 use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
@@ -292,10 +293,10 @@ class ToncenterHttpClient implements ToncenterClient
      * @inheritDoc
      */
     public function lookupBlock(int $workchain,
-                                int $shard,
+                                string $shard,
                                 ?int $seqno = null,
                                 ?int $lt = null,
-                                ?int $unixtime = null): TonResponse
+                                ?int $unixtime = null): BlockIdExt
     {
         $params = [
             "workchain" => $workchain,
@@ -314,12 +315,24 @@ class ToncenterHttpClient implements ToncenterClient
             $params["unixtime"] = $unixtime;
         }
 
-        return $this
-            ->query([
-                "method" => "lookupBlock",
-                "params" => $params,
-            ])
-            ->asTonResponse();
+        if (is_null($seqno) && is_null($lt) && is_null($unixtime)) {
+            throw new \InvalidArgumentException("Seqno, LT or unixtime should be defined");
+        }
+
+        $response = $this->query([
+            "method" => "lookupBlock",
+            "params" => $params,
+        ]);
+
+        try {
+            return Hydrator::extract(BlockIdExt::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract BlockIdExt response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

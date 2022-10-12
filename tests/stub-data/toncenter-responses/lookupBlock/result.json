@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "ton.blockIdExt",
+    "workchain": -1,
+    "shard": "-9223372036854775808",
+    "seqno": 24226820,
+    "root_hash": "HVrtit5Ocq7bbz0VSOsNpcjrOzGzvAkfNON5GIiLh58=",
+    "file_hash": "XUlrMHGvJfjg7a4vPSAPEtzykCWXCOhVMAUEbnkdXTE=",
+    "@extra": "1665590161.153338:13:0.819166184245046"
+  },
+  "jsonrpc": "2.0"
+}

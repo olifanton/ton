@@ -3,7 +3,6 @@
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
 use Olifanton\Ton\Models\AddressState;
-use Olifanton\Ton\Toncenter\Responses\AccountState;
 
 class GetWalletInformationUnitTest extends ToncenterHttpClientUnitTestCase
 {
