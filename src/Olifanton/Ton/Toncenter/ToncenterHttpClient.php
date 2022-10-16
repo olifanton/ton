@@ -23,6 +23,7 @@ use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
+use Olifanton\Ton\Toncenter\Responses\Shards;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterClient;
@@ -338,16 +339,25 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function shards(int $seqno): TonResponse
+    public function shards(int $seqno): Shards
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "shards",
                 "params" => [
                     "seqno" => $seqno,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(Shards::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract BlockIdExt response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

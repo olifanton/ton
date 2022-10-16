@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "blocks.shards",
+    "shards": [
+      {
+        "@type": "ton.blockIdExt",
+        "workchain": 0,
+        "shard": "-9223372036854775808",
+        "seqno": 29774672,
+        "root_hash": "yRPXAIkVLh/iZb/sb6a163CdZWo5xKvRYZJNUG0MAHI=",
+        "file_hash": "twqLqK4Qho7MSWZGJlb1/YfILmsa03DffOQIHpgubK4="
+      }
+    ],
+    "@extra": "1665893998.5805242:14:0.20992426845151513"
+  },
+  "jsonrpc": "2.0"
+}

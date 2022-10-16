@@ -16,6 +16,7 @@ use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
+use Olifanton\Ton\Toncenter\Responses\Shards;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Utils\Address;
@@ -173,7 +174,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function shards(int $seqno): TonResponse;
+    public function shards(int $seqno): Shards;
 
     /**
      * Get transactions of the given block.
