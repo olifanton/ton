@@ -12,6 +12,7 @@ use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
 use Olifanton\Ton\Toncenter\Responses\BlockIdExt;
+use Olifanton\Ton\Toncenter\Responses\BlockTransactions;
 use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
@@ -180,7 +181,7 @@ interface ToncenterClient
      * Get transactions of the given block.
      *
      * @param int $workchain Workchain id
-     * @param int $shard Shard id
+     * @param string $shard Shard id
      * @param int $seqno Block's height
      * @param string|null $rootHash
      * @param string|null $fileHash
@@ -193,13 +194,13 @@ interface ToncenterClient
      * @throws ClientException
      */
     public function getBlockTransactions(int $workchain,
-                                         int $shard,
+                                         string $shard,
                                          int $seqno,
                                          ?string $rootHash = null,
                                          ?string $fileHash = null,
                                          ?int $afterLt = null,
                                          ?string $afterHash = null,
-                                         ?int $count = null): TonResponse;
+                                         ?int $count = null): BlockTransactions;
 
 
     /**

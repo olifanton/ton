@@ -1,0 +1,55 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "blocks.transactions",
+    "id": {
+      "@type": "ton.blockIdExt",
+      "workchain": -1,
+      "shard": "-9223372036854775808",
+      "seqno": 24226822,
+      "root_hash": "+t92toJ65fYekK43K3JEqxOzNPCcxPY5nko4YRT8Ycc=",
+      "file_hash": "sDvaN/GEV2Pu71UgpD8/egAN5jdeh7/3KnvjzuU8D4g="
+    },
+    "req_count": 40,
+    "incomplete": false,
+    "transactions": [
+      {
+        "@type": "blocks.shortTxId",
+        "mode": 135,
+        "account": "-1:3333333333333333333333333333333333333333333333333333333333333333",
+        "lt": "31959863000001",
+        "hash": "SGWRRXo06yA7thyKYEgcac2FUZivWDFsxW4123aihOM="
+      },
+      {
+        "@type": "blocks.shortTxId",
+        "mode": 135,
+        "account": "-1:3333333333333333333333333333333333333333333333333333333333333333",
+        "lt": "31959863000002",
+        "hash": "bK2aDs+4J6Cte8x6EEKS7HAmQNaKCOkpfZpTZoRMRF0="
+      },
+      {
+        "@type": "blocks.shortTxId",
+        "mode": 135,
+        "account": "-1:34517c7bdf5187c55af4f8b61fdc321588c7ab768dee24b006df29106458d7cf",
+        "lt": "31959863000001",
+        "hash": "6cRkrCyp/2tnZzmBCEEPCbAabD7+nEA1YnEIqHncEIs="
+      },
+      {
+        "@type": "blocks.shortTxId",
+        "mode": 135,
+        "account": "-1:34517c7bdf5187c55af4f8b61fdc321588c7ab768dee24b006df29106458d7cf",
+        "lt": "31959863000003",
+        "hash": "xo17DlUQZ1mkDESO0Af76cnIY+DgDGGgIGhyBtJtQjs="
+      },
+      {
+        "@type": "blocks.shortTxId",
+        "mode": 135,
+        "account": "-1:5555555555555555555555555555555555555555555555555555555555555555",
+        "lt": "31959863000003",
+        "hash": "ebP29H3DphzHUObhedOqC9I5+f5QoUUwYGOL8g9YRn4="
+      }
+    ],
+    "@extra": "1666108330.100884:3:0.365549927452521"
+  },
+  "jsonrpc": "2.0"
+}

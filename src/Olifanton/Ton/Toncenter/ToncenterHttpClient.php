@@ -19,6 +19,7 @@ use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
 use Olifanton\Ton\Toncenter\Responses\BlockIdExt;
+use Olifanton\Ton\Toncenter\Responses\BlockTransactions;
 use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
@@ -364,13 +365,13 @@ class ToncenterHttpClient implements ToncenterClient
      * @inheritDoc
      */
     public function getBlockTransactions(int $workchain,
-                                         int $shard,
+                                         string $shard,
                                          int $seqno,
                                          ?string $rootHash = null,
                                          ?string $fileHash = null,
                                          ?int $afterLt = null,
                                          ?string $afterHash = null,
-                                         ?int $count = null): TonResponse
+                                         ?int $count = null): BlockTransactions
     {
         $params = [
             "workchain" => $workchain,
@@ -398,12 +399,21 @@ class ToncenterHttpClient implements ToncenterClient
             $params["count"] = $count;
         }
 
-        return $this
+        $response = $this
             ->query([
                 "method" => "getBlockTransactions",
                 "params" => $params,
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(BlockTransactions::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract BlockTransactions response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**
