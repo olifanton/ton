@@ -6,7 +6,7 @@ use Olifanton\Ton\Models\AddressState;
 use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Utils\Address;
 
-class GetAddressInformationIntegrationTest extends ToncenterHttpClientIntegrationTestCase
+class GetAddressInformationITest extends ToncenterHttpClientITestCase
 {
     /**
      * @throws \Throwable

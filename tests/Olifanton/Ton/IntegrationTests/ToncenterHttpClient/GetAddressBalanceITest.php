@@ -5,7 +5,7 @@ namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 use Brick\Math\BigInteger;
 use Olifanton\Utils\Address;
 
-class GetAddressBalanceIntegrationTest extends ToncenterHttpClientIntegrationTestCase
+class GetAddressBalanceITest extends ToncenterHttpClientITestCase
 {
     /**
      * @throws \Throwable

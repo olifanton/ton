@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
-class GetConsensusBlockIntegrationTest extends ToncenterHttpClientIntegrationTestCase
+class GetMasterchainInfoITest extends ToncenterHttpClientITestCase
 {
     /**
      * @throws \Throwable
@@ -10,7 +10,7 @@ class GetConsensusBlockIntegrationTest extends ToncenterHttpClientIntegrationTes
     public function testSuccess(): void
     {
         $client = $this->getInstance();
-        $resp = $client->getConsensusBlock();
-        $this->assertGreaterThan(0, $resp->consensusBlock);
+        $resp = $client->getMasterchainInfo();
+        $this->assertEquals(-1, $resp->last->workchain);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
-class LookupBlockIntegrationTest extends ToncenterHttpClientIntegrationTestCase
+class LookupBlockITest extends ToncenterHttpClientITestCase
 {
     /**
      * @throws \Throwable

@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
-class ShardsIntegrationTest extends ToncenterHttpClientIntegrationTestCase
+class ShardsITest extends ToncenterHttpClientITestCase
 {
     /**
      * @throws \Throwable

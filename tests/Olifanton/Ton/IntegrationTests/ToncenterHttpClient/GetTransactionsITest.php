@@ -5,7 +5,7 @@ namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Utils\Address;
 
-class GetTransactionsIntegrationTest extends ToncenterHttpClientIntegrationTestCase
+class GetTransactionsITest extends ToncenterHttpClientITestCase
 {
     /**
      * @throws \Throwable

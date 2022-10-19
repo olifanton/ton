@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
-class UnpackAddressIntegrationTest extends ToncenterHttpClientIntegrationTestCase
+class UnpackAddressITest extends ToncenterHttpClientITestCase
 {
     /**
      * @throws \Throwable

@@ -7,7 +7,7 @@ use Olifanton\Ton\ClientOptions;
 use Olifanton\Ton\Toncenter\ToncenterHttpClient;
 use PHPUnit\Framework\TestCase;
 
-abstract class ToncenterHttpClientIntegrationTestCase extends TestCase
+abstract class ToncenterHttpClientITestCase extends TestCase
 {
     protected function tearDown(): void
     {
