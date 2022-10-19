@@ -18,6 +18,7 @@ use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
+use Olifanton\Ton\Toncenter\Responses\BlockHeader;
 use Olifanton\Ton\Toncenter\Responses\BlockIdExt;
 use Olifanton\Ton\Toncenter\Responses\BlockTransactions;
 use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
@@ -420,10 +421,10 @@ class ToncenterHttpClient implements ToncenterClient
      * @inheritDoc
      */
     public function getBlockHeader(int $workchain,
-                                   int $shard,
+                                   string $shard,
                                    int $seqno,
                                    ?string $rootHash = null,
-                                   ?string $fileHash = null): TonResponse
+                                   ?string $fileHash = null): BlockHeader
     {
         $params = [
             "workchain" => $workchain,
@@ -439,12 +440,21 @@ class ToncenterHttpClient implements ToncenterClient
             $params["file_hash"] = $fileHash;
         }
 
-        return $this
+        $response = $this
             ->query([
                 "method" => "getBlockHeader",
                 "params" => $params,
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(BlockHeader::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract BlockHeader response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

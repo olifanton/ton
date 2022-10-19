@@ -11,6 +11,7 @@ use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Ton\Toncenter\Exceptions\TimeoutException;
 use Olifanton\Ton\Toncenter\Exceptions\ValidationException;
 use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
+use Olifanton\Ton\Toncenter\Responses\BlockHeader;
 use Olifanton\Ton\Toncenter\Responses\BlockIdExt;
 use Olifanton\Ton\Toncenter\Responses\BlockTransactions;
 use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
@@ -207,7 +208,7 @@ interface ToncenterClient
      * Get metadata of a given block.
      *
      * @param int $workchain  Workchain id
-     * @param int $shard Shard id
+     * @param string $shard Shard id
      * @param int $seqno Block's height
      * @param string|null $rootHash
      * @param string|null $fileHash
@@ -217,10 +218,10 @@ interface ToncenterClient
      * @throws ClientException
      */
     public function getBlockHeader(int $workchain,
-                                   int $shard,
+                                   string $shard,
                                    int $seqno,
                                    ?string $rootHash = null,
-                                   ?string $fileHash = null): TonResponse;
+                                   ?string $fileHash = null): BlockHeader;
 
     /**
      * Locate outcoming transaction of destination address by incoming message.

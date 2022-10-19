@@ -1,0 +1,43 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "blocks.header",
+    "id": {
+      "@type": "ton.blockIdExt",
+      "workchain": -1,
+      "shard": "-9223372036854775808",
+      "seqno": 24404479,
+      "root_hash": "ITMCWZejxuB4YpwYJZLvHtTsy/PAzM81aHqXx04Z7tI=",
+      "file_hash": "7qYDZRNfRHkCDnuXP3qwOKhty/sU8N3ufZTlWfXcXNY="
+    },
+    "global_id": -239,
+    "version": 0,
+    "flags": 1,
+    "after_merge": false,
+    "after_split": false,
+    "before_split": false,
+    "want_merge": true,
+    "want_split": false,
+    "validator_list_hash_short": -1609713869,
+    "catchain_seqno": 364659,
+    "min_ref_mc_seqno": 24404475,
+    "is_key_block": false,
+    "prev_key_block_seqno": 24401637,
+    "start_lt": "32151778000000",
+    "end_lt": "32151778000004",
+    "gen_utime": 1666195275,
+    "vert_seqno": 1,
+    "prev_blocks": [
+      {
+        "@type": "ton.blockIdExt",
+        "workchain": -1,
+        "shard": "-9223372036854775808",
+        "seqno": 24404478,
+        "root_hash": "taXk4MjxD14XAvGYmXlbDMGNkmOtv/a3V8yy93SXfeE=",
+        "file_hash": "QPS7uWFnA+7YapSYfho+XReTizxUWppPmDVzsac91s4="
+      }
+    ],
+    "@extra": "1666195296.4149368:18:0.9456902775112603"
+  },
+  "jsonrpc": "2.0"
+}
