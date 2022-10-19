@@ -11,7 +11,7 @@ use Olifanton\Utils\Address;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 
-abstract class ToncenterHttpClientUnitTestCase extends TestCase
+abstract class ToncenterHttpClientUTestCase extends TestCase
 {
     protected ClientInterface & MockInterface $httpClientMock;
 

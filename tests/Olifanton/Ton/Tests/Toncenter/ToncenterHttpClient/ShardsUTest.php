@@ -2,23 +2,22 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
-class GetConsensusBlockUnitTest extends ToncenterHttpClientUnitTestCase
+class ShardsUTest extends ToncenterHttpClientUTestCase
 {
     /**
      * @throws \Throwable
      */
     public function testSuccess(): void
     {
-        $response = $this->createResponseDataStub("getConsensusBlock/result");
+        $response = $this->createResponseDataStub("shards/result");
         $this
             ->httpClientMock
             ->shouldReceive("send")
             ->andReturn($response);
 
         $instance = $this->getInstance();
-        $result = $instance->getConsensusBlock();
+        $result = $instance->shards(29774672);
 
-        $this->assertEquals(24227230, $result->consensusBlock);
-        $this->assertEquals(1665589396.873616, $result->timestamp);
+        $this->assertCount(1, $result->shards);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
-class DetectAddressUnitTest extends ToncenterHttpClientUnitTestCase
+class DetectAddressUTest extends ToncenterHttpClientUTestCase
 {
     /**
      * @throws \Throwable

@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
-class GetMasterchainInfoUnitTest extends ToncenterHttpClientUnitTestCase
+class GetMasterchainInfoUTest extends ToncenterHttpClientUTestCase
 {
     /**
      * @throws \Throwable

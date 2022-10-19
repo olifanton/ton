@@ -4,7 +4,7 @@ namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
 use Olifanton\Utils\Bytes;
 
-class GetExtendedAddressInformationUnitTest extends ToncenterHttpClientUnitTestCase
+class GetExtendedAddressInformationUTest extends ToncenterHttpClientUTestCase
 {
     /**
      * @throws \Throwable

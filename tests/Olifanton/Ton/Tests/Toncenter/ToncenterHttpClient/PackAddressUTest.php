@@ -2,23 +2,23 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
-class UnpackAddressUnitTest extends ToncenterHttpClientUnitTestCase
+class PackAddressUTest extends ToncenterHttpClientUTestCase
 {
     /**
      * @throws \Throwable
      */
-    public function testSuccess(): void
+    public function testPack(): void
     {
-        $response = $this->createResponseDataStub("unpackAddress/valid");
+        $response = $this->createResponseDataStub("packAddress/valid");
         $this
             ->httpClientMock
             ->shouldReceive("send")
             ->andReturn($response);
 
         $instance = $this->getInstance();
-        $result = $instance->unpackAddress("EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N");
+        $result = $instance->packAddress("0:83DFD552E63729B472FCBCC8C45EBCC6691702558B68EC7527E1BA403A0F31A8");
         $this->assertEquals(
-            "0:83dfd552e63729b472fcbcc8c45ebcc6691702558b68ec7527e1ba403a0f31a8",
+            "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N",
             $result,
         );
     }

@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
-class GetBlockHeaderUnitTest extends ToncenterHttpClientUnitTestCase
+class GetBlockHeaderUTest extends ToncenterHttpClientUTestCase
 {
     /**
      * @throws \Throwable
