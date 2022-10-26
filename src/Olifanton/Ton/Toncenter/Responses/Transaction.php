@@ -27,7 +27,7 @@ class Transaction
     public readonly BigInteger $otherFee;
 
     #[JsonMap("in_msg", JsonMap::SER_TYPE, Message::class)]
-    public readonly Message $inMsg;
+    public readonly ?Message $inMsg;
 
     /**
      * @var array<Message>

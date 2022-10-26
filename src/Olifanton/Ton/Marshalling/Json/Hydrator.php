@@ -81,7 +81,11 @@ class Hydrator
                 };
                 $proxySetter->call($instance, $propertyName, $val);
             } catch (\Throwable $e) {
-                throw new MarshallingException($e->getMessage(), $e->getCode(), $e);
+                throw new MarshallingException(
+                    "Property \"$propertyName\" deserialization error: " . $e->getMessage() . "; target class: " . $objClazz,
+                    $e->getCode(),
+                    $e,
+                );
             }
         }
 

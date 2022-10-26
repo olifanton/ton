@@ -178,4 +178,21 @@ class GetTransactionsUTest extends ToncenterHttpClientUTestCase
 
         $this->assertCount(16, $result->items);
     }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testActive3(): void
+    {
+        $response = $this->createResponseDataStub("getTransactions/active3");
+        $this
+            ->httpClientMock
+            ->shouldReceive("send")
+            ->andReturn($response);
+
+        $instance = $this->getInstance();
+        $result = $instance->getTransactions($this->createAddressStub());
+
+        $this->assertCount(10, $result->items);
+    }
 }
