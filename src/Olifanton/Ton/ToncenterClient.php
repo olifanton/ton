@@ -19,6 +19,7 @@ use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
 use Olifanton\Ton\Toncenter\Responses\Shards;
+use Olifanton\Ton\Toncenter\Responses\Transaction;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Utils\Address;
@@ -230,7 +231,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function tryLocateTx(Address $source, Address $destination, int $createdLt): TonResponse;
+    public function tryLocateTx(Address $source, Address $destination, string $createdLt): Transaction;
 
     /**
      * Locate outcoming transaction of destination address by incoming message

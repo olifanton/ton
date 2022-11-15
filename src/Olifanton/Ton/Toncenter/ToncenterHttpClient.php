@@ -26,6 +26,7 @@ use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
 use Olifanton\Ton\Toncenter\Responses\Shards;
+use Olifanton\Ton\Toncenter\Responses\Transaction;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterClient;
@@ -460,9 +461,9 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function tryLocateTx(Address $source, Address $destination, int $createdLt): TonResponse
+    public function tryLocateTx(Address $source, Address $destination, string $createdLt): Transaction
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "tryLocateTx",
                 "params" => [
@@ -470,8 +471,17 @@ class ToncenterHttpClient implements ToncenterClient
                     "destination" => (string)$destination,
                     "created_lt" => $createdLt,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(Transaction::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract Transaction response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

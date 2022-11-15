@@ -1,0 +1,33 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "raw.transaction",
+    "utime": 1666790184,
+    "data": "te6cckECCAEAAb8AA7VwcXKA8v05WIUEb7hl0zthnD1RZZc5m46qiqI68fpwlNAAAdaWWUdkMb9seGST6WzONqJjizx2EsP+5buOMTgVparXksNOaHcgAAHWljUKDBY1kzKAABRgMNSoAQIDAQGgBACCcgfknnHy/mtVzKaiuog7csmaY9f6y6heMRipzs2SMWPEk1V2Ef+5pLOKMFCxpX4x0tGtgy8pCNZG6DAqKgtwpScCGQxBSUx0hgntGGAw1BEGBwGzSAC84IWrTCOJ/JUBJ1x0UBwvzN+XOIzOdLc4vDKR37IuDQABxcoDy/TlYhQRvuGXTO2GcPVFllzmbjqqKojrx+nCU1THSGCe0AYc4+QAADrSyyjshMayZlDABQBQAAAAADZmOTRmNDdmLWViMmUtNGFlNS05YzlmLWQwODU3ODVlNGU2ZQCcJ8w9CQAAAAAAAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFvAAAAAAAAAAAAAAAABLUUtpEnlC4z33SeGHxRhIq/htUa7i3D8ghbwxhQTn44EgVYy1Q==",
+    "transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "32338513000003",
+      "hash": "tSfqJLi6h5FDgdmht+NwhdDX81JcdFAtWlft0E9XjjE="
+    },
+    "fee": "100005",
+    "storage_fee": "5",
+    "other_fee": "100000",
+    "in_msg": {
+      "@type": "raw.message",
+      "source": "EQBecELVphHE_kqAk646KA4X5m_LnEZnOlucXhlI79kXBmJ8",
+      "destination": "EQAHFygPL9OViFBG-4ZdM7YZw9UWWXOZuOqoqiOvH6cJTW1q",
+      "value": "213978195892",
+      "fwd_fee": "946674",
+      "ihr_fee": "0",
+      "created_lt": "32338513000002",
+      "body_hash": "z2vbGg+miU05xCo7Pl0cMHQhqyDNfm2UP4PWKPfWVjE=",
+      "msg_data": {
+        "@type": "msg.dataText",
+        "text": "NmY5NGY0N2YtZWIyZS00YWU1LTljOWYtZDA4NTc4NWU0ZTZl"
+      },
+      "message": "6f94f47f-eb2e-4ae5-9c9f-d085785e4e6e"
+    },
+    "out_msgs": []
+  },
+  "jsonrpc": "2.0"
+}

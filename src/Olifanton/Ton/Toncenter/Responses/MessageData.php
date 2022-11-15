@@ -10,8 +10,11 @@ class MessageData
     public readonly string $type;
 
     #[JsonMap]
-    public readonly string $body;
+    public readonly ?string $body;
 
     #[JsonMap("init_state")]
-    public readonly string $initState;
+    public readonly ?string $initState;
+
+    #[JsonMap]
+    public readonly ?string $text;
 }
