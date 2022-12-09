@@ -81,7 +81,7 @@ jobs:
 
       - name: Run tests with Phpunit
         run: |
-          composer run test
+          composer run test:unit
 
       - name: Generate test coverage badge
         if: github.ref == 'refs/heads/main'
