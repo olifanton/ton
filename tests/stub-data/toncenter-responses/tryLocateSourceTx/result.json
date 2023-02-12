@@ -1,0 +1,52 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "raw.transaction",
+    "utime": 1668253134,
+    "data": "te6cckECCgEAAkcAA7V/ns4vuf0qPA3m/Gtbko4n5YhBMTDzmZIxeaR1xJL94vAAAFZj4eqcFm/RHvAE1ybE426lM/27YdoCFh7E6dzG97B/l2jzSyKwAABWY5eHpBY2+FzgADRpPOkoAQIDAgHgBAUAgnIuwHtEtAkI3Oq2HzQXI8keMp1q9x+naD4ovdJiZFurbDdQuKENXHeAZQjvMvDFIMNGx1qDe5b/vedxvVOlK4PmAg8MQkYZbXqEQAgJAd+IAfPZxfc/pUeBvN+Na3JRxPyxCCYmHnMyRi80jriSX7xeA0J7+Ui+3wcJjorbzIQkhK9T9iD4b6Jt8f56TJWPUvqCB845Eps9QcZVvnH1709TOzLhQSqfb5GJVwfJcSJUyHlNTRi7G3wwSAAAAtgcBgEB3wcAaGIAEbLzfenbAAiKRFBlQG/nHrBRABl9cWhoBSoegiHHQ2ch3NZQAAAAAAAAAAAAAAAAAAAAsWgB89nF9z+lR4G8341rclHE/LEIJiYeczJGLzSOuJJfvF8ACNl5vvTtgARFIigyoDfzj1gogAy+uLQ0ApUPQRDjobOQ7msoAAYUWGAAAArMfD1ThMbfC5xAAJ1BdkMTiAAAAAAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAG/Jh6EgTBRYQAAAAAAAAgAAAAAAAoGLhsCACIawWwQtMWcRn0RxBWJgJNmhDdVrpu1SQR2eQFAWDMBXoxo=",
+    "transaction_id": {
+      "@type": "internal.transactionId",
+      "lt": "5936687000001",
+      "hash": "Ru78iQQYSNzRxNy2jP4+xAybukKzFBhjgFMUvnBCxYE="
+    },
+    "fee": "5510009",
+    "storage_fee": "9",
+    "other_fee": "5510000",
+    "in_msg": {
+      "@type": "raw.message",
+      "source": "",
+      "destination": "EQD57OL7n9KjwN5vxrW5KOJ-WIQTEw85mSMXmkdcSS_eLzi7",
+      "value": "0",
+      "fwd_fee": "0",
+      "ihr_fee": "0",
+      "created_lt": "0",
+      "body_hash": "T/2fw0XBzXanzPn6mEAF3+cqBy5j+kOb+zihWwaB3mc=",
+      "msg_data": {
+        "@type": "msg.dataRaw",
+        "body": "te6cckEBAgEAhgABmmhPfykX2+DhMdFbeZCEkJXqfsQfDfRNvj/PSZKx6l9QQPnHIlNnqDjKt84+venqZ2ZcKCVT7fIxKuD5LiRKmQ8pqaMXY2+GCQAAAFsDAQBoYgARsvN96dsACIpEUGVAb+cesFEAGX1xaGgFKh6CIcdDZyHc1lAAAAAAAAAAAAAAAAAAAAQFXJM=",
+        "init_state": ""
+      },
+      "message": "aE9/KRfb4OEx0Vt5kISQlep+xB8N9E2+P89JkrHqX1BA+cciU2eoOMq3zj696epnZlwoJVPt8jEq\n4PkuJEqZDympoxdjb4YJAAAAWwM=\n"
+    },
+    "out_msgs": [
+      {
+        "@type": "raw.message",
+        "source": "EQD57OL7n9KjwN5vxrW5KOJ-WIQTEw85mSMXmkdcSS_eLzi7",
+        "destination": "EQAjZeb707YAERSIoMqA3849YKIAMvri0NAKVD0EQ46Gzti1",
+        "value": "1000000000",
+        "fwd_fee": "666672",
+        "ihr_fee": "0",
+        "created_lt": "5936687000002",
+        "body_hash": "lqKW0iTyhcZ77pPDD4owkVfw2qNdxbh+QQt4YwoJz8c=",
+        "msg_data": {
+          "@type": "msg.dataRaw",
+          "body": "te6cckEBAQEAAgAAAEysuc0=",
+          "init_state": ""
+        },
+        "message": ""
+      }
+    ]
+  },
+  "jsonrpc": "2.0",
+  "id": "1"
+}

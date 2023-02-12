@@ -249,7 +249,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function tryLocateSourceTx(Address $source, Address $destination, int $createdLt): TonResponse;
+    public function tryLocateSourceTx(Address $source, Address $destination, string $createdLt): Transaction;
 
     /**
      * Get config by id.
