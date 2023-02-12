@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "configInfo",
+    "config": {
+      "@type": "tvm.cell",
+      "bytes": "te6cckEBAQEAIgAAQO/nHROGCvqmrq6vY2+RaEh/gPEDGwv42TmuSdPqf32glRg2PQ=="
+    },
+    "@extra": "1676201466.05731:1:0.19148189041580876"
+  },
+  "jsonrpc": "2.0"
+}

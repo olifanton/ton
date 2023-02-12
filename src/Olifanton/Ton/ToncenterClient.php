@@ -14,6 +14,7 @@ use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
 use Olifanton\Ton\Toncenter\Responses\BlockHeader;
 use Olifanton\Ton\Toncenter\Responses\BlockIdExt;
 use Olifanton\Ton\Toncenter\Responses\BlockTransactions;
+use Olifanton\Ton\Toncenter\Responses\ConfigInfo;
 use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
@@ -261,7 +262,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function getConfigParam(int $configId, ?int $seqno = null): TonResponse;
+    public function getConfigParam(int $configId, ?int $seqno = null): ConfigInfo;
 
     /**
      * Run get method on smart contract.

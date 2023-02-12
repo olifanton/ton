@@ -21,6 +21,7 @@ use Olifanton\Ton\Toncenter\Responses\AddressDetectionResult;
 use Olifanton\Ton\Toncenter\Responses\BlockHeader;
 use Olifanton\Ton\Toncenter\Responses\BlockIdExt;
 use Olifanton\Ton\Toncenter\Responses\BlockTransactions;
+use Olifanton\Ton\Toncenter\Responses\ConfigInfo;
 use Olifanton\Ton\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Toncenter\Responses\FullAccountState;
@@ -539,7 +540,7 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function getConfigParam(int $configId, ?int $seqno = null): TonResponse
+    public function getConfigParam(int $configId, int|string|null $seqno = null): ConfigInfo
     {
         $params = [
             "config_id" => $configId,
@@ -549,12 +550,21 @@ class ToncenterHttpClient implements ToncenterClient
             $params["seqno"] = $seqno;
         }
 
-        return $this
+        $response = $this
             ->query([
                 "method" => "getConfigParam",
                 "params" => $params,
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(ConfigInfo::class, $response->result['config']);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract ConfigInfo response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**
