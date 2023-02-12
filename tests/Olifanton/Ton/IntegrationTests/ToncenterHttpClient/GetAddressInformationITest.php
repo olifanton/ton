@@ -4,7 +4,7 @@ namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
 use Olifanton\Ton\Models\AddressState;
 use Olifanton\Ton\Toncenter\Exceptions\ClientException;
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 
 class GetAddressInformationITest extends ToncenterHttpClientITestCase
 {

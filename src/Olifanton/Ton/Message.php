@@ -2,12 +2,12 @@
 
 namespace Olifanton\Ton;
 
-use Olifanton\Boc\Cell;
+use Olifanton\Interop\Boc\Cell;
 
 interface Message
 {
     /**
-     * @throws \Olifanton\Boc\Exceptions\BitStringException
+     * @throws \Olifanton\Interop\Boc\Exceptions\BitStringException
      */
     public function writeTo(Cell $cell): void;
 }

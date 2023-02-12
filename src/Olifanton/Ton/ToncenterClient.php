@@ -3,7 +3,7 @@
 namespace Olifanton\Ton;
 
 use Brick\Math\BigInteger;
-use Olifanton\Boc\Cell;
+use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Models\AddressState;
 use Olifanton\Ton\Models\JsonRpcResponse;
 use Olifanton\Ton\Models\TonResponse;
@@ -22,7 +22,7 @@ use Olifanton\Ton\Toncenter\Responses\Shards;
 use Olifanton\Ton\Toncenter\Responses\Transaction;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 
 /**
  * Toncenter API client
@@ -240,7 +240,7 @@ interface ToncenterClient
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function tryLocateResultTx(Address $source, Address $destination, int $createdLt): TonResponse;
+    public function tryLocateResultTx(Address $source, Address $destination, string $createdLt): Transaction;
 
     /**
      * Locate incoming transaction of source address by outcoming message.

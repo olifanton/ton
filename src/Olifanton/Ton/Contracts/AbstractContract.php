@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\Contracts;
 
-use Olifanton\Boc\Cell;
+use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 

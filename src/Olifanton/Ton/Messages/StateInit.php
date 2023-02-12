@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\Messages;
 
-use Olifanton\Boc\Cell;
+use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Message;
 
 class StateInit implements Message

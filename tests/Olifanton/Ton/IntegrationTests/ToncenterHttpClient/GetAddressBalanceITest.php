@@ -3,7 +3,7 @@
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
 use Brick\Math\BigInteger;
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 
 class GetAddressBalanceITest extends ToncenterHttpClientITestCase
 {

@@ -2,8 +2,7 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
-use Olifanton\Ton\Toncenter\Exceptions\ClientException;
-use Olifanton\Utils\Bytes;
+use Olifanton\Interop\Bytes;
 
 class GetTransactionsUTest extends ToncenterHttpClientUTestCase
 {

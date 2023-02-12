@@ -6,8 +6,8 @@ use Brick\Math\BigInteger;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request;
-use Olifanton\Boc\Cell;
-use Olifanton\Boc\Exceptions\CellException;
+use Olifanton\Interop\Boc\Cell;
+use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Ton\ClientOptions;
 use Olifanton\Ton\Marshalling\Exceptions\MarshallingException;
 use Olifanton\Ton\Marshalling\Json\Hydrator;
@@ -31,7 +31,7 @@ use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterClient;
 use Olifanton\Ton\Version;
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 
 class ToncenterHttpClient implements ToncenterClient
 {
@@ -487,9 +487,9 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function tryLocateResultTx(Address $source, Address $destination, int $createdLt): TonResponse
+    public function tryLocateResultTx(Address $source, Address $destination, string $createdLt): Transaction
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "tryLocateResultTx",
                 "params" => [
@@ -497,8 +497,17 @@ class ToncenterHttpClient implements ToncenterClient
                     "destination" => (string)$destination,
                     "created_lt" => $createdLt,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(Transaction::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract Transaction response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**
@@ -651,6 +660,14 @@ class ToncenterHttpClient implements ToncenterClient
 
         if ($this->options->apiKey) {
             $headers["X-Api-Key"] = $this->options->apiKey;
+        }
+
+        if (!isset($params["jsonrpc"])) {
+            $params["jsonrpc"] = "2.0";
+        }
+
+        if (!isset($params["id"])) {
+            $params["id"] = (string)hrtime(true);
         }
 
         try {

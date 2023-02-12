@@ -2,16 +2,16 @@
 
 namespace Olifanton\Ton\Contracts\Wallets;
 
-use ajf\TypedArrays\Uint8Array;
-use Olifanton\Boc\Cell;
-use Olifanton\Boc\Exceptions\BitStringException;
-use Olifanton\Boc\Exceptions\CellException;
+use Olifanton\TypedArrays\Uint8Array;
+use Olifanton\Interop\Boc\Cell;
+use Olifanton\Interop\Boc\Exceptions\BitStringException;
+use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Wallet;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Messages\StateInit;
-use Olifanton\Utils\Address;
-use Olifanton\Utils\Bytes;
+use Olifanton\Interop\Address;
+use Olifanton\Interop\Bytes;
 
 abstract class AbstractWallet extends AbstractContract implements Wallet
 {

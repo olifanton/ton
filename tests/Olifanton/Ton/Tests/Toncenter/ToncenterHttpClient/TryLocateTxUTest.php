@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 
 class TryLocateTxUTest extends ToncenterHttpClientUTestCase
 {

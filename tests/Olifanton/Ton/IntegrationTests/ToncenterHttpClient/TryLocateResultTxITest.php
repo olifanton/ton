@@ -4,7 +4,7 @@ namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
 use Olifanton\Interop\Address;
 
-class TryLocateTxITest extends ToncenterHttpClientITestCase
+class TryLocateResultTxITest extends ToncenterHttpClientITestCase
 {
     /**
      * @throws \Throwable
@@ -12,7 +12,7 @@ class TryLocateTxITest extends ToncenterHttpClientITestCase
     public function testSuccess(): void
     {
         $client = $this->getInstance();
-        $resp = $client->tryLocateTx(
+        $resp = $client->tryLocateResultTx(
             new Address("EQD57OL7n9KjwN5vxrW5KOJ-WIQTEw85mSMXmkdcSS_eLzi7"),
             new Address("EQAjZeb707YAERSIoMqA3849YKIAMvri0NAKVD0EQ46Gzti1"),
             "5936687000002",

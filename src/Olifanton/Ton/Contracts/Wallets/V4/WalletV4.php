@@ -2,8 +2,8 @@
 
 namespace Olifanton\Ton\Contracts\Wallets\V4;
 
-use Olifanton\Boc\Cell;
-use Olifanton\Boc\Exceptions\BitStringException;
+use Olifanton\Interop\Boc\Cell;
+use Olifanton\Interop\Boc\Exceptions\BitStringException;
 use Olifanton\Ton\Contracts\Wallet;
 use Olifanton\Ton\Contracts\Wallets\AbstractWallet;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;

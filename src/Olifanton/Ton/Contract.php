@@ -2,9 +2,9 @@
 
 namespace Olifanton\Ton;
 
-use Olifanton\Boc\Cell;
+use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 
 interface Contract
 {

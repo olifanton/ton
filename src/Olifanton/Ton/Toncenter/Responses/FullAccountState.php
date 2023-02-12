@@ -3,7 +3,7 @@
 namespace Olifanton\Ton\Toncenter\Responses;
 
 use Brick\Math\BigInteger;
-use Olifanton\Boc\Cell;
+use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Marshalling\Attributes\JsonMap;
 use Olifanton\Ton\Models\AddressState;
 

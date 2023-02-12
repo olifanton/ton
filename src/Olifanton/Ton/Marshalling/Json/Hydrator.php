@@ -3,10 +3,10 @@
 namespace Olifanton\Ton\Marshalling\Json;
 
 use Brick\Math\BigInteger;
-use Olifanton\Boc\Cell;
+use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Marshalling\Attributes\JsonMap;
 use Olifanton\Ton\Marshalling\Exceptions\MarshallingException;
-use Olifanton\Utils\Bytes;
+use Olifanton\Interop\Bytes;
 
 class Hydrator
 {
@@ -121,7 +121,7 @@ class Hydrator
     }
 
     /**
-     * @throws \Olifanton\Boc\Exceptions\CellException
+     * @throws \Olifanton\Interop\Boc\Exceptions\CellException
      */
     private static function deserializeCell(mixed $jsonValue, ?bool $typeAllowsNull): ?Cell
     {

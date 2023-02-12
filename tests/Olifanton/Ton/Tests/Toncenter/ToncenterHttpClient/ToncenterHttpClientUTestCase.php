@@ -7,7 +7,7 @@ use GuzzleHttp\Psr7\Response;
 use Mockery\MockInterface;
 use Olifanton\Ton\ClientOptions;
 use Olifanton\Ton\Toncenter\ToncenterHttpClient;
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 

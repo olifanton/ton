@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\Toncenter\Responses;
 
-use Olifanton\Boc\Cell;
+use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Marshalling\Attributes\JsonMap;
 
 class AccountState

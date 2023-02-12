@@ -34,9 +34,8 @@
     "php": ">=8.1",
     "ext-hash": "*",
     "ext-curl": "*",
-    "olifanton/boc": "^0.4",
-    "olifanton/utils": "^0.3",
-    "olifanton/mnemonic": "^0.3",
+    "olifanton/interop": "^0.1",
+    "olifanton/mnemonic": "^1",
     "guzzlehttp/guzzle": "6.* || 7.*",
     "guzzlehttp/psr7": "^1.8 || ^2.3"
   },

@@ -4,7 +4,7 @@ namespace Olifanton\Ton\Contracts;
 
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 
 interface Wallet extends Contract
 {

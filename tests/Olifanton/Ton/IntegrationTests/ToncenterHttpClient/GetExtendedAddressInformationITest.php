@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
-use Olifanton\Utils\Address;
+use Olifanton\Interop\Address;
 
 class GetExtendedAddressInformationITest extends ToncenterHttpClientITestCase
 {

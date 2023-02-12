@@ -3,7 +3,7 @@
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
 use Olifanton\Ton\Models\AddressState;
-use Olifanton\Utils\Bytes;
+use Olifanton\Interop\Bytes;
 
 class GetAddressInformationUTest extends ToncenterHttpClientUTestCase
 {

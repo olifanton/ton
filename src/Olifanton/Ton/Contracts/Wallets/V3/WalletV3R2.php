@@ -2,8 +2,8 @@
 
 namespace Olifanton\Ton\Contracts\Wallets\V3;
 
-use Olifanton\Boc\Cell;
-use Olifanton\Boc\Exceptions\CellException;
+use Olifanton\Interop\Boc\Cell;
+use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 
 class WalletV3R2 extends WalletV3
