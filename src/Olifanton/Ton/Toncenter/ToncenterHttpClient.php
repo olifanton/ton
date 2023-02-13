@@ -29,6 +29,7 @@ use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
 use Olifanton\Ton\Toncenter\Responses\Shards;
 use Olifanton\Ton\Toncenter\Responses\Transaction;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
+use Olifanton\Ton\Toncenter\Responses\UnrecognizedSmcRunResult;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterClient;
 use Olifanton\Ton\Version;
@@ -570,9 +571,9 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function runGetMethod(Address|string $address, string $method, array $stack): TonResponse
+    public function runGetMethod(Address|string $address, string $method, array $stack = []): UnrecognizedSmcRunResult
     {
-        return $this
+        $response = $this
             ->query([
                 "method" => "runGetMethod",
                 "params" => [
@@ -580,8 +581,17 @@ class ToncenterHttpClient implements ToncenterClient
                     "method" => $method,
                     "stack" => $stack,
                 ],
-            ])
-            ->asTonResponse();
+            ]);
+
+        try {
+            return Hydrator::extract(UnrecognizedSmcRunResult::class, $response->result);
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract UnrecognizedSmcRunResult response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
     }
 
     /**

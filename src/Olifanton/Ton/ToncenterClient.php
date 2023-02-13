@@ -22,6 +22,7 @@ use Olifanton\Ton\Toncenter\Responses\MasterchainInfo;
 use Olifanton\Ton\Toncenter\Responses\Shards;
 use Olifanton\Ton\Toncenter\Responses\Transaction;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
+use Olifanton\Ton\Toncenter\Responses\UnrecognizedSmcRunResult;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Interop\Address;
 
@@ -269,13 +270,13 @@ interface ToncenterClient
      *
      * @param Address $address Smart contract address
      * @param string $method Method name
-     * @param string[] $stack Stack array
+     * @param string[][] $stack Stack array
      *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function runGetMethod(Address $address, string $method, array $stack): TonResponse;
+    public function runGetMethod(Address $address, string $method, array $stack = []): UnrecognizedSmcRunResult;
 
     /**
      * Send serialized boc file: fully packed and serialized external message to blockchain.

@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "result": {
+    "@type": "smc.runResult",
+    "gas_used": 0,
+    "stack": [
+      [
+        "num",
+        "0x14c97"
+      ]
+    ],
+    "exit_code": -13,
+    "@extra": "1676300885.2141244:1:0.41132308727724365"
+  },
+  "jsonrpc": "2.0"
+}
