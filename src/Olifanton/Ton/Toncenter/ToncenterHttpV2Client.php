@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Psr7\Request;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\CellException;
+use Olifanton\Interop\Bytes;
 use Olifanton\Ton\ClientOptions;
 use Olifanton\Ton\Marshalling\Exceptions\MarshallingException;
 use Olifanton\Ton\Marshalling\Json\Hydrator;
@@ -31,11 +32,12 @@ use Olifanton\Ton\Toncenter\Responses\Transaction;
 use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\UnrecognizedSmcRunResult;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
-use Olifanton\Ton\ToncenterClient;
+use Olifanton\Ton\ToncenterV2Client;
 use Olifanton\Ton\Version;
 use Olifanton\Interop\Address;
+use Olifanton\TypedArrays\Uint8Array;
 
-class ToncenterHttpClient implements ToncenterClient
+class ToncenterHttpV2Client implements ToncenterV2Client
 {
     public function __construct(private readonly ClientInterface $httpClient, private readonly ClientOptions $options)
     {
@@ -597,47 +599,31 @@ class ToncenterHttpClient implements ToncenterClient
     /**
      * @inheritDoc
      */
-    public function sendBoc(Cell|string $boc): TonResponse
+    public function sendBoc(Cell | Uint8Array | string $boc): TonResponse
     {
-        try {
-            return $this
-                ->query([
-                    "method" => "sendBoc",
-                    "params" => [
-                        "boc" => is_string($boc) ? $boc : $boc->toBoc(),
-                    ],
-                ])
-                ->asTonResponse();
-        } catch (CellException $e) {
-            throw new ClientException(
-                "Boc serialization error: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this
+            ->query([
+                "method" => "sendBoc",
+                "params" => [
+                    "boc" => $this->serializeBoc($boc),
+                ],
+            ])
+            ->asTonResponse();
     }
 
     /**
      * @inheritDoc
      */
-    public function sendBocReturnHash(Cell|string $boc): TonResponse
+    public function sendBocReturnHash(Cell | Uint8Array | string $boc): TonResponse
     {
-        try {
-            return $this
-                ->query([
-                    "method" => "sendQuery",
-                    "params" => [
-                        "boc" => is_string($boc) ? $boc : $boc->toBoc(),
-                    ],
-                ])
-                ->asTonResponse();
-        } catch (CellException $e) {
-            throw new ClientException(
-                "Boc serialization error: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this
+            ->query([
+                "method" => "sendBocReturnHash",
+                "params" => [
+                    "boc" => $this->serializeBoc($boc),
+                ],
+            ])
+            ->asTonResponse();
     }
 
     /**
@@ -672,6 +658,40 @@ class ToncenterHttpClient implements ToncenterClient
     public function jsonRPC(array $params): JsonRpcResponse
     {
         return $this->query($params);
+    }
+
+    /**
+     * @throws ClientException
+     */
+    private function serializeBoc(Cell | Uint8Array | string $boc): string
+    {
+        if (is_string($boc) && !preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $boc)) {
+            throw new \InvalidArgumentException(
+                "If a BoC string is passed, then it must be a base64-serialized string",
+            );
+        }
+
+        if ($boc instanceof Cell) {
+            try {
+                $boc = $boc->toBoc();
+            } catch (CellException $e) {
+                throw new ClientException(
+                    "Boc serialization error: " . $e->getMessage(),
+                    $e->getCode(),
+                    $e,
+                );
+            }
+        }
+
+        if ($boc instanceof Uint8Array) {
+            $boc = Bytes::bytesToBase64($boc);
+        }
+
+        if (!is_string($boc)) {
+            throw new \RuntimeException("Unexpected BoC serialization error");
+        }
+
+        return $boc;
     }
 
     /**

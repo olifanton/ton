@@ -25,14 +25,17 @@ use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\UnrecognizedSmcRunResult;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Interop\Address;
+use Olifanton\TypedArrays\Uint8Array;
 
 /**
  * Toncenter API client
  */
-interface ToncenterClient
+interface ToncenterV2Client
 {
     /**
      * Get basic information about the address: balance, code, data, last_transaction_id.
+     *
+     * @link https://toncenter.com/api/v2/#/accounts/get_address_information_getAddressInformation_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -46,6 +49,8 @@ interface ToncenterClient
      * This method is based on tonlib's function getAccountState.
      * For detecting wallets we recommend to use getWalletInformation.
      *
+     * @link https://toncenter.com/api/v2/#/accounts/get_extended_address_information_getExtendedAddressInformation_get
+     *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
@@ -56,6 +61,8 @@ interface ToncenterClient
      * Retrieve wallet information.
      *
      * This method parses contract state and currently supports more wallet types than getExtendedAddressInformation: simple wallet, standart wallet, v3 wallet, v4 wallet.
+     *
+     * @link https://toncenter.com/api/v2/#/accounts/get_wallet_information_getWalletInformation_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -72,6 +79,7 @@ interface ToncenterClient
      * @param string|null $hash Hash of transaction to start with, in base64 or hex encoding , must be sent with lt.
      * @param int|null $toLt Logical time of transaction to finish with (to get tx from lt to to_lt).
      * @param bool|null $archival By default, `getTransaction` request is processed by any available liteserver. If archival=true only liteservers with full history are used.
+     * @link https://toncenter.com/api/v2/#/accounts/get_transactions_getTransactions_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -87,6 +95,8 @@ interface ToncenterClient
     /**
      * Get balance (in nanotons) of a given address.
      *
+     * @link https://toncenter.com/api/v2/#/accounts/get_address_balance_getAddressBalance_get
+     *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
@@ -95,6 +105,8 @@ interface ToncenterClient
 
     /**
      * Get state of a given address. State can be either `uninitialized`, `active` or `frozen`.
+     *
+     * @link https://toncenter.com/api/v2/#/accounts/get_address_getAddressState_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -108,6 +120,7 @@ interface ToncenterClient
      * Raw address example: "0:83DFD552E63729B472FCBCC8C45EBCC6691702558B68EC7527E1BA403A0F31A8"
      *
      * @param string $rawAddress Identifier of target TON account in raw form.
+     * @link https://toncenter.com/api/v2/#/accounts/pack_address_packAddress_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -118,6 +131,8 @@ interface ToncenterClient
     /**
      * Convert an address from human-readable to raw format.
      *
+     * @link https://toncenter.com/api/v2/#/accounts/unpack_address_unpackAddress_get
+     *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
@@ -126,6 +141,8 @@ interface ToncenterClient
 
     /**
      * Get all possible address forms.
+     *
+     * @link https://toncenter.com/api/v2/#/accounts/detect_address_detectAddress_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -136,6 +153,8 @@ interface ToncenterClient
     /**
      * Get up-to-date masterchain state.
      *
+     * @link https://toncenter.com/api/v2/#/blocks/get_masterchain_info_getMasterchainInfo_get
+     *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
@@ -144,6 +163,8 @@ interface ToncenterClient
 
     /**
      * Get consensus block and its update timestamp.
+     *
+     * @link https://toncenter.com/api/v2/#/blocks/get_consensus_block_getConsensusBlock_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -159,6 +180,7 @@ interface ToncenterClient
      * @param int|null $seqno Block's height
      * @param int|null $lt Block's logical time
      * @param int|null $unixtime Block's unixtime
+     * @link https://toncenter.com/api/v2/#/blocks/lookup_block_lookupBlock_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -174,6 +196,7 @@ interface ToncenterClient
      * Get shards information.
      *
      * @param int $seqno Masterchain seqno to fetch shards of.
+     * @link https://toncenter.com/api/v2/#/blocks/shards_shards_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -192,6 +215,7 @@ interface ToncenterClient
      * @param int|null $afterLt
      * @param string|null $afterHash
      * @param int|null $count
+     * @link https://toncenter.com/api/v2/#/blocks/get_block_transactions_getBlockTransactions_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -215,6 +239,7 @@ interface ToncenterClient
      * @param int $seqno Block's height
      * @param string|null $rootHash
      * @param string|null $fileHash
+     * @link https://toncenter.com/api/v2/#/blocks/get_block_header_getBlockHeader_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -229,6 +254,8 @@ interface ToncenterClient
     /**
      * Locate outcoming transaction of destination address by incoming message.
      *
+     * @link https://toncenter.com/api/v2/#/transactions/get_try_locate_tx_tryLocateTx_get
+     *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
@@ -238,6 +265,8 @@ interface ToncenterClient
     /**
      * Locate outcoming transaction of destination address by incoming message
      *
+     * @link https://toncenter.com/api/v2/#/transactions/get_try_locate_result_tx_tryLocateResultTx_get
+     *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
@@ -246,6 +275,8 @@ interface ToncenterClient
 
     /**
      * Locate incoming transaction of source address by outcoming message.
+     *
+     * @link https://toncenter.com/api/v2/#/transactions/get_try_locate_source_tx_tryLocateSourceTx_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -258,6 +289,7 @@ interface ToncenterClient
      *
      * @param int $configId Config id
      * @param int|null $seqno Masterchain seqno. If not specified, latest blockchain state will be used.
+     * @link https://toncenter.com/api/v2/#/get%20config/get_config_param_getConfigParam_get
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -271,6 +303,7 @@ interface ToncenterClient
      * @param Address $address Smart contract address
      * @param string $method Method name
      * @param string[][] $stack Stack array
+     * @link https://toncenter.com/api/v2/#/run%20method/run_get_method_runGetMethod_post
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -281,26 +314,32 @@ interface ToncenterClient
     /**
      * Send serialized boc file: fully packed and serialized external message to blockchain.
      *
-     * @throws ValidationException
-     * @throws TimeoutException
-     * @throws ClientException
-     */
-    public function sendBoc(Cell | string $boc): TonResponse;
-
-    /**
-     * Send serialized boc file: fully packed and serialized external message to blockchain. The method returns message hash.
+     * @link https://toncenter.com/api/v2/#/send/send_boc_sendBoc_post
      *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function sendBocReturnHash(Cell | string $boc): TonResponse;
+    public function sendBoc(Cell | Uint8Array | string $boc): TonResponse;
+
+    /**
+     * Send serialized boc file: fully packed and serialized external message to blockchain. The method returns message hash.
+     *
+     * @link https://toncenter.com/api/v2/#/send/send_boc_return_hash_sendBocReturnHash_post
+     *
+     * @throws ValidationException
+     * @throws TimeoutException
+     * @throws ClientException
+     */
+    public function sendBocReturnHash(Cell | Uint8Array | string $boc): TonResponse;
 
     /**
      * Send query - unpacked external message.
      *
      * This method takes address, body and init-params (if any), packs it to external message and sends to network.
      * All params should be boc-serialized.
+     *
+     * @link https://toncenter.com/api/v2/#/send/send_query_sendQuery_post
      *
      * @throws ValidationException
      * @throws TimeoutException
@@ -311,6 +350,8 @@ interface ToncenterClient
     /**
      * Estimate fees required for query processing. body, init-code and init-data accepted in serialized format (b64-encoded).
      *
+     * @link https://toncenter.com/api/v2/#/send/estimate_fee_estimateFee_post
+     *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
@@ -318,8 +359,12 @@ interface ToncenterClient
     public function estimateFee(array $body): TonResponse;
 
     /**
+     * All methods in the API are available through JSON-RPC protocol.
+     *
      * @param array $params
      * @return JsonRpcResponse
+     * @link https://toncenter.com/api/v2/#/json%20rpc/jsonrpc_handler_jsonRPC_post
+     *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException

@@ -4,7 +4,7 @@ namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
 use GuzzleHttp\Client;
 use Olifanton\Ton\ClientOptions;
-use Olifanton\Ton\Toncenter\ToncenterHttpClient;
+use Olifanton\Ton\Toncenter\ToncenterHttpV2Client;
 use PHPUnit\Framework\TestCase;
 
 abstract class ToncenterHttpClientITestCase extends TestCase
@@ -14,9 +14,9 @@ abstract class ToncenterHttpClientITestCase extends TestCase
         \Mockery::close();
     }
 
-    protected function getInstance(): ToncenterHttpClient
+    protected function getInstance(): ToncenterHttpV2Client
     {
-        return new ToncenterHttpClient(
+        return new ToncenterHttpV2Client(
             new Client(),
             $this->getOptions(),
         );

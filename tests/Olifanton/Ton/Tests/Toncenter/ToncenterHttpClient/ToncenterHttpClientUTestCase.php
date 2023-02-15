@@ -6,7 +6,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Mockery\MockInterface;
 use Olifanton\Ton\ClientOptions;
-use Olifanton\Ton\Toncenter\ToncenterHttpClient;
+use Olifanton\Ton\Toncenter\ToncenterHttpV2Client;
 use Olifanton\Interop\Address;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -25,9 +25,9 @@ abstract class ToncenterHttpClientUTestCase extends TestCase
         \Mockery::close();
     }
 
-    protected function getInstance(): ToncenterHttpClient
+    protected function getInstance(): ToncenterHttpV2Client
     {
-        return new ToncenterHttpClient(
+        return new ToncenterHttpV2Client(
             $this->httpClientMock,
             new ClientOptions(
                 baseUri: "https://toncenter.local/api/v2",
