@@ -514,14 +514,35 @@ class ToncenterHttpV2Client implements ToncenterV2Client
     /**
      * @inheritDoc
      */
-    public function estimateFee(array $body): TonResponse
+    public function estimateFee(
+        Address | string $address,
+        Cell | Uint8Array | string $body,
+        Cell | Uint8Array | string | null $initCode = null,
+        Cell | Uint8Array | string | null $initData = null,
+        bool $ignoreChksig = true,
+    ): BigInteger
     {
-        return $this
+        $params = [
+            "address" => (string)$address,
+            "body" => $this->serializeBoc($body),
+            "ignore_chksig" => $ignoreChksig,
+        ];
+
+        if ($initCode !== null) {
+            $params["init_code"] = $this->serializeBoc($initCode);
+        }
+
+        if ($initData !== null) {
+            $params["init_data"] = $this->serializeBoc($initData);
+        }
+
+        $response = $this
             ->query([
-                "method" => "estimateFee",
+                "method" => $params,
                 "params" => $body,
-            ])
-            ->asTonResponse();
+            ]);
+
+        return BigInteger::fromBase((string)$response->result, 10);
     }
 
     /**
@@ -567,6 +588,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
     }
 
     /**
+     * @param array{method: string, params: array} $params
      * @throws ClientException
      * @throws ValidationException
      * @throws TimeoutException

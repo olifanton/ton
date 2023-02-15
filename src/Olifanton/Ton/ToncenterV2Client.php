@@ -3,6 +3,7 @@
 namespace Olifanton\Ton;
 
 use Brick\Math\BigInteger;
+use JetBrains\PhpStorm\ArrayShape;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Models\AddressState;
 use Olifanton\Ton\Models\JsonRpcResponse;
@@ -339,6 +340,7 @@ interface ToncenterV2Client
      * This method takes address, body and init-params (if any), packs it to external message and sends to network.
      * All params should be boc-serialized.
      *
+     * @param array{addres: string, body: string, init_code?: string, init_data?: string} $body
      * @link https://toncenter.com/api/v2/#/send/send_query_sendQuery_post
      *
      * @throws ValidationException
@@ -350,18 +352,29 @@ interface ToncenterV2Client
     /**
      * Estimate fees required for query processing. body, init-code and init-data accepted in serialized format (b64-encoded).
      *
+     * @param Address|string $address Address in any format
+     * @param Cell|Uint8Array|string $body b64-encoded cell with message body
+     * @param Cell|Uint8Array|string|null $initCode b64-encoded cell with init-code
+     * @param Cell|Uint8Array|string|null $initData b64-encoded cell with init-data
+     * @param bool $ignoreChksig If true during test query processing assume that all chksig operations return True
      * @link https://toncenter.com/api/v2/#/send/estimate_fee_estimateFee_post
      *
      * @throws ValidationException
      * @throws TimeoutException
      * @throws ClientException
      */
-    public function estimateFee(array $body): TonResponse;
+    public function estimateFee(
+        Address | string $address,
+        Cell | Uint8Array | string $body,
+        Cell | Uint8Array | string | null $initCode = null,
+        Cell | Uint8Array | string | null $initData = null,
+        bool $ignoreChksig = true,
+    ): BigInteger;
 
     /**
      * All methods in the API are available through JSON-RPC protocol.
      *
-     * @param array $params
+     * @param array{method: string, params: array} $params
      * @return JsonRpcResponse
      * @link https://toncenter.com/api/v2/#/json%20rpc/jsonrpc_handler_jsonRPC_post
      *
