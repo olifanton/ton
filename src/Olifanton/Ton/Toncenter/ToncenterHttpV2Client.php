@@ -33,7 +33,6 @@ use Olifanton\Ton\Toncenter\Responses\TransactionsList;
 use Olifanton\Ton\Toncenter\Responses\UnrecognizedSmcRunResult;
 use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterV2Client;
-use Olifanton\Ton\Version;
 use Olifanton\Interop\Address;
 use Olifanton\TypedArrays\Uint8Array;
 
@@ -598,7 +597,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
         $headers = [
             "Content-Type" => "application/json",
             "Accept" => "application/json",
-            "User-Agent" => "olifanton-client/" . Version::LIBRARY_VERSION . " php/" . PHP_VERSION,
+            "User-Agent" => "php-olifanton-client/php-" . PHP_VERSION,
         ];
 
         if ($this->options->apiKey) {

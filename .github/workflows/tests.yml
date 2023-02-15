@@ -79,6 +79,10 @@ jobs:
           cp .env.dist .env
           sed -i -e "s/\%TONCENTER_API_KEY\%/${{ env.TONCENTER_API_KEY }}/g" .env
 
+      - name: Run Phplint
+        run: |
+          composer run phplint
+
       - name: Run tests with Phpunit
         run: |
           composer run test:unit

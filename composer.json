@@ -29,7 +29,7 @@
       "role": "Developer"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
     "php": ">=8.1",
     "ext-hash": "*",
@@ -41,8 +41,9 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
-    "vlucas/phpdotenv": "5.4.x-dev",
-    "mockery/mockery": "^1.5"
+    "vlucas/phpdotenv": "^5.4",
+    "mockery/mockery": "^1.5",
+    "overtrue/phplint": "^9.0"
   },
   "replace": {
     "symfony/polyfill-mbstring": "*",
@@ -53,6 +54,7 @@
     "test:unit": "XDEBUG_MODE=coverage phpunit --testsuite unit",
     "test:cr": "XDEBUG_MODE=coverage phpunit --coverage-html build",
     "test:integration": "phpunit --testsuite integration --no-coverage",
+    "phplint": "phplint -c .phplint.yml",
     "test": [
       "@test:unit",
       "@test:integration"
