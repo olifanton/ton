@@ -55,15 +55,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
             ],
         ]);
 
-        try {
-            return Hydrator::extract(FullAccountState::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract FullAccountState response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(FullAccountState::class, $response->result);
     }
 
     /**
@@ -79,15 +71,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 ],
             ]);
 
-        try {
-            return Hydrator::extract(ExtendedFullAccountState::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract ExtendedFullAccountState response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(ExtendedFullAccountState::class, $response->result);
     }
 
     /**
@@ -103,15 +87,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 ],
             ]);
 
-        try {
-            return Hydrator::extract(WalletInformation::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract WalletInformation response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(WalletInformation::class, $response->result);
     }
 
     /**
@@ -153,15 +129,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
             "params" => $params,
         ]);
 
-        try {
-            return Hydrator::extract(TransactionsList::class, ["items" => $response->result]);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract array of Transactions: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(TransactionsList::class, ["items" => $response->result]);
     }
 
     /**
@@ -244,15 +212,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
             ],
         ]);
 
-        try {
-            return Hydrator::extract(AddressDetectionResult::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract AddressDetectionResult response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(AddressDetectionResult::class, $response->result);
     }
 
     /**
@@ -265,15 +225,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
             "params" => [],
         ]);
 
-        try {
-            return Hydrator::extract(MasterchainInfo::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract MasterchainInfo response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(MasterchainInfo::class, $response->result);
     }
 
     /**
@@ -286,15 +238,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
             "params" => [],
         ]);
 
-        try {
-            return Hydrator::extract(ConsensusBlock::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract ConsensusBlock response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(ConsensusBlock::class, $response->result);
     }
 
     /**
@@ -332,15 +276,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
             "params" => $params,
         ]);
 
-        try {
-            return Hydrator::extract(BlockIdExt::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract BlockIdExt response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(BlockIdExt::class, $response->result);
     }
 
     /**
@@ -356,15 +292,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 ],
             ]);
 
-        try {
-            return Hydrator::extract(Shards::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract BlockIdExt response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(Shards::class, $response->result);
     }
 
     /**
@@ -411,15 +339,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 "params" => $params,
             ]);
 
-        try {
-            return Hydrator::extract(BlockTransactions::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract BlockTransactions response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(BlockTransactions::class, $response->result);
     }
 
     /**
@@ -451,15 +371,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 "params" => $params,
             ]);
 
-        try {
-            return Hydrator::extract(BlockHeader::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract BlockHeader response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(BlockHeader::class, $response->result);
     }
 
     /**
@@ -477,15 +389,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 ],
             ]);
 
-        try {
-            return Hydrator::extract(Transaction::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract Transaction response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(Transaction::class, $response->result);
     }
 
     /**
@@ -503,15 +407,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 ],
             ]);
 
-        try {
-            return Hydrator::extract(Transaction::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract Transaction response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(Transaction::class, $response->result);
     }
 
     /**
@@ -529,15 +425,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 ],
             ]);
 
-        try {
-            return Hydrator::extract(Transaction::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract Transaction response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(Transaction::class, $response->result);
     }
 
     /**
@@ -559,15 +447,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 "params" => $params,
             ]);
 
-        try {
-            return Hydrator::extract(ConfigInfo::class, $response->result['config']);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract ConfigInfo response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(ConfigInfo::class, $response->result['config']);
     }
 
     /**
@@ -585,15 +465,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 ],
             ]);
 
-        try {
-            return Hydrator::extract(UnrecognizedSmcRunResult::class, $response->result);
-        } catch (MarshallingException $e) {
-            throw new ClientException(
-                "Unable to extract UnrecognizedSmcRunResult response: " . $e->getMessage(),
-                $e->getCode(),
-                $e,
-            );
-        }
+        return $this->hydrateResponseModel(UnrecognizedSmcRunResult::class, $response->result);
     }
 
     /**
@@ -796,6 +668,28 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 $e,
             );
         }
+    }
+
+    /**
+     * @template T
+     * @param class-string<T> $responseClazz
+     * @param mixed $data
+     * @return T
+     * @throws ClientException
+     */
+    private function hydrateResponseModel(string $responseClazz, mixed $data)
+    {
+        try {
+            return Hydrator::extract($responseClazz, $data);
+        // @codeCoverageIgnoreStart
+        } catch (MarshallingException $e) {
+            throw new ClientException(
+                "Unable to extract $responseClazz response: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
+        // @codeCoverageIgnoreEnd
     }
 
     private function tryExtractError(string $responseBody): array
