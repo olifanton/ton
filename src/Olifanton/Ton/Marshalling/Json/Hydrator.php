@@ -16,7 +16,7 @@ class Hydrator
      * @template T
      * @param class-string<T> $objClazz
      * @param array|string $data
-     * @return T
+     * @return T & object
      * @throws MarshallingException
      */
     public static function extract(string $objClazz, array|string $data): object
@@ -31,12 +31,12 @@ class Hydrator
 
         try {
             $reflectionClass = new \ReflectionClass($objClazz);
-        } catch (\ReflectionException $e) {
+        } catch (\ReflectionException $e) { // @phpstan-ignore-line
             throw new MarshallingException($e->getMessage(), $e->getCode(), $e);
         }
 
-        /** @var T $instance */
         try {
+            /** @var T $instance */
             $instance = $reflectionClass->newInstanceWithoutConstructor();
         } catch (\ReflectionException $e) {
             throw new MarshallingException($e->getMessage(), $e->getCode(), $e);

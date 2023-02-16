@@ -17,7 +17,7 @@ abstract class ToncenterHttpClientUTestCase extends TestCase
 
     protected function setUp(): void
     {
-        $this->httpClientMock = \Mockery::mock(ClientInterface::class);
+        $this->httpClientMock = \Mockery::mock(ClientInterface::class); // @phpstan-ignore-line
     }
 
     protected function tearDown(): void

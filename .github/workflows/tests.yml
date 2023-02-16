@@ -83,6 +83,10 @@ jobs:
         run: |
           composer run phplint
 
+      - name: Run Phpstan
+        run: |
+          composer run phpstan
+
       - name: Run tests with Phpunit
         run: |
           composer run test:unit

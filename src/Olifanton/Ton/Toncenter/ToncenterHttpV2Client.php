@@ -537,8 +537,8 @@ class ToncenterHttpV2Client implements ToncenterV2Client
 
         $response = $this
             ->query([
-                "method" => $params,
-                "params" => $body,
+                "method" => "estimateFee",
+                "params" => $params,
             ]);
 
         return BigInteger::fromBase((string)$response->result, 10);
@@ -587,7 +587,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
     }
 
     /**
-     * @param array{method: string, params: array} $params
+     * @param array{method: string, params: array, jsonrpc?: string, id?: string} $params
      * @throws ClientException
      * @throws ValidationException
      * @throws TimeoutException
@@ -721,7 +721,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
             if (isset($body["error"], $body["code"])) {
                 return [(int)$body["code"], $body["error"]];
             }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable) {}
 
         return [null, null];
     }

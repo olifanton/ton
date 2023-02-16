@@ -3,6 +3,7 @@
 namespace Olifanton\Ton\Marshalling\Json;
 
 use Olifanton\Ton\Marshalling\Attributes\JsonMap;
+use ReflectionNamedType;
 
 trait EnsureJsonMapTrait
 {
@@ -28,13 +29,16 @@ trait EnsureJsonMapTrait
                 $propertyName = $reflectionProperty->getName();
                 $jsonMapAttr = $defineGetterAttrs[0];
                 $jsonMapAttrArgs = self::normalizeAttributeArguments($jsonMapAttr->getArguments());
+                /** @var ReflectionNamedType|null $propertyType */
                 $propertyType = $reflectionProperty->getType();
                 $map[$propertyName] = [
                     "result_name" => !empty($jsonMapAttrArgs['propertyName'])
                         ? $jsonMapAttrArgs['propertyName']
                         : $propertyName,
                     "serializer" => $jsonMapAttrArgs['serializer'],
-                    "type" => $propertyType?->getName(),
+                    "type" => ($propertyType instanceof ReflectionNamedType)
+                        ? $propertyType->getName()
+                        : null,
                     "type_allows_null" => $propertyType?->allowsNull(),
                     "param0" => $jsonMapAttrArgs['param0'],
                     "param1" => $jsonMapAttrArgs['param1'],
