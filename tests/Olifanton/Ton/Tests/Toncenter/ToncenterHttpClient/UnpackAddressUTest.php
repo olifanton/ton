@@ -9,11 +9,7 @@ class UnpackAddressUTest extends ToncenterHttpClientUTestCase
      */
     public function testSuccess(): void
     {
-        $response = $this->createResponseDataStub("unpackAddress/valid");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("unpackAddress/valid");
 
         $instance = $this->getInstance();
         $result = $instance->unpackAddress("EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N");

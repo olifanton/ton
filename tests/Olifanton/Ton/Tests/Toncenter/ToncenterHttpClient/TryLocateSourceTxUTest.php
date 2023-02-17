@@ -12,11 +12,7 @@ class TryLocateSourceTxUTest extends ToncenterHttpClientUTestCase
      */
     public function testSuccess(): void
     {
-        $response = $this->createResponseDataStub("tryLocateSourceTx/result");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("tryLocateSourceTx/result");
 
         $instance = $this->getInstance();
 

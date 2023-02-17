@@ -24,11 +24,7 @@ class LookupBlockUTest extends ToncenterHttpClientUTestCase
      */
     public function testSuccess(): void
     {
-        $response = $this->createResponseDataStub("lookupBlock/result");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("lookupBlock/result");
 
         $instance = $this->getInstance();
         $result = $instance->lookupBlock(-1, "-9223372036854775808", 24226820);

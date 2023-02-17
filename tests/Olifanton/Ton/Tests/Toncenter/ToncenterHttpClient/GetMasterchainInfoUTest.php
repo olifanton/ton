@@ -9,11 +9,7 @@ class GetMasterchainInfoUTest extends ToncenterHttpClientUTestCase
      */
     public function testInfo(): void
     {
-        $response = $this->createResponseDataStub("getMasterchainInfo/info");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getMasterchainInfo/info");
 
         $instance = $this->getInstance();
         $result = $instance->getMasterchainInfo();

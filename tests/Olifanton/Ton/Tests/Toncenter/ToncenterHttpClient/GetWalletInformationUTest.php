@@ -11,11 +11,7 @@ class GetWalletInformationUTest extends ToncenterHttpClientUTestCase
      */
     public function testUninitialized(): void
     {
-        $response = $this->createResponseDataStub("getWalletInformation/uninitialized");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getWalletInformation/uninitialized");
 
         $instance = $this->getInstance();
         $result = $instance->getWalletInformation($this->createAddressStub());
@@ -32,11 +28,7 @@ class GetWalletInformationUTest extends ToncenterHttpClientUTestCase
      */
     public function testV3(): void
     {
-        $response = $this->createResponseDataStub("getWalletInformation/v3");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getWalletInformation/v3");
 
         $instance = $this->getInstance();
         $result = $instance->getWalletInformation($this->createAddressStub());

@@ -2,8 +2,8 @@
 
 namespace Olifanton\Ton\Tests\Toncenter\ToncenterHttpClient;
 
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
+use Http\Client\Common\HttpMethodsClientInterface;
 use Mockery\MockInterface;
 use Olifanton\Ton\ClientOptions;
 use Olifanton\Ton\Toncenter\ToncenterHttpV2Client;
@@ -13,11 +13,11 @@ use Psr\Http\Message\ResponseInterface;
 
 abstract class ToncenterHttpClientUTestCase extends TestCase
 {
-    protected ClientInterface & MockInterface $httpClientMock;
+    protected HttpMethodsClientInterface & MockInterface $httpClientMock;
 
     protected function setUp(): void
     {
-        $this->httpClientMock = \Mockery::mock(ClientInterface::class); // @phpstan-ignore-line
+        $this->httpClientMock = \Mockery::mock(HttpMethodsClientInterface::class); // @phpstan-ignore-line
     }
 
     protected function tearDown(): void
@@ -65,5 +65,17 @@ abstract class ToncenterHttpClientUTestCase extends TestCase
     protected function createAddressStub(): Address
     {
         return new Address("EQD__________________________________________0vo");
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    protected function prepareSendMock(string $dataFile): void
+    {
+        $response = $this->createResponseDataStub($dataFile);
+        $this
+            ->httpClientMock
+            ->shouldReceive("send")
+            ->andReturn($response);
     }
 }

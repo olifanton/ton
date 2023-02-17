@@ -9,11 +9,7 @@ class RunGetMethodUTest extends ToncenterHttpClientUTestCase
      */
     public function testSuccess(): void
     {
-        $response = $this->createResponseDataStub("runGetMethod/result");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("runGetMethod/result");
 
         $instance = $this->getInstance();
         $result = $instance->runGetMethod("kf_NSzfDJI1A3rOM0GQm7xsoUXHTgmdhN5-OrGD8uwL2JMvQ", "seqno");

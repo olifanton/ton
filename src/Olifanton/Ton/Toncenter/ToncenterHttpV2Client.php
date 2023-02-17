@@ -3,9 +3,7 @@
 namespace Olifanton\Ton\Toncenter;
 
 use Brick\Math\BigInteger;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Psr7\Request;
+use Http\Client\Common\HttpMethodsClientInterface;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Interop\Bytes;
@@ -35,10 +33,13 @@ use Olifanton\Ton\Toncenter\Responses\WalletInformation;
 use Olifanton\Ton\ToncenterV2Client;
 use Olifanton\Interop\Address;
 use Olifanton\TypedArrays\Uint8Array;
+use Psr\Http\Client\ClientExceptionInterface;
 
 class ToncenterHttpV2Client implements ToncenterV2Client
 {
-    public function __construct(private readonly ClientInterface $httpClient, private readonly ClientOptions $options)
+    public function __construct(private readonly HttpMethodsClientInterface $httpClient,
+                                private readonly ClientOptions $options,
+    )
     {
     }
 
@@ -613,23 +614,21 @@ class ToncenterHttpV2Client implements ToncenterV2Client
         }
 
         try {
-            $request = new Request(
-                "POST",
-                $this->options->baseUri . "/jsonRPC",
-                $headers,
-                json_encode($params, JSON_THROW_ON_ERROR),
-            );
-            $response = $this->httpClient->send($request);
+            $response = $this
+                ->httpClient
+                ->send(
+                    "POST",
+                    $this->options->baseUri . "/jsonRPC",
+                    $headers,
+                    json_encode($params, JSON_THROW_ON_ERROR),
+                );
 
-            return $this->hydrateJsonRpcResponse($response->getBody()->getContents());
-        } catch (\JsonException $e) {
-            throw new ClientException(
-                "JSON RPC body serialization error: " . $e->getMessage(),
-                $e->getCode(),
-                $e
-            );
-        } catch (BadResponseException $e) {
-            $response = $e->getResponse();
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode === 200) {
+                return $this->hydrateJsonRpcResponse($response->getBody()->getContents());
+            }
+
             $statusCode = $response->getStatusCode();
             $responseBody = $response->getBody()->getContents();
             [$errCode, $errMessage] = $this->tryExtractError($responseBody);
@@ -638,20 +637,29 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 throw new ValidationException(
                     ($errMessage) ?: "Validation error",
                     ($errCode) ?: $statusCode,
-                    $e
                 );
             } else if ($statusCode === 504) {
                 throw new TimeoutException(
                     ($errMessage) ?: "Lite Server Timeout",
                     ($errCode) ?: $statusCode,
-                    $e
                 );
             }
 
             throw new ClientException(
-                ($errMessage) ?: "Toncenter request error: " . $e->getMessage(),
+                ($errMessage) ?: "Toncenter request error: " . $response->getReasonPhrase(),
                 ($errCode) ?: $statusCode,
+            );
+        } catch (\JsonException $e) {
+            throw new ClientException(
+                "JSON RPC body serialization error: " . $e->getMessage(),
+                $e->getCode(),
                 $e
+            );
+        } catch (ClientExceptionInterface $e) {
+            throw new ClientException(
+                "Toncenter client request error: " . $e->getMessage(),
+                0,
+                $e,
             );
         } catch (\Throwable $e) {
             throw new ClientException(

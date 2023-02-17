@@ -9,11 +9,7 @@ class GetAddressBalanceUTest extends ToncenterHttpClientUTestCase
      */
     public function testActive(): void
     {
-        $response = $this->createResponseDataStub("getAddressBalance/active");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getAddressBalance/active");
 
         $instance = $this->getInstance();
         $result = $instance->getAddressBalance($this->createAddressStub());
@@ -26,11 +22,7 @@ class GetAddressBalanceUTest extends ToncenterHttpClientUTestCase
      */
     public function testUninitialized(): void
     {
-        $response = $this->createResponseDataStub("getAddressBalance/uninitialized");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getAddressBalance/uninitialized");
 
         $instance = $this->getInstance();
         $result = $instance->getAddressBalance($this->createAddressStub());

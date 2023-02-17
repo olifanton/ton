@@ -9,11 +9,7 @@ class GetBlockTransactionsUTest extends ToncenterHttpClientUTestCase
      */
     public function testSuccess(): void
     {
-        $response = $this->createResponseDataStub("getBlockTransactions/result");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getBlockTransactions/result");
 
         $instance = $this->getInstance();
         $result = $instance->getBlockTransactions(

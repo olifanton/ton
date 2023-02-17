@@ -12,11 +12,7 @@ class SendBocUTest extends ToncenterHttpClientUTestCase
      */
     public function testStringBoc(): void
     {
-        $response = $this->createResponseDataStub("sendBoc/stub");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("sendBoc/stub");
 
         $result = $this
             ->getInstance()
@@ -30,11 +26,7 @@ class SendBocUTest extends ToncenterHttpClientUTestCase
      */
     public function testUint8ArrayBoc(): void
     {
-        $response = $this->createResponseDataStub("sendBoc/stub");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("sendBoc/stub");
 
         $result = $this
             ->getInstance()
@@ -48,11 +40,7 @@ class SendBocUTest extends ToncenterHttpClientUTestCase
      */
     public function testCellBoc(): void
     {
-        $response = $this->createResponseDataStub("sendBoc/stub");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("sendBoc/stub");
 
         $result = $this
             ->getInstance()

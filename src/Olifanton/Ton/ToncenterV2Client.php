@@ -3,7 +3,6 @@
 namespace Olifanton\Ton;
 
 use Brick\Math\BigInteger;
-use JetBrains\PhpStorm\ArrayShape;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Models\AddressState;
 use Olifanton\Ton\Models\JsonRpcResponse;

@@ -11,11 +11,7 @@ class GetAddressStateUTest extends ToncenterHttpClientUTestCase
      */
     public function testActive(): void
     {
-        $response = $this->createResponseDataStub("getAddressState/active");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getAddressState/active");
 
         $instance = $this->getInstance();
         $result = $instance->getAddressState($this->createAddressStub());
@@ -28,11 +24,7 @@ class GetAddressStateUTest extends ToncenterHttpClientUTestCase
      */
     public function testUninitialized(): void
     {
-        $response = $this->createResponseDataStub("getAddressState/uninitialized");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getAddressState/uninitialized");
 
         $instance = $this->getInstance();
         $result = $instance->getAddressState($this->createAddressStub());
@@ -45,11 +37,7 @@ class GetAddressStateUTest extends ToncenterHttpClientUTestCase
      */
     public function testUnknown(): void
     {
-        $response = $this->createResponseDataStub("getAddressState/unknown");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getAddressState/unknown");
 
         $instance = $this->getInstance();
         $result = $instance->getAddressState($this->createAddressStub());

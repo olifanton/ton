@@ -9,11 +9,7 @@ class ShardsUTest extends ToncenterHttpClientUTestCase
      */
     public function testSuccess(): void
     {
-        $response = $this->createResponseDataStub("shards/result");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("shards/result");
 
         $instance = $this->getInstance();
         $result = $instance->shards(29774672);

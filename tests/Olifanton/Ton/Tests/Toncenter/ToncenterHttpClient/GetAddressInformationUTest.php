@@ -12,11 +12,7 @@ class GetAddressInformationUTest extends ToncenterHttpClientUTestCase
      */
     public function testUninitialized(): void
     {
-        $response = $this->createResponseDataStub("getAddressInformation/uninitialized");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getAddressInformation/uninitialized");
 
         $instance = $this->getInstance();
         $result = $instance->getAddressInformation($this->createAddressStub());
@@ -41,11 +37,7 @@ class GetAddressInformationUTest extends ToncenterHttpClientUTestCase
      */
     public function testActive(): void
     {
-        $response = $this->createResponseDataStub("getAddressInformation/active");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getAddressInformation/active");
 
         $instance = $this->getInstance();
         $result = $instance->getAddressInformation($this->createAddressStub());

@@ -11,11 +11,7 @@ class GetExtendedAddressInformationUTest extends ToncenterHttpClientUTestCase
      */
     public function testUninitialized(): void
     {
-        $response = $this->createResponseDataStub("getExtendedAddressInformation/uninitialized");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getExtendedAddressInformation/uninitialized");
 
         $instance = $this->getInstance();
         $result = $instance->getExtendedAddressInformation($this->createAddressStub());
@@ -45,11 +41,7 @@ class GetExtendedAddressInformationUTest extends ToncenterHttpClientUTestCase
      */
     public function testActiveUnknown(): void
     {
-        $response = $this->createResponseDataStub("getExtendedAddressInformation/active-unknown");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getExtendedAddressInformation/active-unknown");
 
         $instance = $this->getInstance();
         $result = $instance->getExtendedAddressInformation($this->createAddressStub());
@@ -86,11 +78,7 @@ class GetExtendedAddressInformationUTest extends ToncenterHttpClientUTestCase
      */
     public function testActiveV3(): void
     {
-        $response = $this->createResponseDataStub("getExtendedAddressInformation/active-v3");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getExtendedAddressInformation/active-v3");
 
         $instance = $this->getInstance();
         $result = $instance->getExtendedAddressInformation($this->createAddressStub());

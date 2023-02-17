@@ -9,11 +9,7 @@ class GetBlockHeaderUTest extends ToncenterHttpClientUTestCase
      */
     public function testSuccess(): void
     {
-        $response = $this->createResponseDataStub("getBlockHeader/result");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getBlockHeader/result");
 
         $instance = $this->getInstance();
         $result = $instance->getBlockHeader(

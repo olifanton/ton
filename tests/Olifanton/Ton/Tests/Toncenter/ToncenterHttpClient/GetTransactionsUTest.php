@@ -11,11 +11,7 @@ class GetTransactionsUTest extends ToncenterHttpClientUTestCase
      */
     public function testActive0(): void
     {
-        $response = $this->createResponseDataStub("getTransactions/active0");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getTransactions/active0");
 
         $instance = $this->getInstance();
         $result = $instance->getTransactions($this->createAddressStub());
@@ -97,11 +93,7 @@ class GetTransactionsUTest extends ToncenterHttpClientUTestCase
      */
     public function testActive1(): void
     {
-        $response = $this->createResponseDataStub("getTransactions/active1");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getTransactions/active1");
 
         $instance = $this->getInstance();
         $result = $instance->getTransactions($this->createAddressStub());
@@ -166,11 +158,7 @@ class GetTransactionsUTest extends ToncenterHttpClientUTestCase
      */
     public function testActive2(): void
     {
-        $response = $this->createResponseDataStub("getTransactions/active2");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getTransactions/active2");
 
         $instance = $this->getInstance();
         $result = $instance->getTransactions($this->createAddressStub());
@@ -183,11 +171,7 @@ class GetTransactionsUTest extends ToncenterHttpClientUTestCase
      */
     public function testActive3(): void
     {
-        $response = $this->createResponseDataStub("getTransactions/active3");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("getTransactions/active3");
 
         $instance = $this->getInstance();
         $result = $instance->getTransactions($this->createAddressStub());

@@ -9,11 +9,7 @@ class DetectAddressUTest extends ToncenterHttpClientUTestCase
      */
     public function testFriendlyBounceable(): void
     {
-        $response = $this->createResponseDataStub("detectAddress/friendly-bounceable");
-        $this
-            ->httpClientMock
-            ->shouldReceive("send")
-            ->andReturn($response);
+        $this->prepareSendMock("detectAddress/friendly-bounceable");
 
         $instance = $this->getInstance();
         $result = $instance->detectAddress("EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N");
