@@ -8,8 +8,9 @@ use ReflectionNamedType;
 trait EnsureJsonMapTrait
 {
     /**
-     * @throws \ReflectionException
+     * @param class-string $messageClazz
      * @return array<string, array>|null
+     * @throws \ReflectionException
      */
     protected static function ensureJsonMap(string $messageClazz): ?array
     {

@@ -4,6 +4,9 @@ namespace Olifanton\Ton\Marshalling\Attributes;
 
 use Attribute;
 
+/**
+ * @codeCoverageIgnore
+ */
 #[Attribute(Attribute::TARGET_PROPERTY)]
 class JsonMap
 {

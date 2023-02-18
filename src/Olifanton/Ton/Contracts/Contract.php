@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Olifanton\Ton;
+namespace Olifanton\Ton\Contracts;
 
+use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
-use Olifanton\Interop\Address;
 
 interface Contract
 {

@@ -2,9 +2,15 @@
 
 namespace Olifanton\Ton\Contracts;
 
+use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
-use Olifanton\Ton\Contract;
+use Olifanton\Interop\Boc\Exceptions\BitStringException;
+use Olifanton\Interop\Boc\Exceptions\CellException;
+use Olifanton\Interop\Bytes;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
+use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
+use Olifanton\Ton\Messages\StateInit;
+use Olifanton\TypedArrays\Uint8Array;
 
 abstract class AbstractContract implements Contract
 {
@@ -12,15 +18,17 @@ abstract class AbstractContract implements Contract
 
     protected ?Cell $data = null;
 
-    /**
-     * @throws ContractException
-     */
-    protected abstract function createCode(): Cell;
+    protected Uint8Array $publicKey;
 
-    /**
-     * @throws ContractException
-     */
-    protected abstract function createData(): Cell;
+    protected int $wc;
+
+    private ?Address $address = null;
+
+    public function __construct(Uint8Array $publicKey, int $wc)
+    {
+        $this->publicKey = $publicKey;
+        $this->wc = $wc;
+    }
 
     public function getCode(): Cell
     {
@@ -38,5 +46,44 @@ abstract class AbstractContract implements Contract
         }
 
         return $this->data;
+    }
+
+    public function getAddress(): Address
+    {
+        if (!$this->address) {
+            try {
+                $cell = new Cell();
+                $state = new StateInit($this->getCode(), $this->getData());
+                $state->writeTo($cell);
+
+                $this->address = new Address($this->getWc() . ":" . Bytes::bytesToHexString($cell->hash()));
+            // @codeCoverageIgnoreStart
+            } catch (BitStringException | CellException $e) {
+                throw new WalletException("Address calculation error: " . $e->getMessage(), $e->getCode(), $e);
+            }
+            // @codeCoverageIgnoreEnd
+        }
+
+        return $this->address;
+    }
+
+    /**
+     * @throws ContractException
+     */
+    protected abstract function createCode(): Cell;
+
+    /**
+     * @throws ContractException
+     */
+    protected abstract function createData(): Cell;
+
+    protected function getPublicKey(): Uint8Array
+    {
+        return $this->publicKey;
+    }
+
+    protected function getWc(): int
+    {
+        return $this->wc;
     }
 }

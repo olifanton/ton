@@ -4,9 +4,9 @@ namespace Olifanton\Ton\Contracts\Wallets\V4;
 
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\BitStringException;
-use Olifanton\Ton\Contracts\Wallet;
 use Olifanton\Ton\Contracts\Wallets\AbstractWallet;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
+use Olifanton\Ton\Contracts\Wallets\Wallet;
 
 abstract class WalletV4 extends AbstractWallet implements Wallet
 {
