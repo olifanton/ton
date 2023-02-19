@@ -5,8 +5,8 @@ namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Olifanton\Ton\ClientOptions;
-use Olifanton\Ton\Toncenter\ToncenterHttpV2Client;
+use Olifanton\Ton\Transports\Toncenter\ClientOptions;
+use Olifanton\Ton\Transports\Toncenter\ToncenterHttpV2Client;
 use PHPUnit\Framework\TestCase;
 
 abstract class ToncenterHttpClientITestCase extends TestCase

@@ -2,9 +2,9 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
-use Olifanton\Ton\Models\AddressState;
-use Olifanton\Ton\Toncenter\Exceptions\ClientException;
 use Olifanton\Interop\Address;
+use Olifanton\Ton\AddressState;
+use Olifanton\Ton\Transports\Toncenter\Exceptions\ClientException;
 
 class GetAddressInformationITest extends ToncenterHttpClientITestCase
 {

@@ -7,4 +7,4 @@ parameters:
   tmpDir: build
   ignoreErrors:
     - message: '#has an uninitialized readonly property#'
-      path: src/Olifanton/Ton/Toncenter/Responses/*
+      path: src/Olifanton/Ton/Transports/Toncenter/Responses/*

@@ -2,8 +2,8 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
-use Olifanton\Ton\Models\AddressState;
 use Olifanton\Interop\Address;
+use Olifanton\Ton\AddressState;
 
 class GetWalletInformationITest extends ToncenterHttpClientITestCase
 {
