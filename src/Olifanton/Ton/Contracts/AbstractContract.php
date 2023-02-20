@@ -7,13 +7,20 @@ use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\BitStringException;
 use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Interop\Bytes;
+use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
+use Olifanton\Ton\Contracts\Traits\TransportAwareTrait;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Messages\StateInit;
 use Olifanton\TypedArrays\Uint8Array;
 
-abstract class AbstractContract implements Contract
+/**
+ * @phpstan-consistent-constructor
+ */
+abstract class AbstractContract implements Contract, TransportAwareInterface
 {
+    use TransportAwareTrait;
+
     protected ?Cell $code = null;
 
     protected ?Cell $data = null;
@@ -65,6 +72,14 @@ abstract class AbstractContract implements Contract
         }
 
         return $this->address;
+    }
+
+    public static function create(Uint8Array $publicKey, int $wc): Contract
+    {
+        return new static(
+            $publicKey,
+            $wc,
+        );
     }
 
     /**

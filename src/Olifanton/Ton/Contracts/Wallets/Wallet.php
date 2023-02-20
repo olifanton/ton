@@ -2,7 +2,7 @@
 
 namespace Olifanton\Ton\Contracts\Wallets;
 
-use Olifanton\Ton\Contracts\Contract;
+use Olifanton\Ton\Contract;
 
 interface Wallet extends Contract
 {

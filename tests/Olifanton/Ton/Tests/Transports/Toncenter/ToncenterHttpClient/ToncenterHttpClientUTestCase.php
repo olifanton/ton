@@ -25,6 +25,22 @@ abstract class ToncenterHttpClientUTestCase extends TestCase
         \Mockery::close();
     }
 
+    /**
+     * @throws \JsonException
+     */
+    public static function getDataStub(string $datafile, bool $asArray = true): string | array
+    {
+        $filePath = STUB_DATA_DIR . "/toncenter-responses/" . $datafile . ".json";
+
+        if (!file_exists($filePath)) {
+            throw new \InvalidArgumentException("Stub file " .  $filePath . " not found");
+        }
+
+        $data = file_get_contents($filePath);
+
+        return $asArray ? json_decode($data, true, 512, JSON_THROW_ON_ERROR) : $data;
+    }
+
     protected function getInstance(): ToncenterHttpV2Client
     {
         return new ToncenterHttpV2Client(
@@ -53,13 +69,7 @@ abstract class ToncenterHttpClientUTestCase extends TestCase
      */
     protected function createResponseDataStub(string $datafile, int $status = 200): ResponseInterface
     {
-        $filePath = STUB_DATA_DIR . "/toncenter-responses/" . $datafile . ".json";
-
-        if (!file_exists($filePath)) {
-            throw new \InvalidArgumentException("Stub file " .  $filePath . " not found");
-        }
-
-        return $this->createResponseStub(file_get_contents($filePath), $status);
+        return $this->createResponseStub(self::getDataStub($datafile, false), $status);
     }
 
     protected function createAddressStub(): Address

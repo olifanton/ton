@@ -2,6 +2,9 @@
 
 namespace Olifanton\Ton\Tests\Stubs;
 
+use Olifanton\Interop\KeyPair;
+use Olifanton\Mnemonic\TonMnemonic;
+
 final class StubWords
 {
     public const WORDS = [
@@ -14,4 +17,12 @@ final class StubWords
         'jar',    'anxiety', 'click',
         'salon',  'canoe',   'lion',
     ];
+
+    /**
+     * @throws \Olifanton\Mnemonic\Exceptions\TonMnemonicException
+     */
+    public static function getKP(): KeyPair
+    {
+        return TonMnemonic::mnemonicToKeyPair(self::WORDS);
+    }
 }
