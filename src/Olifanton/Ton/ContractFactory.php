@@ -5,6 +5,7 @@ namespace Olifanton\Ton;
 use Olifanton\Ton\Contracts\TransportAwareInterface;
 use Olifanton\TypedArrays\Uint8Array;
 
+// FIXME: Remove this factory
 class ContractFactory
 {
     public function __construct(
