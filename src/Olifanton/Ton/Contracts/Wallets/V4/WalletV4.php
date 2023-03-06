@@ -10,6 +10,11 @@ use Olifanton\Ton\Contracts\Wallets\Wallet;
 
 abstract class WalletV4 extends AbstractWallet implements Wallet
 {
+    public function __construct(protected readonly WalletV4Options $options)
+    {
+        parent::__construct($this->options);
+    }
+
     protected function createData(): Cell
     {
         try {
@@ -27,8 +32,6 @@ abstract class WalletV4 extends AbstractWallet implements Wallet
 
     protected function getWalletId(): int
     {
-        // @TODO: Create option `walletId`
-
-        return 698983191 + $this->getWc();
+        return $this->options->walletId + $this->getWc();
     }
 }

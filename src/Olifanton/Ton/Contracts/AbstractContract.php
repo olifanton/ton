@@ -10,31 +10,25 @@ use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Contracts\Messages\Exceptions\MessageException;
 use Olifanton\Ton\Contracts\Messages\StateInit;
-use Olifanton\Ton\Contracts\Traits\TransportAwareTrait;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\TypedArrays\Uint8Array;
 
-/**
- * @phpstan-consistent-constructor
- */
-abstract class AbstractContract implements Contract, TransportAwareInterface
+abstract class AbstractContract implements Contract
 {
-    use TransportAwareTrait;
+    protected Uint8Array $publicKey;
+
+    protected int $wc;
 
     protected ?Cell $code = null;
 
     protected ?Cell $data = null;
 
-    protected Uint8Array $publicKey;
-
-    protected int $wc;
-
     private ?Address $address = null;
 
-    public function __construct(Uint8Array $publicKey, int $wc)
+    public function __construct(ContractOptions $contractOptions)
     {
-        $this->publicKey = $publicKey;
-        $this->wc = $wc;
+        $this->publicKey = $contractOptions->publicKey;
+        $this->wc = $contractOptions->workchain;
     }
 
     public function getCode(): Cell
@@ -71,14 +65,6 @@ abstract class AbstractContract implements Contract, TransportAwareInterface
         return $this->address;
     }
 
-    public static function create(Uint8Array $publicKey, int $wc): Contract
-    {
-        return new static(
-            $publicKey,
-            $wc,
-        );
-    }
-
     /**
      * @throws ContractException
      */
@@ -89,12 +75,12 @@ abstract class AbstractContract implements Contract, TransportAwareInterface
      */
     protected abstract function createData(): Cell;
 
-    protected function getPublicKey(): Uint8Array
+    public function getPublicKey(): Uint8Array
     {
         return $this->publicKey;
     }
 
-    protected function getWc(): int
+    public function getWc(): int
     {
         return $this->wc;
     }

@@ -4,6 +4,7 @@ namespace Olifanton\Ton\Tests\Contracts\Wallets\Simple;
 
 use Olifanton\Mnemonic\Exceptions\TonMnemonicException;
 use Olifanton\Mnemonic\TonMnemonic;
+use Olifanton\Ton\Contracts\ContractOptions;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Contracts\Wallets\Simple\SimpleWalletR3;
@@ -23,7 +24,7 @@ class SimpleWalletR3Test extends TestCase
     public function testAddress(): void
     {
         $keyPair = TonMnemonic::mnemonicToKeyPair(StubWords::WORDS);
-        $wallet = new SimpleWalletR3($keyPair->publicKey, 0);
+        $wallet = new SimpleWalletR3(new ContractOptions(publicKey: $keyPair->publicKey));
         $this->assertEquals(
             "UQB2yHpZRbGebMkqULlerVI6XkmHFVYmxrZzhdh1tkbPvUpH",
             $wallet->getAddress()->toString(true, true),

@@ -4,12 +4,11 @@ namespace Olifanton\Ton\Tests\Transports\Toncenter\ToncenterTransport;
 
 use Hamcrest\Core\IsEqual;
 use Mockery\MockInterface;
-use Olifanton\Ton\ContractFactory;
+use Olifanton\Ton\Contracts\ContractOptions;
 use Olifanton\Ton\Contracts\Wallets\Simple\SimpleWalletR1;
 use Olifanton\Ton\Marshalling\Json\Hydrator;
 use Olifanton\Ton\Tests\Stubs\StubWords;
 use Olifanton\Ton\Tests\Transports\Toncenter\ToncenterHttpClient\ToncenterHttpClientUTestCase;
-use Olifanton\Ton\Transports\NullTransport\NullTransport;
 use Olifanton\Ton\Transports\Toncenter\Responses\UnrecognizedSmcRunResult;
 use Olifanton\Ton\Transports\Toncenter\ToncenterTransport;
 use Olifanton\Ton\Transports\Toncenter\ToncenterV2Client;
@@ -42,11 +41,7 @@ class RunGetMethodTest extends TestCase
     public function testRunSuccess(): void
     {
         $instance = $this->getInstance();
-        $wallet = (new ContractFactory(new NullTransport()))
-            ->get(
-                SimpleWalletR1::class,
-                StubWords::getKP()->publicKey,
-            );
+        $wallet = new SimpleWalletR1(new ContractOptions(publicKey: StubWords::getKP()->publicKey));
 
         /** @phpstan-ignore-next-line */
         $this
