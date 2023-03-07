@@ -53,7 +53,7 @@ abstract class AbstractContract implements Contract
     {
         if (!$this->address) {
             try {
-                $stateCell = (new StateInit($this->getCode(), $this->getData()))->cell();
+                $stateCell = $this->getStateInit()->cell();
                 $this->address = new Address($this->getWc() . ":" . Bytes::bytesToHexString($stateCell->hash()));
             // @codeCoverageIgnoreStart
             } catch (MessageException | CellException $e) {
@@ -63,6 +63,16 @@ abstract class AbstractContract implements Contract
         }
 
         return $this->address;
+    }
+
+    public function getPublicKey(): Uint8Array
+    {
+        return $this->publicKey;
+    }
+
+    public function getWc(): int
+    {
+        return $this->wc;
     }
 
     /**
@@ -75,13 +85,14 @@ abstract class AbstractContract implements Contract
      */
     protected abstract function createData(): Cell;
 
-    public function getPublicKey(): Uint8Array
+    /**
+     * @throws ContractException
+     */
+    protected function getStateInit(): StateInit
     {
-        return $this->publicKey;
-    }
-
-    public function getWc(): int
-    {
-        return $this->wc;
+        return new StateInit(
+            $this->getCode(),
+            $this->getData(),
+        );
     }
 }

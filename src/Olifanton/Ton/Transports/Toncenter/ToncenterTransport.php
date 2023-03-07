@@ -5,6 +5,7 @@ namespace Olifanton\Ton\Transports\Toncenter;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
+use Olifanton\Ton\Contracts\Messages\ResponseStack;
 use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Transport;
 use Olifanton\TypedArrays\Uint8Array;
@@ -21,7 +22,7 @@ class ToncenterTransport implements Transport
     /**
      * @inheritDoc
      */
-    public function runGetMethod(Contract $contract, string $method, array $stack = []): array // FIXME: Make types for stack
+    public function runGetMethod(Contract $contract, string $method, array $stack = []): ResponseStack
     {
         try {
             $address = $contract->getAddress();
@@ -34,14 +35,22 @@ class ToncenterTransport implements Transport
         }
 
         try {
-            return $this
+            $response = $this
                 ->client
                 ->runGetMethod(
                     $address,
                     $method,
                     $stack,
-                )
-                ->stack; // FIXME: Parse stack
+                );
+
+            if ($response->exitCode !== 0) {
+                throw new TransportException(
+                    "Non-zero exit code, error: " . $response->exitCode,
+                    $response->exitCode,
+                );
+            }
+
+            return ResponseStack::parse($response->stack);
         } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException $e) {
             throw new TransportException(
                 sprintf(
@@ -59,8 +68,23 @@ class ToncenterTransport implements Transport
     /**
      * @inheritDoc
      */
-    public function send(Uint8Array|string|Cell $boc): void
+    public function send(Uint8Array | string | Cell $boc): void
     {
-        // TODO: Implement send() method.
+        try {
+            $this
+                ->client
+                ->sendBoc(
+                    $boc,
+                );
+        } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException $e) {
+            throw new TransportException(
+                sprintf(
+                    "Sending error: %s",
+                    $e->getMessage(),
+                ),
+                0,
+                $e,
+            );
+        }
     }
 }
