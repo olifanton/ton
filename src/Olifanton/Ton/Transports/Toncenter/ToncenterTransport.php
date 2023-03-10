@@ -5,6 +5,7 @@ namespace Olifanton\Ton\Transports\Toncenter;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
+use Olifanton\Ton\Contracts\Messages\Exceptions\ResponseStackParsingException;
 use Olifanton\Ton\Contracts\Messages\ResponseStack;
 use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Transport;
@@ -43,9 +44,9 @@ class ToncenterTransport implements Transport
                     $stack,
                 );
 
-            if ($response->exitCode !== 0) {
+            if (!in_array($response->exitCode, [0, 1], true)) {
                 throw new TransportException(
-                    "Non-zero exit code, error: " . $response->exitCode,
+                    "Non-zero exit code, code: " . $response->exitCode,
                     $response->exitCode,
                 );
             }
@@ -55,6 +56,17 @@ class ToncenterTransport implements Transport
             throw new TransportException(
                 sprintf(
                     "Get method error: %s; address: %s, method: %s",
+                    $e->getMessage(),
+                    $address->toString(true),
+                    $method,
+                ),
+                0,
+                $e,
+            );
+        } catch (ResponseStackParsingException $e) {
+            throw new TransportException(
+                sprintf(
+                    "Stack parsing error: %s; address: %s, method: %s",
                     $e->getMessage(),
                     $address->toString(true),
                     $method,

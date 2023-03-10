@@ -7,17 +7,15 @@ use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Ton\Contracts\Messages\Exceptions\ResponseStackParsingException;
 
-class ResponseStack extends \SplStack
+class ResponseStack extends \SplQueue
 {
-    private function __construct()
-    {
-        $this->setIteratorMode(\SplDoublyLinkedList::IT_MODE_FIFO);
-    }
+    public const TYPE_NUM = 'num';
 
-    public static function empty(): self
-    {
-        return new self();
-    }
+    public const TYPE_LIST = 'list';
+
+    public const TYPE_TUPLE = 'tuple';
+
+    public const TYPE_CELL = 'cell';
 
     /**
      * @throws ResponseStackParsingException
@@ -28,23 +26,30 @@ class ResponseStack extends \SplStack
 
         foreach ($rawStack as $idx => [$typeName, $value]) {
             switch ($typeName) {
-                case 'num':
-                    $instance->push(BigInteger::fromBase(
-                        str_replace("0x", "", $value),
-                        16,
-                    ));
+                case self::TYPE_NUM:
+                    $instance->push([
+                        $typeName,
+                        BigInteger::fromBase(
+                            str_replace("0x", "", $value),
+                            16,
+                        ),
+                    ]);
                     break;
 
-                case "list":
-                case "tuple":
-                    $instance->push(
-                        array_map(static fn (array $entry) => self::parseObject($entry), $value)
-                    );
+                case self::TYPE_LIST:
+                case self::TYPE_TUPLE:
+                    $instance->push([
+                        $typeName,
+                        array_map(static fn (array $entry) => self::parseObject($entry), $value),
+                    ]);
                     break;
 
-                case "cell":
+                case self::TYPE_CELL:
                     try {
-                        $instance->push(Cell::oneFromBoc($value, true));
+                        $instance->push([
+                            $typeName,
+                            Cell::oneFromBoc($value, true),
+                        ]);
                     } catch (CellException $e) {
                         throw new ResponseStackParsingException(
                             sprintf(
@@ -65,7 +70,51 @@ class ResponseStack extends \SplStack
             }
         }
 
+        $instance->rewind();
+
         return $instance;
+    }
+
+    public function currentBigInteger(): ?BigInteger
+    {
+        return $this->currentInternal(self::TYPE_NUM);
+    }
+
+    public function currentList(): ?array
+    {
+        return $this->currentInternal(self::TYPE_LIST);
+    }
+
+    public function currentTuple(): ?array
+    {
+        return $this->currentInternal(self::TYPE_TUPLE);
+    }
+
+    public function currentCell(): ?Cell
+    {
+        return $this->currentInternal(self::TYPE_CELL);
+    }
+
+    public function current(): BigInteger|array|Cell|null
+    {
+        $curr = parent::current();
+
+        if (is_array($curr)) {
+            [$type, $currentValue] = $curr;
+
+            return $currentValue;
+        }
+
+        return null;
+    }
+
+    public static function empty(): self
+    {
+        return new self();
+    }
+
+    private function __construct()
+    {
     }
 
     /**
@@ -90,8 +139,9 @@ class ResponseStack extends \SplStack
         } catch (CellException $e) {
             throw new ResponseStackParsingException(
                 sprintf(
-                    "Cell deserialization error: %s",
+                    "Cell deserialization error: %s; type: %s",
                     $e->getMessage(),
+                    $typeName,
                 ),
                 $e->getCode(),
                 $e,
@@ -99,12 +149,16 @@ class ResponseStack extends \SplStack
         }
     }
 
-    public function currentBigInteger(): ?BigInteger
+    private function currentInternal(string $type): mixed
     {
-        $current = $this->current();
+        $current = parent::current();
 
-        if ($current instanceof BigInteger) {
-            return $current;
+        if (is_array($current)) {
+            [$currentType, $currentValue] = $current;
+
+            if ($currentType === $type) {
+                return $currentValue;
+            }
         }
 
         return null;

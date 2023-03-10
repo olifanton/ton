@@ -55,10 +55,11 @@ class RunGetMethodTest extends TestCase
             ));
 
         $this->assertEquals(
-            [
-                ['num', '0x14c97'],
-            ],
-            $instance->runGetMethod($wallet, "foo")
+            "85143",
+            $instance
+                ->runGetMethod($wallet, "foo")
+                ->currentBigInteger()
+                ->toBase(10),
         );
     }
 }

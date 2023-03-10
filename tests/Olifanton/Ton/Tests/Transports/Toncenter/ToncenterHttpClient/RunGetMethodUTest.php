@@ -18,6 +18,6 @@ class RunGetMethodUTest extends ToncenterHttpClientUTestCase
         $this->assertEquals("num", $result->stack[0][0]);
         $this->assertEquals("0x14c97", $result->stack[0][1]);
         $this->assertEquals("smc.runResult", $result->type);
-        $this->assertEquals(-13, $result->exitCode);
+        $this->assertEquals(0, $result->exitCode);
     }
 }

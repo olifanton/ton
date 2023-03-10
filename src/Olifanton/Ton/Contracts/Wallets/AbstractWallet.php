@@ -37,7 +37,7 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
             }
         } catch (TransportException $e) {
             if ($e->getCode() === 13 || $e->getCode() === -13 || $e->getCode() === -14) {
-                // Out of gas error
+                // Out of gas error?
                 return null;
             }
 
