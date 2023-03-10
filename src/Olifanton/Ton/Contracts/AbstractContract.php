@@ -78,6 +78,17 @@ abstract class AbstractContract implements Contract
     /**
      * @throws ContractException
      */
+    public function getStateInit(): StateInit
+    {
+        return new StateInit(
+            $this->getCode(),
+            $this->getData(),
+        );
+    }
+
+    /**
+     * @throws ContractException
+     */
     protected abstract function createCode(): Cell;
 
     /**
@@ -88,11 +99,14 @@ abstract class AbstractContract implements Contract
     /**
      * @throws ContractException
      */
-    protected function getStateInit(): StateInit
+    protected function deserializeCode(string $serializedBoc): Cell
     {
-        return new StateInit(
-            $this->getCode(),
-            $this->getData(),
-        );
+        try {
+            return Cell::oneFromBoc($serializedBoc);
+            // @codeCoverageIgnoreStart
+        } catch (CellException $e) {
+            throw new WalletException("Wallet code creation error: " . $e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
     }
 }

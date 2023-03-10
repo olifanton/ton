@@ -3,9 +3,12 @@
 namespace Olifanton\Ton\Transports\Toncenter;
 
 use Olifanton\Interop\Boc\Cell;
+use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
+use Olifanton\Ton\Contracts\Messages\Exceptions\MessageException;
 use Olifanton\Ton\Contracts\Messages\Exceptions\ResponseStackParsingException;
+use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Messages\ResponseStack;
 use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Transport;
@@ -29,7 +32,7 @@ class ToncenterTransport implements Transport
             $address = $contract->getAddress();
         } catch (ContractException $e) {
             throw new TransportException(
-                "Address error: " . $e->getMessage(),
+                "Contract address error: " . $e->getMessage(),
                 0,
                 $e,
             );
@@ -92,6 +95,25 @@ class ToncenterTransport implements Transport
             throw new TransportException(
                 sprintf(
                     "Sending error: %s",
+                    $e->getMessage(),
+                ),
+                0,
+                $e,
+            );
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sendMessage(ExternalMessage $message, Uint8Array $secretKey): void
+    {
+        try {
+            $this->send($message->sign($secretKey)->toBoc(false));
+        } catch (CellException | MessageException $e) {
+            throw new TransportException(
+                sprintf(
+                    "Message sending error: %s",
                     $e->getMessage(),
                 ),
                 0,

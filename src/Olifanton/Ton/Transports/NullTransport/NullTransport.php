@@ -5,6 +5,7 @@ namespace Olifanton\Ton\Transports\NullTransport;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
+use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Messages\ResponseStack;
 use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Transport;
@@ -28,6 +29,11 @@ class NullTransport implements Transport
     }
 
     public function send(Uint8Array | string | Cell $boc): void
+    {
+        // Nothing
+    }
+
+    public function sendMessage(ExternalMessage $message, Uint8Array $secretKey): void
     {
         // Nothing
     }

@@ -12,6 +12,7 @@ on:
       - 'LICENSE'
       - 'README.md'
       - '.env.dist'
+      - 'examples/**'
 
   pull_request:
     paths-ignore:
@@ -22,6 +23,7 @@ on:
       - 'LICENSE'
       - 'README.md'
       - '.env.dist'
+      - 'examples/**'
 
 jobs:
   tests:

@@ -9,8 +9,8 @@ use Olifanton\Ton\Contracts\Messages\Exceptions\MessageException;
 class StateInit
 {
     public function __construct(
-        private readonly ?Cell $code = null,
-        private readonly ?Cell $data = null,
+        public readonly ?Cell $code = null,
+        public readonly ?Cell $data = null,
     )
     {
     }

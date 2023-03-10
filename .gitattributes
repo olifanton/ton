@@ -4,3 +4,5 @@
 /tests          export-ignore
 /build          export-ignore
 /.env.dist      export-ignore
+/examples       export-ignore
+/clover.xml     export-ignore
