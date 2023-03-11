@@ -19,10 +19,12 @@ abstract class WalletV4 extends AbstractWallet implements Wallet
     {
         try {
             $cell = new Cell();
-            $cell->bits->writeUint(0, 32);
-            $cell->bits->writeUint($this->getWalletId(), 32);
-            $cell->bits->writeBytes($this->getPublicKey());
-            $cell->bits->writeUint(0, 1);
+            $cell
+                ->bits
+                ->writeUint(0, 32)
+                ->writeUint($this->getWalletId(), 32)
+                ->writeBytes($this->getPublicKey())
+                ->writeUint(0, 1);
 
             return $cell;
         } catch (BitStringException $e) {
@@ -33,5 +35,29 @@ abstract class WalletV4 extends AbstractWallet implements Wallet
     protected function getWalletId(): int
     {
         return $this->options->walletId + $this->getWc();
+    }
+
+    protected function createSigningMessage(int $seqno, ?int $expireAt = null, ?bool $withoutOp = null): Cell
+    {
+        $cell = new Cell();
+        $bs = $cell->bits;
+        $bs->writeUint($this->getWalletId(), 32);
+
+        if ($seqno === 0) {
+            for ($i = 0; $i < 32; $i++) {
+                $bs->writeBit(1);
+            }
+        } else {
+            $expireAt = $expireAt ?? time() + 60;
+            $bs->writeUint($expireAt, 32);
+        }
+
+        $bs->writeUint($seqno, 32);
+
+        if (!$withoutOp) {
+            $bs->writeUint(0, 8);
+        }
+
+        return $cell;
     }
 }

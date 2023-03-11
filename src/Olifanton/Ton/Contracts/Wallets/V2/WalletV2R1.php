@@ -3,10 +3,9 @@
 namespace Olifanton\Ton\Contracts\Wallets\V2;
 
 use Olifanton\Interop\Boc\Cell;
-use Olifanton\Ton\Contracts\Wallets\AbstractWallet;
 use Olifanton\Ton\Contracts\Wallets\Wallet;
 
-class WalletV2R1 extends AbstractWallet implements Wallet
+class WalletV2R1 extends WalletV2 implements Wallet
 {
     public static function getName(): string
     {

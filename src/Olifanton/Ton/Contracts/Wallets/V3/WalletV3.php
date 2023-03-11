@@ -34,8 +34,10 @@ abstract class WalletV3 extends AbstractWallet implements Wallet
         return $this->options->walletId + $this->getWc();
     }
 
-    public function createSigningMessage(int $seqno = 0): Cell
+    public function createSigningMessage(int $seqno, ?int $expireAt = null): Cell
     {
+        $expireAt = $expireAt ?? time() + 60;
+
         $message = new Cell();
         $bs = $message->bits;
         $bs->writeUint($this->getWalletId(), 32);
@@ -45,7 +47,7 @@ abstract class WalletV3 extends AbstractWallet implements Wallet
                 $bs->writeBit(1);
             }
         } else {
-            $bs->writeUint(time() + 60, 32);
+            $bs->writeUint($expireAt, 32);
         }
 
         $bs->writeUint($seqno, 32);

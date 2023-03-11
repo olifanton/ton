@@ -120,7 +120,7 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
         $cell = new Cell();
         $cell
             ->bits
-            ->writeUint($seqno, 21);
+            ->writeUint($seqno, 32);
 
         return $cell;
     }
