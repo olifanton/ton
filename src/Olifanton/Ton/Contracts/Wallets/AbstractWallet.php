@@ -14,6 +14,7 @@ use Olifanton\Ton\Contracts\Messages\InternalMessageOptions;
 use Olifanton\Ton\Contracts\Messages\MessageData;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Exceptions\TransportException;
+use Olifanton\Ton\SendMode;
 use Olifanton\Ton\Transport;
 
 abstract class AbstractWallet extends AbstractContract implements Wallet
@@ -57,7 +58,14 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
         $signingMessage = $this->createSigningMessage($options->seqno);
 
         try {
-            $signingMessage->bits->writeUint8($options->sendMode);
+            $sendMode = $options->sendMode;
+            $signingMessage
+                ->bits
+                ->writeUint8(
+                    $sendMode instanceof SendMode
+                        ? $sendMode->value
+                        : $sendMode,
+                );
             $body = is_string($options->payload)
                 ? $this->createTxtPayload($options->payload)
                 : $options->payload;
@@ -112,15 +120,17 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
         // @codeCoverageIgnoreEnd
     }
 
-    /**
-     * @throws BitStringException
-     */
-    protected function createSigningMessage(int $seqno): Cell
+    public function createSigningMessage(int $seqno): Cell
     {
         $cell = new Cell();
-        $cell
-            ->bits
-            ->writeUint($seqno, 32);
+
+        try {
+            $cell
+                ->bits
+                ->writeUint($seqno, 32);
+        } catch (BitStringException $e) {
+            throw new WalletException($e->getMessage(), $e->getCode(), $e);
+        }
 
         return $cell;
     }

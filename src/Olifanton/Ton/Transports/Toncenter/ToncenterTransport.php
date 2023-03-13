@@ -2,6 +2,8 @@
 
 namespace Olifanton\Ton\Transports\Toncenter;
 
+use Brick\Math\BigInteger;
+use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Ton\Contract;
@@ -116,6 +118,29 @@ class ToncenterTransport implements Transport
                     "Message sending error: %s",
                     $e->getMessage(),
                 ),
+                0,
+                $e,
+            );
+        }
+    }
+
+    public function estimateFee(Address $address,
+                                Cell | Uint8Array | string $body,
+                                Cell | Uint8Array | string | null $initCode = null,
+                                Cell | Uint8Array | string | null $initData = null): BigInteger
+    {
+        try {
+            return $this
+                ->client
+                ->estimateFee(
+                    $address->toString(true, true, false),
+                    $body,
+                    $initCode,
+                    $initData,
+                );
+        } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException$e) {
+            throw new TransportException(
+                $e->getMessage(),
                 0,
                 $e,
             );

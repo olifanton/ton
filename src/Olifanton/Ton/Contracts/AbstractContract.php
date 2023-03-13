@@ -8,12 +8,13 @@ use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Interop\Bytes;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
+use Olifanton\Ton\Contracts\Interfaces\Deployable;
 use Olifanton\Ton\Contracts\Messages\Exceptions\MessageException;
 use Olifanton\Ton\Contracts\Messages\StateInit;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\TypedArrays\Uint8Array;
 
-abstract class AbstractContract implements Contract
+abstract class AbstractContract implements Contract, Deployable
 {
     protected Uint8Array $publicKey;
 

@@ -2,6 +2,7 @@
 
 namespace Olifanton\Ton\Contracts\Wallets;
 
+use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
@@ -18,4 +19,9 @@ interface Wallet extends Contract
      * @throws WalletException
      */
     public function seqno(Transport $transport): ?int;
+
+    /**
+     * @throws WalletException
+     */
+    public function createSigningMessage(int $seqno): Cell;
 }

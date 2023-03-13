@@ -6,6 +6,7 @@ use Brick\Math\BigInteger;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contracts\Messages\StateInit;
+use Olifanton\Ton\SendMode;
 
 class TransferMessageOptions
 {
@@ -14,7 +15,7 @@ class TransferMessageOptions
         public readonly BigInteger $amount,
         public readonly int $seqno,
         public readonly string | Cell $payload = "",
-        public readonly int $sendMode = 3, // @TODO: To `SendMode` enumeration
+        public readonly SendMode | int $sendMode = SendMode::NONE,
         public readonly ?StateInit $stateInit = null,
     )
     {

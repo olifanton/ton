@@ -540,6 +540,8 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 "params" => $params,
             ]);
 
+        // FIXME: Create `query.fees` model
+
         return BigInteger::fromBase((string)$response->result, 10);
     }
 

@@ -2,6 +2,8 @@
 
 namespace Olifanton\Ton;
 
+use Brick\Math\BigInteger;
+use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Messages\ResponseStack;
@@ -24,4 +26,9 @@ interface Transport
      * @throws TransportException
      */
     public function sendMessage(ExternalMessage $message, Uint8Array $secretKey): void;
+
+    /**
+     * @throws TransportException
+     */
+    public function estimateFee(Address $address, Cell | string $body, Cell | string | null $initCode = null, Cell | string | null $initData = null): BigInteger;
 }

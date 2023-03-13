@@ -15,6 +15,31 @@ abstract class WalletV3 extends AbstractWallet implements Wallet
         parent::__construct($this->options);
     }
 
+    public function createSigningMessage(int $seqno, ?int $expireAt = null): Cell
+    {
+        try {
+            $expireAt = $expireAt ?? time() + 60;
+
+            $message = new Cell();
+            $bs = $message->bits;
+            $bs->writeUint($this->getWalletId(), 32);
+
+            if ($seqno === 0) {
+                for ($i = 0; $i < 32; $i++) {
+                    $bs->writeBit(1);
+                }
+            } else {
+                $bs->writeUint($expireAt, 32);
+            }
+
+            $bs->writeUint($seqno, 32);
+
+            return $message;
+        } catch (BitStringException $e) {
+            throw new WalletException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
     protected function createData(): Cell
     {
         try {
@@ -32,26 +57,5 @@ abstract class WalletV3 extends AbstractWallet implements Wallet
     protected function getWalletId(): int
     {
         return $this->options->walletId + $this->getWc();
-    }
-
-    public function createSigningMessage(int $seqno, ?int $expireAt = null): Cell
-    {
-        $expireAt = $expireAt ?? time() + 60;
-
-        $message = new Cell();
-        $bs = $message->bits;
-        $bs->writeUint($this->getWalletId(), 32);
-
-        if ($seqno === 0) {
-            for ($i = 0; $i < 32; $i++) {
-                $bs->writeBit(1);
-            }
-        } else {
-            $bs->writeUint($expireAt, 32);
-        }
-
-        $bs->writeUint($seqno, 32);
-
-        return $message;
     }
 }

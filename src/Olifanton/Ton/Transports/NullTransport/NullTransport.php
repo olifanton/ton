@@ -2,6 +2,8 @@
 
 namespace Olifanton\Ton\Transports\NullTransport;
 
+use Brick\Math\BigInteger;
+use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
@@ -36,5 +38,13 @@ class NullTransport implements Transport
     public function sendMessage(ExternalMessage $message, Uint8Array $secretKey): void
     {
         // Nothing
+    }
+
+    public function estimateFee(Address $address,
+                                Cell | Uint8Array | string $body,
+                                Cell | Uint8Array | string | null $initCode = null,
+                                Cell | Uint8Array | string | null $initData = null): BigInteger
+    {
+        return BigInteger::zero();
     }
 }
