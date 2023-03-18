@@ -3,6 +3,7 @@
 namespace Olifanton\Ton\Transports\NullTransport;
 
 use Brick\Math\BigInteger;
+use Brick\Math\BigNumber;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contract;
@@ -43,8 +44,8 @@ class NullTransport implements Transport
     public function estimateFee(Address $address,
                                 Cell | Uint8Array | string $body,
                                 Cell | Uint8Array | string | null $initCode = null,
-                                Cell | Uint8Array | string | null $initData = null): BigInteger
+                                Cell | Uint8Array | string | null $initData = null): BigNumber
     {
-        return BigInteger::zero();
+        return BigNumber::of(0);
     }
 }

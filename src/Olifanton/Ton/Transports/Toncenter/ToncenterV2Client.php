@@ -20,6 +20,7 @@ use Olifanton\Ton\Transports\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Transports\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Transports\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Transports\Toncenter\Responses\MasterchainInfo;
+use Olifanton\Ton\Transports\Toncenter\Responses\QueryFees;
 use Olifanton\Ton\Transports\Toncenter\Responses\Shards;
 use Olifanton\Ton\Transports\Toncenter\Responses\Transaction;
 use Olifanton\Ton\Transports\Toncenter\Responses\TransactionsList;
@@ -368,7 +369,7 @@ interface ToncenterV2Client
         Cell | Uint8Array | string | null $initCode = null,
         Cell | Uint8Array | string | null $initData = null,
         bool $ignoreChksig = true,
-    ): BigInteger;
+    ): QueryFees;
 
     /**
      * All methods in the API are available through JSON-RPC protocol.

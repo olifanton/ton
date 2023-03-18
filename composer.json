@@ -43,6 +43,7 @@
     "psr/log": "^1.0|^2.0|^3.0"
   },
   "require-dev": {
+    "ext-sodium": "*",
     "phpunit/phpunit": "^9.5",
     "vlucas/phpdotenv": "^5.4",
     "mockery/mockery": "^1.5",

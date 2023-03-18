@@ -3,6 +3,7 @@
 namespace Olifanton\Ton\Transports\Toncenter;
 
 use Brick\Math\BigInteger;
+use Brick\Math\BigNumber;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\CellException;
@@ -127,7 +128,7 @@ class ToncenterTransport implements Transport
     public function estimateFee(Address $address,
                                 Cell | Uint8Array | string $body,
                                 Cell | Uint8Array | string | null $initCode = null,
-                                Cell | Uint8Array | string | null $initData = null): BigInteger
+                                Cell | Uint8Array | string | null $initData = null): BigNumber
     {
         try {
             return $this
@@ -137,7 +138,9 @@ class ToncenterTransport implements Transport
                     $body,
                     $initCode,
                     $initData,
-                );
+                )
+                ->sourceFees
+                ->sum();
         } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException$e) {
             throw new TransportException(
                 $e->getMessage(),

@@ -25,6 +25,7 @@ use Olifanton\Ton\Transports\Toncenter\Responses\ConsensusBlock;
 use Olifanton\Ton\Transports\Toncenter\Responses\ExtendedFullAccountState;
 use Olifanton\Ton\Transports\Toncenter\Responses\FullAccountState;
 use Olifanton\Ton\Transports\Toncenter\Responses\MasterchainInfo;
+use Olifanton\Ton\Transports\Toncenter\Responses\QueryFees;
 use Olifanton\Ton\Transports\Toncenter\Responses\Shards;
 use Olifanton\Ton\Transports\Toncenter\Responses\Transaction;
 use Olifanton\Ton\Transports\Toncenter\Responses\TransactionsList;
@@ -518,7 +519,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
         Cell | Uint8Array | string | null $initCode = null,
         Cell | Uint8Array | string | null $initData = null,
         bool $ignoreChksig = true,
-    ): BigInteger
+    ): QueryFees
     {
         $params = [
             "address" => (string)$address,
@@ -540,9 +541,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 "params" => $params,
             ]);
 
-        // FIXME: Create `query.fees` model
-
-        return BigInteger::fromBase((string)$response->result, 10);
+        return $this->hydrateResponseModel(QueryFees::class, $response->result);
     }
 
     /**
@@ -566,7 +565,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
 
         if ($boc instanceof Cell) {
             try {
-                $boc = $boc->toBoc();
+                $boc = $boc->toBoc(has_idx: false);
             } catch (CellException $e) {
                 throw new ClientException(
                     "Boc serialization error: " . $e->getMessage(),
@@ -660,12 +659,6 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 "Toncenter client request error: " . $e->getMessage(),
                 0,
                 $e,
-            );
-        } catch (\Throwable $e) {
-            throw new ClientException(
-                "Toncenter request error: " . $e->getMessage(),
-                $e->getCode(),
-                $e
             );
         }
     }
