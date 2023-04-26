@@ -2,6 +2,4 @@
 
 namespace Olifanton\Ton\Exceptions;
 
-class TransportException extends TonException
-{
-}
+class TransportException extends TonException {}

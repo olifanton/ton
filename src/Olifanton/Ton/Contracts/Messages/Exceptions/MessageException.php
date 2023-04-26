@@ -4,6 +4,4 @@ namespace Olifanton\Ton\Contracts\Messages\Exceptions;
 
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 
-class MessageException extends ContractException
-{
-}
+class MessageException extends ContractException {}

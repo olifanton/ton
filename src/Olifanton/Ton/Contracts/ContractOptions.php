@@ -9,7 +9,5 @@ class ContractOptions
     public function __construct(
         public readonly Uint8Array $publicKey,
         public readonly int $workchain = 0,
-    )
-    {
-    }
+    ) {}
 }

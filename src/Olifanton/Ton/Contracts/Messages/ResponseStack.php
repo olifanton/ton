@@ -40,7 +40,7 @@ class ResponseStack extends \SplQueue
                 case self::TYPE_TUPLE:
                     $instance->push([
                         $typeName,
-                        array_map(static fn (array $entry) => self::parseObject($entry), $value),
+                        array_map(static fn (array $entry) => self::parseObject($entry), $value["elements"]),
                     ]);
                     break;
 
@@ -48,7 +48,7 @@ class ResponseStack extends \SplQueue
                     try {
                         $instance->push([
                             $typeName,
-                            Cell::oneFromBoc($value, true),
+                            Cell::oneFromBoc($value["bytes"], true),
                         ]);
                     } catch (CellException $e) {
                         throw new ResponseStackParsingException(

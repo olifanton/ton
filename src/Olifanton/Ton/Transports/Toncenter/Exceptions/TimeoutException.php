@@ -2,6 +2,4 @@
 
 namespace Olifanton\Ton\Transports\Toncenter\Exceptions;
 
-class TimeoutException extends ToncenterException
-{
-}
+class TimeoutException extends ToncenterException {}

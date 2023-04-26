@@ -4,6 +4,4 @@ namespace Olifanton\Ton\Marshalling\Exceptions;
 
 use Olifanton\Ton\Exceptions\TonException;
 
-class MarshallingException extends TonException
-{
-}
+class MarshallingException extends TonException {}

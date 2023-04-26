@@ -4,6 +4,4 @@ namespace Olifanton\Ton\Contracts\Exceptions;
 
 use Olifanton\Ton\Exceptions\TonException;
 
-class ContractException extends TonException
-{
-}
+class ContractException extends TonException {}

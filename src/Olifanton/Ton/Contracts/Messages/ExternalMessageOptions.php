@@ -11,7 +11,5 @@ class ExternalMessageOptions
         public ?Address $src = null,
         public ?Address $dest = null,
         public ?BigInteger $importFee = null,
-    )
-    {
-    }
+    ) {}
 }

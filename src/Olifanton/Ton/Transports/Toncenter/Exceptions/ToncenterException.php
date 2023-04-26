@@ -4,6 +4,4 @@ namespace Olifanton\Ton\Transports\Toncenter\Exceptions;
 
 use Olifanton\Ton\Exceptions\TonException;
 
-abstract class ToncenterException extends TonException
-{
-}
+abstract class ToncenterException extends TonException {}

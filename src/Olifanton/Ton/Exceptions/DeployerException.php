@@ -2,6 +2,4 @@
 
 namespace Olifanton\Ton\Exceptions;
 
-class DeployerException extends TonException
-{
-}
+class DeployerException extends TonException {}

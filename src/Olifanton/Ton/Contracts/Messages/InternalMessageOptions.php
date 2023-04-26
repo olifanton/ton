@@ -18,7 +18,5 @@ class InternalMessageOptions
         public ?bool $bounced = null,
         public ?string $createdLt = null,
         public ?string $createdAt = null,
-    )
-    {
-    }
+    ) {}
 }

@@ -2,7 +2,6 @@
 
 namespace Olifanton\Ton\Transports\NullTransport;
 
-use Brick\Math\BigInteger;
 use Brick\Math\BigNumber;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
@@ -16,10 +15,12 @@ use Olifanton\TypedArrays\Uint8Array;
 
 class NullTransport implements Transport
 {
-    public function runGetMethod(Contract $contract, string $method, array $stack = []): ResponseStack
+    public function runGetMethod(Contract|Address $contract, string $method, array $stack = []): ResponseStack
     {
         try {
-            $contract->getAddress();
+            if ($contract instanceof Contract) {
+                $contract->getAddress();
+            }
         } catch (ContractException $e) {
             throw new TransportException(
                 "Address error: " . $e->getMessage(),
@@ -47,5 +48,10 @@ class NullTransport implements Transport
                                 Cell | Uint8Array | string | null $initData = null): BigNumber
     {
         return BigNumber::of(0);
+    }
+
+    public function getConfigParam(int $configParamId): Cell
+    {
+        return new Cell();
     }
 }

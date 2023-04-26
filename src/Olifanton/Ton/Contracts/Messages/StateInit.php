@@ -11,9 +11,7 @@ class StateInit
     public function __construct(
         public readonly ?Cell $code = null,
         public readonly ?Cell $data = null,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @throws MessageException

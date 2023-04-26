@@ -4,6 +4,4 @@ namespace Olifanton\Ton\Contracts\Wallets\Exceptions;
 
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 
-class WalletException extends ContractException
-{
-}
+class WalletException extends ContractException {}

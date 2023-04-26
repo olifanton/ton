@@ -8,3 +8,4 @@ parameters:
   ignoreErrors:
     - message: '#has an uninitialized readonly property#'
       path: src/Olifanton/Ton/Transports/Toncenter/Responses/*
+    - message: '#Access to an undefined property Olifanton\\TypedArrays\\Uint8Array::\$length#'

@@ -2,6 +2,4 @@
 
 namespace Olifanton\Ton\Contracts\Messages\Exceptions;
 
-class ResponseStackParsingException extends MessageException
-{
-}
+class ResponseStackParsingException extends MessageException {}

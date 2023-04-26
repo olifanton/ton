@@ -2,6 +2,4 @@
 
 namespace Olifanton\Ton\Transports\Toncenter\Exceptions;
 
-class ClientException extends ToncenterException
-{
-}
+class ClientException extends ToncenterException {}

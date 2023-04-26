@@ -2,6 +2,4 @@
 
 namespace Olifanton\Ton\Exceptions;
 
-class TonException extends \Exception
-{
-}
+class TonException extends \Exception {}

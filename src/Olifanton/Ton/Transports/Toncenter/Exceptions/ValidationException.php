@@ -2,6 +2,4 @@
 
 namespace Olifanton\Ton\Transports\Toncenter\Exceptions;
 
-class ValidationException extends ToncenterException
-{
-}
+class ValidationException extends ToncenterException {}

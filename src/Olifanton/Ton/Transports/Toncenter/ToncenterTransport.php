@@ -2,7 +2,6 @@
 
 namespace Olifanton\Ton\Transports\Toncenter;
 
-use Brick\Math\BigInteger;
 use Brick\Math\BigNumber;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
@@ -29,10 +28,10 @@ class ToncenterTransport implements Transport
     /**
      * @inheritDoc
      */
-    public function runGetMethod(Contract $contract, string $method, array $stack = []): ResponseStack
+    public function runGetMethod(Contract|Address $contract, string $method, array $stack = []): ResponseStack
     {
         try {
-            $address = $contract->getAddress();
+            $address = $contract instanceof Contract ? $contract->getAddress() : $contract;
         } catch (ContractException $e) {
             throw new TransportException(
                 "Contract address error: " . $e->getMessage(),
@@ -125,6 +124,9 @@ class ToncenterTransport implements Transport
         }
     }
 
+    /**
+     * @inheritDoc
+     */
     public function estimateFee(Address $address,
                                 Cell | Uint8Array | string $body,
                                 Cell | Uint8Array | string | null $initCode = null,
@@ -142,6 +144,28 @@ class ToncenterTransport implements Transport
                 ->sourceFees
                 ->sum();
         } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException$e) {
+            throw new TransportException(
+                $e->getMessage(),
+                0,
+                $e,
+            );
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getConfigParam(int $configParamId): Cell
+    {
+        try {
+            $answer = $this->client->getConfigParam($configParamId);
+
+            if ($answer->type !== "tvm.cell") {
+                throw new TransportException();
+            }
+
+            return Cell::oneFromBoc($answer->bytes, isBase64: true);
+        } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException | CellException $e) {
             throw new TransportException(
                 $e->getMessage(),
                 0,

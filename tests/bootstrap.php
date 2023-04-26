@@ -6,3 +6,4 @@ $dotenv = Dotenv\Dotenv::createMutable(dirname(__DIR__));
 $dotenv->load();
 
 define("STUB_DATA_DIR", __DIR__ . "/stub-data");
+

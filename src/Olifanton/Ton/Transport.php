@@ -16,7 +16,7 @@ interface Transport
     /**
      * @throws TransportException
      */
-    public function runGetMethod(Contract $contract, string $method, array $stack = []): ResponseStack;
+    public function runGetMethod(Contract|Address $contract, string $method, array $stack = []): ResponseStack;
 
     /**
      * @throws TransportException
@@ -35,4 +35,9 @@ interface Transport
                                 Cell | string $body,
                                 Cell | string | null $initCode = null,
                                 Cell | string | null $initData = null): BigNumber;
+
+    /**
+     * @throws TransportException
+     */
+    public function getConfigParam(int $configParamId): Cell;
 }

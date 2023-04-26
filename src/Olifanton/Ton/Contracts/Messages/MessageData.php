@@ -9,7 +9,5 @@ class MessageData
     public function __construct(
         public readonly ?Cell $body = null,
         public readonly ?Cell $state = null,
-    )
-    {
-    }
+    ) {}
 }

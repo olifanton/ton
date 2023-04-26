@@ -16,9 +16,7 @@ abstract class Message
         private readonly Cell $header,
         private readonly ?Cell $body = null,
         private readonly ?Cell $state = null,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @throws MessageException
