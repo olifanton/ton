@@ -2,7 +2,6 @@
 
 namespace Olifanton\Ton;
 
-use Brick\Math\BigInteger;
 use Brick\Math\BigNumber;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;

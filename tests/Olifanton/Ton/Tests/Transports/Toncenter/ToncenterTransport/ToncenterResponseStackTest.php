@@ -1,19 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace Olifanton\Ton\Tests\Contracts\Messages;
+namespace Olifanton\Ton\Tests\Transports\Toncenter\ToncenterTransport;
 
 use Olifanton\Interop\Boc\Cell;
-use Olifanton\Ton\Contracts\Messages\ResponseStack;
+use Olifanton\Ton\Transports\Toncenter\ToncenterResponseStack;
 use PHPUnit\Framework\TestCase;
 
-class ResponseStackTest extends TestCase
+class ToncenterResponseStackTest extends TestCase
 {
     /**
      * @throws \Throwable
      */
     public function testParseNumAndCell(): void
     {
-        $stack = ResponseStack::parse([
+        $stack = ToncenterResponseStack::parse([
             [
                 'num',
                 '0x20',
@@ -44,7 +44,7 @@ class ResponseStackTest extends TestCase
      */
     public function testParseNumAndCell2(): void
     {
-        $stack = ResponseStack::parse([
+        $stack = ToncenterResponseStack::parse([
             [
                 'num',
                 '0x58',
@@ -75,7 +75,7 @@ class ResponseStackTest extends TestCase
      */
     public function testParseNumAndEmptyList(): void
     {
-        $stack = ResponseStack::parse([
+        $stack = ToncenterResponseStack::parse([
             [
                 'num',
                 '0x8',
@@ -94,5 +94,34 @@ class ResponseStackTest extends TestCase
         $stack->next();
         $list = $stack->currentList();
         $this->assertIsArray($list);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testSerialization(): void
+    {
+        $stack = ToncenterResponseStack::parse([
+            [
+                'num',
+                '0x58',
+            ],
+            [
+                'cell',
+                [
+                    'bytes' => 'te6cckEBAQEAJgAAR7qTgAfXdYmRBEAMd3t9yxv55pMFZOeCDpxOihKYCFsErLOnkJmtlJ8=',
+                    'object' => [
+                        'data' => [
+                            'b64' => 'upOAB9d1iZEEQAx3e33LG/nmkwVk54IOnE6KEpgIWwSss6eA',
+                            'len' => 283,
+                        ],
+                        'refs' => [],
+                    ],
+                ],
+            ],
+        ]);
+        $hibernated = unserialize(serialize($stack));
+        
+        $this->assertEquals($stack, $hibernated);
     }
 }

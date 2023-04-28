@@ -14,8 +14,8 @@ use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Messages\ResponseStack;
 use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Transport;
-use Olifanton\TypedArrays\Uint8Array;
 use Olifanton\Ton\Transports\Toncenter\Exceptions as TncEx;
+use Olifanton\TypedArrays\Uint8Array;
 
 class ToncenterTransport implements Transport
 {
@@ -56,7 +56,7 @@ class ToncenterTransport implements Transport
                 );
             }
 
-            return ResponseStack::parse($response->stack);
+            return ToncenterResponseStack::parse($response->stack);
         } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException $e) {
             throw new TransportException(
                 sprintf(

@@ -11,6 +11,7 @@ use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Messages\ResponseStack;
 use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Transport;
+use Olifanton\Ton\Transports\Toncenter\ToncenterResponseStack;
 use Olifanton\TypedArrays\Uint8Array;
 
 class NullTransport implements Transport
@@ -29,7 +30,7 @@ class NullTransport implements Transport
             );
         }
 
-        return ResponseStack::empty();
+        return ToncenterResponseStack::empty();
     }
 
     public function send(Uint8Array | string | Cell $boc): void

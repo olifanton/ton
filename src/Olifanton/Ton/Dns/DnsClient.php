@@ -22,8 +22,8 @@ use Olifanton\Ton\Transport;
 use Olifanton\TypedArrays\Uint8Array;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\CacheException;
+use Psr\SimpleCache\CacheInterface;
 
 class DnsClient implements LoggerAwareInterface
 {
@@ -161,13 +161,12 @@ class DnsClient implements LoggerAwareInterface
         return null;
     }
 
+    /** @noinspection PhpRedundantCatchClauseInspection */
     protected final function getCachedSmcGetterResponse(string $domainCellBoc): ?ResponseStack
     {
         try {
             if ($cached = $this->readCachedValue("resolved_" . $domainCellBoc)) {
-                return ResponseStack::parse(
-                    json_decode($cached, true, 512, JSON_THROW_ON_ERROR)
-                );
+                return unserialize($cached);
             }
         } catch (\JsonException|ResponseStackParsingException $e) {
             $this
@@ -183,12 +182,13 @@ class DnsClient implements LoggerAwareInterface
         return null;
     }
 
+    /** @noinspection PhpRedundantCatchClauseInspection */
     protected final function cacheSmcGetterResponse(string $domainCellBoc, ResponseStack $responseStack): void
     {
         try {
             $this->cacheValue(
                 "resolved_" . $domainCellBoc,
-                json_encode($responseStack, JSON_THROW_ON_ERROR),
+                serialize($responseStack),
                 $this->cacheTtl,
             );
         } catch (\JsonException $e) {
