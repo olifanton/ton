@@ -10,6 +10,8 @@ use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Interop\Boc\Exceptions\SliceException;
 use Olifanton\Interop\Boc\Helpers\TypedArrayHelper;
 use Olifanton\Interop\Bytes;
+use Olifanton\Ton\Contracts\Messages\Exceptions\ResponseStackParsingException;
+use Olifanton\Ton\Contracts\Messages\ResponseStack;
 use Olifanton\Ton\Dns\Exceptions\DnsException;
 use Olifanton\Ton\Dns\Exceptions\DnsInitializationException;
 use Olifanton\Ton\Dns\Exceptions\DomainDataParsingException;
@@ -20,10 +22,18 @@ use Olifanton\Ton\Transport;
 use Olifanton\TypedArrays\Uint8Array;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\SimpleCache\CacheInterface;
+use Psr\SimpleCache\CacheException;
 
 class DnsClient implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
+
+    protected CacheInterface|null $cache = null;
+
+    protected int $cacheTtl = 3600;
+
+    protected int $rootResolverCacheTtl = 864000;
 
     private bool $isInitialized = false;
 
@@ -48,11 +58,26 @@ class DnsClient implements LoggerAwareInterface
         return $this->resolveInner($rawDomain, $this->rootDnsAddress);
     }
 
+    public function setCache(CacheInterface $cache): void
+    {
+        $this->cache = $cache;
+    }
+
+    public function setCacheTtl(int $seconds): void
+    {
+        $this->cacheTtl = $seconds;
+    }
+
+    public function setRootResolverCacheTtl(int $rootResolverCacheTtl): void
+    {
+        $this->rootResolverCacheTtl = $rootResolverCacheTtl;
+    }
+
     /**
      * @throws DnsException|DomainDataParsingException
      */
     protected final function resolveInner(Uint8Array $rawDomain,
-                                          Address $resolverAddress): ?DomainData
+                                          Address    $resolverAddress): ?DomainData
     {
         try {
             $domainCell = (new Builder())->writeBytes($rawDomain)->cell();
@@ -61,24 +86,35 @@ class DnsClient implements LoggerAwareInterface
         }
 
         try {
-            $responseStack = $this
-                ->transport
-                ->runGetMethod(
-                    $resolverAddress,
-                    "dnsresolve",
-                    [
-                        [
-                            "tvm.Slice",
-                            Bytes::bytesToBase64($domainCell->toBoc(false)),
-                        ],
-                        [
-                            "num",
-                            "0x0",
-                        ]
-                    ]
-                );
-        } catch (TransportException|CellException $e) {
+            $domainCellBoc = Bytes::bytesToBase64($domainCell->toBoc(false));
+        } catch (CellException $e) {
             throw new DnsException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        $responseStack = $this->getCachedSmcGetterResponse($domainCellBoc);
+
+        if (!$responseStack) {
+            try {
+                $responseStack = $this
+                    ->transport
+                    ->runGetMethod(
+                        $resolverAddress,
+                        "dnsresolve",
+                        [
+                            [
+                                "tvm.Slice",
+                                $domainCellBoc,
+                            ],
+                            [
+                                "num",
+                                "0x0",
+                            ]
+                        ]
+                    );
+                $this->cacheSmcGetterResponse($domainCellBoc, $responseStack);
+            } catch (TransportException $e) {
+                throw new DnsException($e->getMessage(), $e->getCode(), $e);
+            }
         }
 
         if ($responseStack->count() !== 2) {
@@ -125,6 +161,88 @@ class DnsClient implements LoggerAwareInterface
         return null;
     }
 
+    protected final function getCachedSmcGetterResponse(string $domainCellBoc): ?ResponseStack
+    {
+        try {
+            if ($cached = $this->readCachedValue("resolved_" . $domainCellBoc)) {
+                return ResponseStack::parse(
+                    json_decode($cached, true, 512, JSON_THROW_ON_ERROR)
+                );
+            }
+        } catch (\JsonException|ResponseStackParsingException $e) {
+            $this
+                ->logger
+                ?->warning(
+                    "Cached stack parsing error: " . $e->getMessage(),
+                    [
+                        "exception" => $e,
+                    ],
+                );
+        }
+
+        return null;
+    }
+
+    protected final function cacheSmcGetterResponse(string $domainCellBoc, ResponseStack $responseStack): void
+    {
+        try {
+            $this->cacheValue(
+                "resolved_" . $domainCellBoc,
+                json_encode($responseStack, JSON_THROW_ON_ERROR),
+                $this->cacheTtl,
+            );
+        } catch (\JsonException $e) {
+            $this
+                ->logger
+                ?->warning(
+                    "Stack serialization error: " . $e->getMessage(),
+                    [
+                        "exception" => $e,
+                    ],
+                );
+        }
+    }
+
+    protected function cacheValue(string $key, string $value, int $ttl): void
+    {
+        try {
+            $this
+                ->cache
+                ?->set(
+                    "olfnt_ton_dns_" . $key,
+                    $value,
+                    $ttl,
+                );
+        } catch (CacheException $e) {
+            $this
+                ->logger
+                ?->warning(
+                    "Cache writing error: " . $e->getMessage(),
+                    [
+                        "exception" => $e,
+                    ]
+                );
+        }
+    }
+
+    protected function readCachedValue(string $key): ?string
+    {
+        try {
+            return $this->cache?->get("olfnt_ton_dns_" . $key);
+        } catch (CacheException $e) {
+            $this
+                ->logger
+                ?->warning(
+                    "Cache reading error: " . $e->getMessage(),
+                    [
+                        "exception" => $e,
+                    ]
+                );
+        }
+
+        return null;
+    }
+
     /**
      * @throws DnsException
      */
@@ -160,12 +278,18 @@ class DnsClient implements LoggerAwareInterface
             return;
         }
 
+        if ($root = $this->readCachedValue("root")) {
+            $this->isInitialized = true;
+            $this->rootDnsAddress = new Address($root);
+            return;
+        }
+
         $this->logger?->debug("Start root DNS resolver receiving...");
         $this->isInitialized = true;
 
         try {
             $configCell = $this->transport->getConfigParam(4);
-            $this->logger->debug("Config cell with paramId 4 fetched");
+            $this->logger?->debug("Config cell with paramId 4 fetched");
         } catch (TransportException $e) {
             throw new DnsInitializationException($e->getMessage(), $e->getCode(), $e);
         }
@@ -180,7 +304,9 @@ class DnsClient implements LoggerAwareInterface
                     "Root DNS resolver address received: %s",
                     $this->rootDnsAddress->toString(true, true, false),
                 ));
-        } catch (CellException | SliceException $e) {
+
+            $this->cacheValue("root", $this->rootDnsAddress->toString(), $this->rootResolverCacheTtl);
+        } catch (CellException|SliceException $e) {
             throw new DnsInitializationException($e->getMessage(), $e->getCode(), $e);
         }
     }

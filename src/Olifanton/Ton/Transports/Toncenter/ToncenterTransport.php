@@ -49,7 +49,7 @@ class ToncenterTransport implements Transport
                     $stack,
                 );
 
-            if (!in_array($response->exitCode, [0, 1], true)) {
+            if (!in_array($response->exitCode, [0, 1, -13], true)) {
                 throw new TransportException(
                     "Non-zero exit code, code: " . $response->exitCode,
                     $response->exitCode,

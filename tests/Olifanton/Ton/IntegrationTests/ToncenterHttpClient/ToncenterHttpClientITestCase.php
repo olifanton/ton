@@ -2,15 +2,15 @@
 
 namespace Olifanton\Ton\IntegrationTests\ToncenterHttpClient;
 
-use Http\Client\Common\HttpMethodsClient;
-use Http\Discovery\HttpClientDiscovery;
-use Http\Discovery\Psr17FactoryDiscovery;
+use Olifanton\Ton\IntegrationTests\Traits\ToncenterHttpClientTrait;
 use Olifanton\Ton\Transports\Toncenter\ClientOptions;
 use Olifanton\Ton\Transports\Toncenter\ToncenterHttpV2Client;
 use PHPUnit\Framework\TestCase;
 
 abstract class ToncenterHttpClientITestCase extends TestCase
 {
+    use ToncenterHttpClientTrait;
+
     protected function tearDown(): void
     {
         \Mockery::close();
@@ -18,14 +18,7 @@ abstract class ToncenterHttpClientITestCase extends TestCase
 
     protected function getInstance(): ToncenterHttpV2Client
     {
-        return new ToncenterHttpV2Client(
-            new HttpMethodsClient(
-                HttpClientDiscovery::find(),
-                Psr17FactoryDiscovery::findRequestFactory(),
-                Psr17FactoryDiscovery::findStreamFactory(),
-            ),
-            $this->getOptions(),
-        );
+        return $this->createToncenterHttpV2Client($this->getOptions());
     }
 
     protected function getOptions(): ClientOptions

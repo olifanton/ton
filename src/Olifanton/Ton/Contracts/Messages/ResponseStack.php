@@ -7,7 +7,7 @@ use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Ton\Contracts\Messages\Exceptions\ResponseStackParsingException;
 
-class ResponseStack extends \SplQueue
+class ResponseStack extends \SplQueue implements \JsonSerializable
 {
     public const TYPE_NUM = 'num';
 
@@ -17,12 +17,15 @@ class ResponseStack extends \SplQueue
 
     public const TYPE_CELL = 'cell';
 
+    private ?array $rawStack;
+
     /**
      * @throws ResponseStackParsingException
      */
     public static function parse(array $rawStack): self
     {
         $instance = new self();
+        $instance->rawStack = $rawStack;
 
         foreach ($rawStack as $idx => [$typeName, $value]) {
             switch ($typeName) {
@@ -162,5 +165,10 @@ class ResponseStack extends \SplQueue
         }
 
         return null;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return $this->rawStack;
     }
 }

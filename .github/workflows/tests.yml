@@ -91,7 +91,7 @@ jobs:
 
       - name: Run tests with Phpunit
         run: |
-          composer run test:unit
+          XDEBUG_MODE=coverage php vendor/bin/phpunit
 
       - name: Generate test coverage badge
         if: github.ref == 'refs/heads/main'
