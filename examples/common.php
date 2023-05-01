@@ -18,12 +18,14 @@ require ROOT_DIR . "/vendor/autoload.php";
 $dotenv = Dotenv\Dotenv::createMutable(ROOT_DIR);
 $dotenv->load();
 
+$httpClient = new HttpMethodsClient(
+    HttpClientDiscovery::find(),
+    Psr17FactoryDiscovery::findRequestFactory(),
+    Psr17FactoryDiscovery::findStreamFactory(),
+);
+
 $toncenter = new ToncenterHttpV2Client(
-    new HttpMethodsClient(
-        HttpClientDiscovery::find(),
-        Psr17FactoryDiscovery::findRequestFactory(),
-        Psr17FactoryDiscovery::findStreamFactory(),
-    ),
+    $httpClient,
     new ClientOptions(
         (defined("MAIN_NET") && MAIN_NET) ?  "https://toncenter.com/api/v2" : "https://testnet.toncenter.com/api/v2",
         $_ENV["TONCENTER_API_KEY"],

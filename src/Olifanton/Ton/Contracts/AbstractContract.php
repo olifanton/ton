@@ -16,7 +16,7 @@ use Olifanton\TypedArrays\Uint8Array;
 
 abstract class AbstractContract implements Contract, Deployable
 {
-    protected Uint8Array $publicKey;
+    protected ?Uint8Array $publicKey;
 
     protected int $wc;
 

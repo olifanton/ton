@@ -8,7 +8,7 @@ define("MAIN_NET", true);
 
 require dirname(__DIR__) . "/common.php";
 
-global $kp, $transport, $logger;
+global $transport, $logger;
 
 $dns = new DnsClient($transport);
 $dns->setLogger($logger);
