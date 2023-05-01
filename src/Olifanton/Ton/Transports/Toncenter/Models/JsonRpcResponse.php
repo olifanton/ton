@@ -11,9 +11,7 @@ class JsonRpcResponse
         public readonly ?int    $code,
         public readonly string $jsonrpc,
         public readonly ?string $id,
-    )
-    {
-    }
+    ) {}
 
     public function asTonResponse(): TonResponse
     {

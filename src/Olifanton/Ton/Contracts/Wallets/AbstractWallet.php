@@ -2,6 +2,7 @@
 
 namespace Olifanton\Ton\Contracts\Wallets;
 
+use Olifanton\Interop\Boc\Builder;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\BitStringException;
 use Olifanton\Ton\Contracts\AbstractContract;
@@ -53,12 +54,28 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
         return $seqno;
     }
 
-    public function createTransferMessage(TransferMessageOptions $options): ExternalMessage
+    public function createTransferMessage(array $transfers,
+                                          ?TransferOptions $options = null): ExternalMessage
     {
-        $signingMessage = $this->createSigningMessage($options->seqno);
+        if (empty($transfers)) {
+            throw new WalletException("At least one transfer is required");
+        }
+
+        if (count($transfers) > 4) {
+            throw new WalletException("Sending no more than 4 transfers is possible");
+        }
+
+        $options = $options ?? new TransferOptions();
+        $seqno = $options->seqno;
+
+        if ($seqno === null) {
+            throw new WalletException("Seqno is required");
+        }
+
+        $signingMessage = $this->createSigningMessage($seqno);
+        $sendMode = $options->sendMode;
 
         try {
-            $sendMode = $options->sendMode;
             $signingMessage
                 ->bits
                 ->writeUint8(
@@ -66,24 +83,37 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                         ? $sendMode->value
                         : $sendMode,
                 );
-            $body = is_string($options->payload)
-                ? $this->createTxtPayload($options->payload)
-                : $options->payload;
+        } catch (BitStringException $e) {
+            throw new WalletException($e->getMessage(), $e->getCode(), $e);
+        }
 
-            $internalMessage = new InternalMessage(
-                new InternalMessageOptions(
-                    bounce: false,
-                    dest: $options->dest,
-                    value: $options->amount,
-                    src: $this->getAddress(),
-                ),
-                new MessageData(
-                    $body,
-                )
-            );
+        foreach ($transfers as $transfer) {
+            try {
+                $body = is_string($transfer->payload)
+                    ? $this->createTxtPayload($transfer->payload)
+                    : $transfer->payload;
+                $internalMessage = new InternalMessage(
+                    new InternalMessageOptions(
+                        bounce: false,
+                        dest: $transfer->dest,
+                        value: $transfer->amount,
+                        src: $this->getAddress(),
+                    ),
+                    new MessageData(
+                        $body,
+                    )
+                );
+                $signingMessage->refs[] = $internalMessage->cell();
+            } catch (BitStringException|MessageException|ContractException $e) {
+                throw new WalletException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e,
+                );
+            }
+        }
 
-            $signingMessage->refs[] = $internalMessage->cell();
-
+        try {
             return new ExternalMessage(
                 new ExternalMessageOptions(
                     null,
@@ -91,12 +121,10 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                 ),
                 new MessageData(
                     $signingMessage,
-                    $options->stateInit
-                        ? $options->stateInit->cell()
-                        : ($options->seqno === 0 ? $this->getStateInit()->cell() : null),
+                    $seqno === 0 ? $this->getStateInit()->cell() : null,
                 )
             );
-        } catch (BitStringException | MessageException | ContractException $e) {
+        } catch (MessageException|ContractException $e) {
             throw new WalletException(
                 $e->getMessage(),
                 $e->getCode(),
@@ -109,8 +137,10 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
     {
         try {
             $cell = new Cell();
-            $cell->bits->writeUint(0, 32); // seqno
-            $cell->bits->writeBytes($this->getPublicKey());
+            $cell
+                ->bits
+                ->writeUint(0, 32) // seqno
+                ->writeBytes($this->getPublicKey());
 
             return $cell;
         // @codeCoverageIgnoreStart
@@ -138,17 +168,16 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
     /**
      * @throws BitStringException
      */
-    private function createTxtPayload(string $textMessage): Cell
+    protected function createTxtPayload(string $textMessage): Cell
     {
-        $payload = new Cell();
+        $payload = new Builder();
 
         if (strlen($textMessage) > 0) {
             $payload
-                ->bits
                 ->writeUint(0, 32)
                 ->writeString($textMessage);
         }
 
-        return $payload;
+        return $payload->cell();
     }
 }

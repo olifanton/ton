@@ -22,9 +22,7 @@ class JsonMap
         private readonly string $serializer = self::SER_DEFAULT,
         private readonly mixed $param0 = null,
         private readonly mixed $param1 = null,
-    )
-    {
-    }
+    ) {}
 
     public function getPropertyName(): ?string
     {

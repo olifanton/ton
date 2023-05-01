@@ -6,7 +6,8 @@ use Olifanton\Interop\Address;
 use Olifanton\Interop\Bytes;
 use Olifanton\Interop\Crypto;
 use Olifanton\Interop\Units;
-use Olifanton\Ton\Contracts\Wallets\TransferMessageOptions;
+use Olifanton\Ton\Contracts\Wallets\Transfer;
+use Olifanton\Ton\Contracts\Wallets\TransferOptions;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3Options;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R1;
 use Olifanton\Ton\SendMode;
@@ -19,7 +20,6 @@ class EstimateFeeITest extends ToncenterHttpClientITestCase
      */
     public function testSuccess(): void
     {
-        /** @noinspection PhpComposerExtensionStubsInspection */
         $kp = Crypto::keyPairFromSeed(new Uint8Array(Bytes::bytesToArray(random_bytes(SODIUM_CRYPTO_SIGN_SEEDBYTES))));
         $wallet = new WalletV3R1(
             new WalletV3Options(
@@ -27,13 +27,15 @@ class EstimateFeeITest extends ToncenterHttpClientITestCase
             )
         );
         $transfer = $wallet->createTransferMessage(
-            new TransferMessageOptions(
+            [new Transfer(
                 dest: new Address("EQBYivdc0GAk-nnczaMnYNuSjpeXu2nJS3DZ4KqLjosX5sVC"),
                 amount: Units::toNano("0.01"),
-                seqno: 1,
                 payload: "Hello world!",
                 sendMode: SendMode::IGNORE_ERRORS->combine(SendMode::PAY_GAS_SEPARATELY)
-            )
+            )],
+            new TransferOptions(
+                seqno: 1,
+            ),
         );
 
         $client = $this->getInstance();

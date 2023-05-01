@@ -4,27 +4,54 @@ declare(strict_types=1);
 
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Units;
+use Olifanton\Ton\ContractAwaiter;
+use Olifanton\Ton\Contracts\Wallets\Highload\HighloadV2Options;
+use Olifanton\Ton\Contracts\Wallets\Highload\HighloadWalletV2;
 use Olifanton\Ton\Contracts\Wallets\Transfer;
 use Olifanton\Ton\Contracts\Wallets\TransferOptions;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3Options;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R1;
+use Olifanton\Ton\Deployer;
+use Olifanton\Ton\DeployOptions;
 use Olifanton\Ton\SendMode;
 
 require dirname(__DIR__) . "/common.php";
 
 global $kp, $transport, $logger;
 
-$wallet = new WalletV3R1(
+$awaiter = new ContractAwaiter($transport);
+$awaiter->setLogger($logger);
+
+// HL wallet instance
+$hlWalletKp = \Olifanton\Ton\Helpers\KeyPair::random();
+$hlWallet = new HighloadWalletV2(
+    new HighloadV2Options(
+        $hlWalletKp->publicKey,
+    ),
+);
+
+// Deploy new HL wallet
+$deployWallet = new WalletV3R1(
     new WalletV3Options(
         $kp->publicKey,
     )
 );
-
-$logger->info(
-    "Sending from " . $wallet->getAddress()->toString(true, true, false)
+$deployer = new Deployer($transport);
+$deployer->setLogger($logger);
+$deployer->deploy(
+    new DeployOptions(
+        $deployWallet,
+        $kp->secretKey,
+        Units::toNano(0.5),
+    ),
+    $hlWallet,
 );
 
-$extMsg = $wallet->createTransferMessage(
+// Wait contract deploy
+$awaiter->waitForActive($hlWallet->getAddress());
+
+// Transfers list
+$extMsg = $hlWallet->createTransferMessage(
     [
         new Transfer(
             dest: new Address("UQAoqXsjSOtWhZo9t0Fiss9BIiV34qHo5eU6mx0SL0zQ5do-"),
@@ -36,9 +63,8 @@ $extMsg = $wallet->createTransferMessage(
         ),
     ],
     new TransferOptions(
-        $wallet->seqno($transport),
         sendMode: SendMode::IGNORE_ERRORS->combine(SendMode::PAY_GAS_SEPARATELY),
     ),
 );
 
-$transport->sendMessage($extMsg, $kp->secretKey);
+$transport->sendMessage($extMsg, $hlWalletKp->secretKey);

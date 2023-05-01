@@ -28,7 +28,6 @@ class DomainData
                 256,
                 $dnsNftContent,
                 new DictSerializers(
-                    /** @phpstan-ignore-next-line */ // FIXME Add new supported types in KSerializerCallback
                     keySerializer: static fn(string $k, int $keySize): array => (new BitString($keySize))
                         ->writeBytes(Crypto::sha256(Bytes::stringToBytes($k)))
                         ->toBitsA(),

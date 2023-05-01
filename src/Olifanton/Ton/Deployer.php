@@ -26,9 +26,7 @@ class Deployer implements LoggerAwareInterface
 
     public function __construct(
         private readonly Transport $transport,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @throws DeployerException
@@ -76,7 +74,7 @@ class Deployer implements LoggerAwareInterface
                 ?->debug(
                     sprintf(
                         "Smart contract deployed to %s",
-                        $deployable->getAddress()->toString(true, true, false),
+                        $deployable->getAddress()->toString(true, true, true),
                     ),
                 );
         } catch (TransportException $e) {

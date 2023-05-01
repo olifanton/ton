@@ -6,6 +6,7 @@ use Brick\Math\BigNumber;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\CellException;
+use Olifanton\Ton\AddressState;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Contracts\Messages\Exceptions\MessageException;
@@ -21,9 +22,7 @@ class ToncenterTransport implements Transport
 {
     public function __construct(
         private readonly ToncenterV2Client $client,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @inheritDoc
@@ -49,7 +48,7 @@ class ToncenterTransport implements Transport
                     $stack,
                 );
 
-            if (!in_array($response->exitCode, [0, 1, -13], true)) {
+            if (!in_array($response->exitCode, [0, 1], true)) {
                 throw new TransportException(
                     "Non-zero exit code, code: " . $response->exitCode,
                     $response->exitCode,
@@ -166,6 +165,22 @@ class ToncenterTransport implements Transport
 
             return Cell::oneFromBoc($answer->bytes, isBase64: true);
         } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException | CellException $e) {
+            throw new TransportException(
+                $e->getMessage(),
+                0,
+                $e,
+            );
+        }
+    }
+
+    /**
+     * @throws TransportException
+     */
+    public function getState(Address $address): AddressState
+    {
+        try {
+            return $this->client->getAddressState($address);
+        } catch (TncEx\ClientException | TncEx\TimeoutException | TncEx\ValidationException $e) {
             throw new TransportException(
                 $e->getMessage(),
                 0,

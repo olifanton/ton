@@ -9,7 +9,5 @@ class TonResponse
         public readonly mixed  $result,
         public readonly ?string $error,
         public readonly ?int    $code,
-    )
-    {
-    }
+    ) {}
 }

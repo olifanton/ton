@@ -11,9 +11,10 @@ use Olifanton\Ton\Transport;
 interface Wallet extends Contract
 {
     /**
+     * @param Transfer[] $transfers
      * @throws WalletException
      */
-    public function createTransferMessage(TransferMessageOptions $options): ExternalMessage;
+    public function createTransferMessage(array $transfers, ?TransferOptions $options = null): ExternalMessage;
 
     /**
      * @throws WalletException

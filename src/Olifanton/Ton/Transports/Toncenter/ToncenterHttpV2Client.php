@@ -38,9 +38,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
 {
     public function __construct(private readonly HttpMethodsClientInterface $httpClient,
                                 private readonly ClientOptions $options,
-    )
-    {
-    }
+    ) {}
 
     /**
      * @inheritDoc

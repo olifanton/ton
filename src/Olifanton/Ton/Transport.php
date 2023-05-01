@@ -39,4 +39,9 @@ interface Transport
      * @throws TransportException
      */
     public function getConfigParam(int $configParamId): Cell;
+
+    /**
+     * @throws TransportException
+     */
+    public function getState(Address $address): AddressState;
 }

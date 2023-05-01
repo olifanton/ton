@@ -12,7 +12,5 @@ class DeployOptions
         public readonly Wallet     $deployerWallet,
         public readonly Uint8Array $deployerSecretKey,
         public readonly BigInteger $storageAmount,
-    )
-    {
-    }
+    ) {}
 }

@@ -8,16 +8,13 @@ use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contracts\Messages\StateInit;
 use Olifanton\Ton\SendMode;
 
-class TransferMessageOptions
+class Transfer
 {
     public function __construct(
         public readonly Address $dest,
         public readonly BigInteger $amount,
-        public readonly int $seqno,
-        public readonly string | Cell $payload = "",
-        public readonly SendMode | int $sendMode = SendMode::NONE,
+        public readonly string|Cell $payload = "",
+        public readonly SendMode|int $sendMode = SendMode::NONE,
         public readonly ?StateInit $stateInit = null,
-    )
-    {
-    }
+    ) {}
 }

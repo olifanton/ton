@@ -5,6 +5,7 @@ namespace Olifanton\Ton\Transports\NullTransport;
 use Brick\Math\BigNumber;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
+use Olifanton\Ton\AddressState;
 use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Contracts\Messages\ExternalMessage;
@@ -54,5 +55,10 @@ class NullTransport implements Transport
     public function getConfigParam(int $configParamId): Cell
     {
         return new Cell();
+    }
+
+    public function getState(Address $address): AddressState
+    {
+        return AddressState::UNINITIALIZED;
     }
 }

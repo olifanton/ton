@@ -7,7 +7,5 @@ class ClientOptions
     public function __construct(
         public readonly string $baseUri = "https://toncenter.com/api/v2",
         public readonly ?string $apiKey = null,
-    )
-    {
-    }
+    ) {}
 }
