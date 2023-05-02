@@ -4,10 +4,10 @@ namespace Olifanton\Ton\Tests\Contracts\Wallets\V2;
 
 use Olifanton\Mnemonic\Exceptions\TonMnemonicException;
 use Olifanton\Mnemonic\TonMnemonic;
-use Olifanton\Ton\Contracts\ContractOptions;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Contracts\Wallets\V2\WalletV2R1;
+use Olifanton\Ton\Contracts\Wallets\WalletOptions;
 use Olifanton\Ton\Tests\Stubs\StubWords;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +24,7 @@ class WalletV2R1Test extends TestCase
     public function testAddress(): void
     {
         $keyPair = TonMnemonic::mnemonicToKeyPair(StubWords::WORDS);
-        $wallet = new WalletV2R1(new ContractOptions(publicKey: $keyPair->publicKey));
+        $wallet = new WalletV2R1(new WalletOptions(publicKey: $keyPair->publicKey));
         $this->assertEquals(
             "UQALL_DxP4Rwyb7FcUlLdrbLHreISrxCh5iIOvP53ouNvHBI",
             $wallet->getAddress()->toString(true, true),

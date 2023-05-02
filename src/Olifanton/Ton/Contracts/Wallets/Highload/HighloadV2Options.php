@@ -2,16 +2,19 @@
 
 namespace Olifanton\Ton\Contracts\Wallets\Highload;
 
-use Olifanton\Ton\Contracts\ContractOptions;
+use Olifanton\Interop\Address;
+use Olifanton\Ton\Contracts\Wallets\WalletOptions;
 use Olifanton\TypedArrays\Uint8Array;
 
-class HighloadV2Options extends ContractOptions
+class HighloadV2Options extends WalletOptions
 {
-    public function __construct(Uint8Array $publicKey,
-                                int $workchain = 0,
-                                public readonly int $subwalletId = 0,
+    public function __construct(
+        Uint8Array $publicKey,
+        public readonly int $subwalletId = 0,
+        int $workchain = 0,
+        ?Address $address = null,
     )
     {
-        parent::__construct($publicKey, $workchain);
+        parent::__construct($publicKey, $workchain, $address);
     }
 }

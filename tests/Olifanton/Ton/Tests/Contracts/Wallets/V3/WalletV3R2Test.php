@@ -30,20 +30,4 @@ class WalletV3R2Test extends TestCase
             $wallet->getAddress()->toString(true, true),
         );
     }
-
-    /*
-     public function testCreateAndSignDeployMessage(): void
-     {
-         $keyPair = TonMnemonic::mnemonicToKeyPair(StubWords::WORDS);
-         $wallet = new WalletV3R2(new WalletV3Options(publicKey: $keyPair->publicKey));
-         $deployCell = $wallet
-             ->createDeployMessage(new ExternalMessageOptions(dest: $wallet->getAddress()))
-             ->sign($keyPair->secretKey);
-
-         $this->assertEquals(
-             "",
-             Bytes::bytesToHexString($deployCell->hash()),
-         );
-     }
-    */
 }

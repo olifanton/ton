@@ -7,6 +7,7 @@ use Olifanton\Ton\Contract;
 use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Transport;
+use Olifanton\TypedArrays\Uint8Array;
 
 interface Wallet extends Contract
 {
@@ -25,4 +26,8 @@ interface Wallet extends Contract
      * @throws WalletException
      */
     public function createSigningMessage(int $seqno): Cell;
+
+    public function getPublicKey(): Uint8Array;
+
+    public function getWc(): int;
 }

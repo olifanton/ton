@@ -5,7 +5,6 @@ namespace Olifanton\Ton;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
-use Olifanton\TypedArrays\Uint8Array;
 
 interface Contract
 {
@@ -25,8 +24,6 @@ interface Contract
      * @throws ContractException
      */
     public function getAddress(): Address;
-
-    public function getPublicKey(): Uint8Array;
 
     public function getWc(): int;
 }

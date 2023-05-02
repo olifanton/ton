@@ -17,9 +17,22 @@ use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\SendMode;
 use Olifanton\Ton\Transport;
+use Olifanton\TypedArrays\Uint8Array;
 
 abstract class AbstractWallet extends AbstractContract implements Wallet
 {
+    protected Uint8Array $publicKey;
+
+    protected int $wc;
+
+    public function __construct(WalletOptions $walletOptions)
+    {
+        $this->publicKey = $walletOptions->publicKey;
+        $this->wc = $walletOptions->workchain;
+
+        parent::__construct($walletOptions);
+    }
+
     /**
      * @throws WalletException
      */
@@ -94,7 +107,7 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                     : $transfer->payload;
                 $internalMessage = new InternalMessage(
                     new InternalMessageOptions(
-                        bounce: false,
+                        bounce: $transfer->bounce,
                         dest: $transfer->dest,
                         value: $transfer->amount,
                         src: $this->getAddress(),
@@ -133,6 +146,26 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
         }
     }
 
+    public function createSigningMessage(int $seqno): Cell
+    {
+        $cell = new Cell();
+
+        try {
+            $cell
+                ->bits
+                ->writeUint($seqno, 32);
+        } catch (BitStringException $e) {
+            throw new WalletException($e->getMessage(), $e->getCode(), $e);
+        }
+
+        return $cell;
+    }
+
+    public function getPublicKey(): Uint8Array
+    {
+        return $this->publicKey;
+    }
+
     protected function createData(): Cell
     {
         try {
@@ -148,21 +181,6 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
             throw new WalletException("Wallet data creation error: " . $e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
-    }
-
-    public function createSigningMessage(int $seqno): Cell
-    {
-        $cell = new Cell();
-
-        try {
-            $cell
-                ->bits
-                ->writeUint($seqno, 32);
-        } catch (BitStringException $e) {
-            throw new WalletException($e->getMessage(), $e->getCode(), $e);
-        }
-
-        return $cell;
     }
 
     /**

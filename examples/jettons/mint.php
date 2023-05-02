@@ -8,10 +8,14 @@ use Olifanton\Ton\Contracts\ContractOptions;
 use Olifanton\Ton\Contracts\Jetton\JettonMinter;
 use Olifanton\Ton\Contracts\Jetton\JettonMinterOptions;
 use Olifanton\Ton\Contracts\Jetton\JettonWallet;
+use Olifanton\Ton\Contracts\Jetton\MintOptions;
+use Olifanton\Ton\Contracts\Wallets\Transfer;
+use Olifanton\Ton\Contracts\Wallets\TransferOptions;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3Options;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R1;
 use Olifanton\Ton\Deployer;
 use Olifanton\Ton\DeployOptions;
+use Olifanton\Ton\SendMode;
 
 require dirname(__DIR__) . "/common.php";
 
@@ -32,10 +36,9 @@ $minter = new JettonMinter(
     new JettonMinterOptions(
         adminAddress: $deployWallet->getAddress(),
         jettonContentUrl: "https://api.npoint.io/036c97bf516d3996c9b0",
-        jettonWalletCode: (new JettonWallet(new ContractOptions(null)))->getCode(),
+        jettonWalletCode: (new JettonWallet(new ContractOptions()))->getCode(),
     ),
 );
-// EQDOTr21oyFE5Aylolo0NxG9eNxSxPz0bW2OWzaswOrP7WTK
 
 // Deploy new minter contract
 $deployer = new Deployer($transport);
@@ -50,5 +53,30 @@ $deployer->deploy(
 );
 
 $awaiter->waitForActive($minter->getAddress());
+
+$transfer = $deployWallet->createTransferMessage(
+    [
+        new Transfer(
+            dest: $minter->getAddress(),
+            amount: Units::toNano("0.05"),
+            payload: $minter->createMintBody(new MintOptions(
+                jettonAmount: Units::toNano("1000000"),
+                destination: $deployWallet->getAddress(),
+                amount: Units::toNano("0.05"),
+            )),
+            bounce: false,
+        ),
+    ],
+    new TransferOptions(
+        seqno: $deployWallet->seqno($transport),
+        sendMode: SendMode::PAY_GAS_SEPARATELY->combine(SendMode::IGNORE_ERRORS),
+    )
+);
+$transport->sendMessage($transfer, $kp->secretKey);
+
+$jettonWalletAddress = $minter->getJettonWalletAddress($transport, $deployWallet->getAddress());
+$logger->info(
+    "Jetton wallet address: " . $jettonWalletAddress->toString(true, true, false),
+);
 
 $logger->info("Done!");

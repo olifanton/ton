@@ -16,5 +16,6 @@ class Transfer
         public readonly string|Cell $payload = "",
         public readonly SendMode|int $sendMode = SendMode::NONE,
         public readonly ?StateInit $stateInit = null,
+        public readonly bool $bounce = false,
     ) {}
 }

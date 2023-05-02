@@ -4,10 +4,10 @@ namespace Olifanton\Ton\Tests\Transports\Toncenter\ToncenterTransport;
 
 use Hamcrest\Core\IsEqual;
 use Mockery\MockInterface;
-use Olifanton\Ton\Contracts\ContractOptions;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Contracts\Wallets\Simple\SimpleWalletR1;
 use Olifanton\Ton\Contracts\Wallets\Wallet;
+use Olifanton\Ton\Contracts\Wallets\WalletOptions;
 use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Marshalling\Json\Hydrator;
 use Olifanton\Ton\Tests\Stubs\StubWords;
@@ -45,7 +45,7 @@ class RunGetMethodTest extends TestCase
     public function testRunSuccess(): void
     {
         $instance = $this->getInstance();
-        $wallet = new SimpleWalletR1(new ContractOptions(publicKey: StubWords::getKP()->publicKey));
+        $wallet = new SimpleWalletR1(new WalletOptions(publicKey: StubWords::getKP()->publicKey));
 
         /** @phpstan-ignore-next-line */
         $this
@@ -92,7 +92,7 @@ class RunGetMethodTest extends TestCase
     public function testRunNonZeroExitError(): void
     {
         $instance = $this->getInstance();
-        $wallet = new SimpleWalletR1(new ContractOptions(publicKey: StubWords::getKP()->publicKey));
+        $wallet = new SimpleWalletR1(new WalletOptions(publicKey: StubWords::getKP()->publicKey));
 
         $dataStub = ToncenterHttpClientUTestCase::getDataStub('runGetMethod/result')['result'];
         $dataStub['exit_code'] = 99;
@@ -120,7 +120,7 @@ class RunGetMethodTest extends TestCase
     public function testRunClientError(): void
     {
         $instance = $this->getInstance();
-        $wallet = new SimpleWalletR1(new ContractOptions(publicKey: StubWords::getKP()->publicKey));
+        $wallet = new SimpleWalletR1(new WalletOptions(publicKey: StubWords::getKP()->publicKey));
 
         /** @phpstan-ignore-next-line */
         $this
@@ -141,7 +141,7 @@ class RunGetMethodTest extends TestCase
     public function testRunStackParsingError(): void
     {
         $instance = $this->getInstance();
-        $wallet = new SimpleWalletR1(new ContractOptions(publicKey: StubWords::getKP()->publicKey));
+        $wallet = new SimpleWalletR1(new WalletOptions(publicKey: StubWords::getKP()->publicKey));
 
         $dataStub = ToncenterHttpClientUTestCase::getDataStub('runGetMethod/result')['result'];
         $dataStub['stack'] = [

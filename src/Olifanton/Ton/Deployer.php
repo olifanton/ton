@@ -29,10 +29,18 @@ class Deployer implements LoggerAwareInterface
     ) {}
 
     /**
-     * @throws DeployerException
+     * @throws DeployerException|TransportException
      */
     public function deploy(DeployOptions $options, Deployable $deployable): void
     {
+        if ($this->transport->getState($deployable->getAddress()) === AddressState::ACTIVE) {
+            $this->logger?->warning(sprintf(
+                "Contract %s already deployed",
+                $deployable->getAddress()->toString(true, true, false),
+            ));
+            return;
+        }
+
         $this->validateStateInit($deployable);
 
         try {

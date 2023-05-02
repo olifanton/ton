@@ -6,6 +6,7 @@ use Hamcrest\Core\IsEqual;
 use Hamcrest\Type\IsString;
 use Mockery\MockInterface;
 use Olifanton\Interop\Units;
+use Olifanton\Ton\AddressState;
 use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3Options;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R1;
@@ -76,6 +77,13 @@ class DeployerTest extends TestCase
             })
             ->once();
 
+        /** @phpstan-ignore-next-line */
+        $this
+            ->transportMock
+            ->shouldReceive("getState")
+            ->with(IsEqual::equalTo($newWallet->getAddress()))
+            ->andReturn(AddressState::UNKNOWN);
+
         $this
             ->getInstance()
             ->deploy(
@@ -112,6 +120,13 @@ class DeployerTest extends TestCase
             ->with(IsEqual::equalTo($deployWallet), "seqno")
             ->once()
             ->andThrow(new TransportException("Foo bar"));
+
+        /** @phpstan-ignore-next-line */
+        $this
+            ->transportMock
+            ->shouldReceive("getState")
+            ->with(IsEqual::equalTo($newWallet->getAddress()))
+            ->andReturn(AddressState::UNKNOWN);
 
         $this->expectException(DeployerException::class);
         $this->expectExceptionMessage("Foo bar");
@@ -164,6 +179,13 @@ class DeployerTest extends TestCase
             })
             ->once()
             ->andThrow(new TransportException("Foo bar"));
+
+        /** @phpstan-ignore-next-line */
+        $this
+            ->transportMock
+            ->shouldReceive("getState")
+            ->with(IsEqual::equalTo($newWallet->getAddress()))
+            ->andReturn(AddressState::UNKNOWN);
 
         $this->expectException(DeployerException::class);
         $this->expectExceptionMessage("Foo bar");

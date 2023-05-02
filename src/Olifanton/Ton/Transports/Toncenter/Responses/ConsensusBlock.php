@@ -9,6 +9,6 @@ class ConsensusBlock
     #[JsonMap("consensus_block")]
     public readonly int $consensusBlock;
 
-    #[JsonMap()]
+    #[JsonMap]
     public readonly float $timestamp;
 }

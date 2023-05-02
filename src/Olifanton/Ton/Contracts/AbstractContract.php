@@ -12,23 +12,20 @@ use Olifanton\Ton\Contracts\Interfaces\Deployable;
 use Olifanton\Ton\Contracts\Messages\Exceptions\MessageException;
 use Olifanton\Ton\Contracts\Messages\StateInit;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
-use Olifanton\TypedArrays\Uint8Array;
 
 abstract class AbstractContract implements Contract, Deployable
 {
-    protected ?Uint8Array $publicKey;
-
-    protected int $wc;
-
     protected ?Cell $code = null;
 
     protected ?Cell $data = null;
 
-    private ?Address $address = null;
+    private ?Address $address;
+
+    private int $wc;
 
     public function __construct(ContractOptions $contractOptions)
     {
-        $this->publicKey = $contractOptions->publicKey;
+        $this->address = $contractOptions->address;
         $this->wc = $contractOptions->workchain;
     }
 
@@ -66,16 +63,6 @@ abstract class AbstractContract implements Contract, Deployable
         return $this->address;
     }
 
-    public function getPublicKey(): Uint8Array
-    {
-        return $this->publicKey;
-    }
-
-    public function getWc(): int
-    {
-        return $this->wc;
-    }
-
     /**
      * @throws ContractException
      */
@@ -85,6 +72,11 @@ abstract class AbstractContract implements Contract, Deployable
             $this->getCode(),
             $this->getData(),
         );
+    }
+
+    public function getWc(): int
+    {
+        return $this->wc;
     }
 
     /**

@@ -2,12 +2,12 @@
 
 namespace Olifanton\Ton\Contracts;
 
-use Olifanton\TypedArrays\Uint8Array;
+use Olifanton\Interop\Address;
 
 class ContractOptions
 {
     public function __construct(
-        public readonly ?Uint8Array $publicKey,
         public readonly int $workchain = 0,
+        public readonly ?Address $address = null,
     ) {}
 }

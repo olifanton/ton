@@ -9,6 +9,7 @@ use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\BitStringException;
 use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Interop\Boc\Exceptions\SliceException;
+use Olifanton\Interop\Bytes;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Exceptions\TransportException;
@@ -36,10 +37,10 @@ class JettonMinter extends AbstractContract
 
         return new self(
             new JettonMinterOptions(
-                $data->adminAddress,
-                $data->jettonContentUrl,
-                $data->jettonWalletCode,
-                $address,
+                adminAddress: $data->adminAddress,
+                jettonContentUrl: $data->jettonContentUrl,
+                jettonWalletCode: $data->jettonWalletCode,
+                address: $address,
             ),
         );
     }
@@ -153,6 +154,41 @@ class JettonMinter extends AbstractContract
      * @throws ContractException
      * @throws TransportException
      */
+    public function getJettonWalletAddress(Transport $transport, Address $ownerAddress): ?Address
+    {
+        try {
+            $stack = $transport
+                ->runGetMethod(
+                    $this,
+                    "get_wallet_address",
+                    [
+                        [
+                            "tvm.Slice",
+                            Bytes::bytesToBase64(
+                                (new Builder())
+                                    ->writeAddress($ownerAddress)
+                                    ->cell()
+                                    ->toBoc(false),
+                            ),
+                        ]
+                    ]
+                );
+            $cell = $stack->currentCell();
+
+            if (!$cell) {
+                throw new ContractException("Getter response stack parsing error, empty cell");
+            }
+
+            return AddressHelper::parseAddressSlice($cell->beginParse());
+        } catch (BitStringException|CellException|SliceException $e) {
+            throw new ContractException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * @throws ContractException
+     * @throws TransportException
+     */
     private static function getJettonDataInner(Transport $transport, Address $address): JettonData
     {
         try {
@@ -174,6 +210,7 @@ class JettonMinter extends AbstractContract
             $jettonContentUrl = null;
             $jettonContentCell = $stack->currentCell();
             $stack->next();
+
             try {
                 $jettonContentUrl = OffchainHelper::parseUrlCell($jettonContentCell);
             } catch (\InvalidArgumentException $e) {
