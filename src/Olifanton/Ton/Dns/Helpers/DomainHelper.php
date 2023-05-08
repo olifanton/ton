@@ -13,7 +13,7 @@ final class DomainHelper
      */
     public static function domainToBytes(string $domain): Uint8Array
     {
-        if ($domain === '.') {
+        if ($domain === ".") {
             return new Uint8Array([0]);
         }
 
@@ -23,7 +23,7 @@ final class DomainHelper
             throw new DnsException("Domain contains illegal characters");
         }
 
-        $components = explode('.', $domain);
+        $components = explode(".", $domain);
 
         foreach ($components as $component) {
             if (empty($component)) {

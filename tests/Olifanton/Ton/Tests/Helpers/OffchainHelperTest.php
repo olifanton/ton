@@ -27,7 +27,7 @@ class OffchainHelperTest extends TestCase
      */
     public function testParseUrlCell(): void
     {
-        $cell = Cell::oneFromBoc('b5ee9c7241010101002800004c0168747470733a2f2f6578616d706c652e636f6d2f666f6f2f6261722f62617a3f743d31323345d67edd');
+        $cell = Cell::oneFromBoc("b5ee9c7241010101002800004c0168747470733a2f2f6578616d706c652e636f6d2f666f6f2f6261722f62617a3f743d31323345d67edd");
         $url = OffchainHelper::parseUrlCell($cell);
 
         $this->assertEquals(

@@ -92,10 +92,10 @@ abstract class AbstractContract implements Contract, Deployable
     /**
      * @throws ContractException
      */
-    protected function deserializeCode(string $serializedBoc): Cell
+    protected static function deserializeCode(string $serializedBoc, bool $isBase64 = false): Cell
     {
         try {
-            return Cell::oneFromBoc($serializedBoc);
+            return Cell::oneFromBoc($serializedBoc, $isBase64);
             // @codeCoverageIgnoreStart
         } catch (CellException $e) {
             throw new WalletException("Wallet code creation error: " . $e->getMessage(), $e->getCode(), $e);

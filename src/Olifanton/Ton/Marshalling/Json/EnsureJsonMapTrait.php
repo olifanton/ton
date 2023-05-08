@@ -33,16 +33,16 @@ trait EnsureJsonMapTrait
                 /** @var ReflectionNamedType|null $propertyType */
                 $propertyType = $reflectionProperty->getType();
                 $map[$propertyName] = [
-                    "result_name" => !empty($jsonMapAttrArgs['propertyName'])
-                        ? $jsonMapAttrArgs['propertyName']
+                    "result_name" => !empty($jsonMapAttrArgs["propertyName"])
+                        ? $jsonMapAttrArgs["propertyName"]
                         : $propertyName,
-                    "serializer" => $jsonMapAttrArgs['serializer'],
+                    "serializer" => $jsonMapAttrArgs["serializer"],
                     "type" => ($propertyType instanceof ReflectionNamedType)
                         ? $propertyType->getName()
                         : null,
                     "type_allows_null" => $propertyType?->allowsNull(),
-                    "param0" => $jsonMapAttrArgs['param0'],
-                    "param1" => $jsonMapAttrArgs['param1'],
+                    "param0" => $jsonMapAttrArgs["param0"],
+                    "param1" => $jsonMapAttrArgs["param1"],
                 ];
             }
         }
@@ -62,13 +62,13 @@ trait EnsureJsonMapTrait
     private static function normalizeAttributeArguments(array $jsonMapAttrArgs): array
     {
         $args = [
-            'propertyName',
-            'serializer',
-            'param0',
-            'param1',
+            "propertyName",
+            "serializer",
+            "param0",
+            "param1",
         ];
         $result = array_fill_keys($args, null);
-        $result['serializer'] = JsonMap::SER_DEFAULT;
+        $result["serializer"] = JsonMap::SER_DEFAULT;
 
         foreach ($args as $index => $name) {
             $result[$name] = $jsonMapAttrArgs[$name] ?? $jsonMapAttrArgs[$index] ?? $result[$name];

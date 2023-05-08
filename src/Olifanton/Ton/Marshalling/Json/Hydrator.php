@@ -62,7 +62,7 @@ class Hydrator
             /** @var string $serializer */
             $serializer = $mapParams["serializer"];
             /** @var string|null $phpType */
-            $phpType = $mapParams['type'];
+            $phpType = $mapParams["type"];
             /** @var bool|null $typeAllowsNull */
             $typeAllowsNull = $mapParams["type_allows_null"];
             $param0 = $mapParams["param0"];
@@ -94,7 +94,7 @@ class Hydrator
 
     private static function deserializeDefault(mixed $jsonValue, ?string $phpType, ?bool $typeAllowsNull): mixed
     {
-        if ($phpType === 'DateTimeInterface') {
+        if ($phpType === "DateTimeInterface") {
             if (!$jsonValue && $typeAllowsNull) {
                 return null;
             }

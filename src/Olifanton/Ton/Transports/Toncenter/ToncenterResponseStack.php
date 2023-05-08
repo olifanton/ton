@@ -10,13 +10,13 @@ use Olifanton\Ton\Contracts\Messages\ResponseStack;
 
 class ToncenterResponseStack extends \SplQueue implements ResponseStack
 {
-    private const TYPE_NUM = 'num';
+    private const TYPE_NUM = "num";
 
-    private const TYPE_LIST = 'list';
+    private const TYPE_LIST = "list";
 
-    private const TYPE_TUPLE = 'tuple';
+    private const TYPE_TUPLE = "tuple";
 
-    private const TYPE_CELL = 'cell';
+    private const TYPE_CELL = "cell";
 
     private ?array $rawStack;
 
@@ -133,16 +133,16 @@ class ToncenterResponseStack extends \SplQueue implements ResponseStack
      */
     private static function parseObject(array $entry): mixed
     {
-        $typeName = $entry['@type'];
+        $typeName = $entry["@type"];
 
         try {
             return match ($typeName) {
-                'tvm.list', 'tvm.tuple' => array_map(static fn(array $e) => self::parseObject($e), $entry['elements']),
-                'tvm.cell' => Cell::oneFromBoc($entry['bytes'], true),
-                'tvm.stackEntryCell' => self::parseObject($entry['cell']),
-                'tvm.stackEntryTuple' => self::parseObject($entry['tuple']),
-                'tvm.stackEntryNumber' => self::parseObject($entry['number']),
-                'tvm.numberDecimal' => BigInteger::fromBase($entry['number'], 10),
+                "tvm.list", "tvm.tuple" => array_map(static fn(array $e) => self::parseObject($e), $entry["elements"]),
+                "tvm.cell" => Cell::oneFromBoc($entry["bytes"], true),
+                "tvm.stackEntryCell" => self::parseObject($entry["cell"]),
+                "tvm.stackEntryTuple" => self::parseObject($entry["tuple"]),
+                "tvm.stackEntryNumber" => self::parseObject($entry["number"]),
+                "tvm.numberDecimal" => BigInteger::fromBase($entry["number"], 10),
                 default => throw new ResponseStackParsingException(
                     "Unknown type: " . $typeName,
                 ),

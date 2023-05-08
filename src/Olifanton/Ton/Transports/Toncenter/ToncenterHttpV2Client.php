@@ -444,7 +444,7 @@ class ToncenterHttpV2Client implements ToncenterV2Client
                 "params" => $params,
             ]);
 
-        return $this->hydrateResponseModel(ConfigInfo::class, $response->result['config']);
+        return $this->hydrateResponseModel(ConfigInfo::class, $response->result["config"]);
     }
 
     /**

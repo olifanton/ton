@@ -23,7 +23,7 @@ class DnsClientITest extends TestCase
      */
     public function testResolveAddr(): void
     {
-        $result = $this->getInstance()->resolve('foobarbazover9000yolo.ton');
+        $result = $this->getInstance()->resolve("foobarbazover9000yolo.ton");
         $this
             ->assertEquals(
                 "0:2d95c14fb61944de50731c8f3ded3caeda50a88b8ddf7cdb57ddf8dc3da962cf",

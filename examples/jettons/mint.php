@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 use Olifanton\Interop\Units;
 use Olifanton\Ton\ContractAwaiter;
-use Olifanton\Ton\Contracts\ContractOptions;
 use Olifanton\Ton\Contracts\Jetton\JettonMinter;
 use Olifanton\Ton\Contracts\Jetton\JettonMinterOptions;
 use Olifanton\Ton\Contracts\Jetton\JettonWallet;
@@ -36,7 +35,7 @@ $minter = new JettonMinter(
     new JettonMinterOptions(
         adminAddress: $deployWallet->getAddress(),
         jettonContentUrl: "https://api.npoint.io/036c97bf516d3996c9b0",
-        jettonWalletCode: (new JettonWallet(new ContractOptions()))->getCode(),
+        jettonWalletCode: JettonWallet::getDefaultCode(),
     ),
 );
 
@@ -59,7 +58,7 @@ $transfer = $deployWallet->createTransferMessage(
         new Transfer(
             dest: $minter->getAddress(),
             amount: Units::toNano("0.05"),
-            payload: $minter->createMintBody(new MintOptions(
+            payload: JettonMinter::createMintBody(new MintOptions(
                 jettonAmount: Units::toNano("1000000"),
                 destination: $deployWallet->getAddress(),
                 amount: Units::toNano("0.05"),

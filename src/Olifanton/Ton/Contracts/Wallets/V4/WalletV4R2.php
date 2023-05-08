@@ -108,7 +108,7 @@ class WalletV4R2 extends WalletV4
         $result = $transport
             ->runGetMethod(
                 $this,
-                'get_plugin_list',
+                "get_plugin_list",
             );
 
         return array_map(

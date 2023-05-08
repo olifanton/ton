@@ -55,7 +55,7 @@ $logger = new class extends AbstractLogger
             $message,
             empty($context)
                 ? ""
-                : PHP_EOL . "\tContext:" . PHP_EOL . implode(PHP_EOL, array_map($renderContextRow, array_keys($context), array_values($context))) . PHP_EOL . "\t" . str_repeat('=', 20) . PHP_EOL,
+                : PHP_EOL . "\tContext:" . PHP_EOL . implode(PHP_EOL, array_map($renderContextRow, array_keys($context), array_values($context))) . PHP_EOL . "\t" . str_repeat("=", 20) . PHP_EOL,
             PHP_EOL,
         );
     }

@@ -49,7 +49,7 @@ class MessageTest extends TestCase
             ->bits
             ->writeString("bar");
 
-        $secretKey = Bytes::base64ToBytes('WETxFdMU/4MzMe4Cu/6jWLWgwVIcZecPjCnL3p84tcPvEX8wDU7KD4j/0X0ANA3uDIZLDYMAGXIDFDwDavO+KQ==');
+        $secretKey = Bytes::base64ToBytes("WETxFdMU/4MzMe4Cu/6jWLWgwVIcZecPjCnL3p84tcPvEX8wDU7KD4j/0X0ANA3uDIZLDYMAGXIDFDwDavO+KQ==");
 
         $instance = new StubMessage($header, $body);
         $resultCellHashStr = Bytes::bytesToHexString(
@@ -79,7 +79,7 @@ class MessageTest extends TestCase
             ->bits
             ->writeString("Lorem ipsum dolor sit amet, consectetur adipisicing elit");
 
-        $secretKey = Bytes::base64ToBytes('WETxFdMU/4MzMe4Cu/6jWLWgwVIcZecPjCnL3p84tcPvEX8wDU7KD4j/0X0ANA3uDIZLDYMAGXIDFDwDavO+KQ==');
+        $secretKey = Bytes::base64ToBytes("WETxFdMU/4MzMe4Cu/6jWLWgwVIcZecPjCnL3p84tcPvEX8wDU7KD4j/0X0ANA3uDIZLDYMAGXIDFDwDavO+KQ==");
 
         $instance = new StubMessage($header, $body);
         $resultCellHashStr = Bytes::bytesToHexString(
