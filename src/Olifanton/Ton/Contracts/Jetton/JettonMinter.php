@@ -61,9 +61,11 @@ class JettonMinter extends AbstractContract
             $data->refs[] = $this->options->jettonWalletCode;
 
             return $data;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public static function getName(): string
@@ -102,9 +104,11 @@ class JettonMinter extends AbstractContract
             $body->refs[] = $transferBody;
 
             return $body;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -118,9 +122,11 @@ class JettonMinter extends AbstractContract
                 ->writeUint($queryId, 64)
                 ->writeAddress($newAdminAddress)
                 ->cell();
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -136,9 +142,11 @@ class JettonMinter extends AbstractContract
             $body->refs[] = OffchainHelper::createUrlCell($jettonContentUrl);
 
             return $body;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -180,9 +188,11 @@ class JettonMinter extends AbstractContract
             }
 
             return AddressHelper::parseAddressSlice($cell->beginParse());
+        // @codeCoverageIgnoreStart
         } catch (BitStringException|CellException|SliceException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -226,8 +236,10 @@ class JettonMinter extends AbstractContract
                 jettonContentCell: $jettonContentCell,
                 jettonWalletCode: $jettonWalletCode,
             );
+        // @codeCoverageIgnoreStart
         } catch (SliceException|CellException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 }

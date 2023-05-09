@@ -124,9 +124,7 @@ class ToncenterResponseStack extends \SplQueue implements ResponseStack
         return new self();
     }
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     /**
      * @throws ResponseStackParsingException
@@ -147,6 +145,7 @@ class ToncenterResponseStack extends \SplQueue implements ResponseStack
                     "Unknown type: " . $typeName,
                 ),
             };
+        // @codeCoverageIgnoreStart
         } catch (CellException $e) {
             throw new ResponseStackParsingException(
                 sprintf(
@@ -158,6 +157,7 @@ class ToncenterResponseStack extends \SplQueue implements ResponseStack
                 $e,
             );
         }
+        // @codeCoverageIgnoreEnd
     }
 
     private function currentInternal(string $type): mixed

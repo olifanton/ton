@@ -35,9 +35,11 @@ class ExternalMessage extends Message
                 ->writeAddress($src)
                 ->writeAddress($dest)
                 ->writeCoins($importFee);
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new MessageException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
 
         parent::__construct($header, $body, $state);
     }

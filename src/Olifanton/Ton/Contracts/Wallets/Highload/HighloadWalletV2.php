@@ -52,9 +52,11 @@ class HighloadWalletV2 extends AbstractWallet implements Wallet
                 ->writeBytes($this->publicKey)
                 ->writeDict(new HashmapE(16))
                 ->cell();
+        // @codeCoverageIgnoreStart
         } catch (BitStringException|HashmapException|CellException|SliceException $e) {
             throw new WalletException("Wallet data creation error: " . $e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public function createTransferMessage(array $transfers, ?TransferOptions $options = null): ExternalMessage
@@ -106,6 +108,7 @@ class HighloadWalletV2 extends AbstractWallet implements Wallet
                         ->writeRef($internalMessage->cell())
                         ->cell()
                 );
+            // @codeCoverageIgnoreStart
             } catch (BitStringException|MessageException|ContractException $e) {
                 throw new WalletException(sprintf(
                     "Internal message %d serialization error: %s",
@@ -113,6 +116,7 @@ class HighloadWalletV2 extends AbstractWallet implements Wallet
                     $e->getMessage()
                 ), $e->getCode(), $e);
             }
+            // @codeCoverageIgnoreEnd
         }
 
         try {
@@ -127,6 +131,7 @@ class HighloadWalletV2 extends AbstractWallet implements Wallet
                     $signingMessage->cell(),
                 )
             );
+        // @codeCoverageIgnoreStart
         } catch (MessageException|ContractException|CellException|HashmapException|SliceException $e) {
             throw new WalletException(
                 $e->getMessage(),
@@ -134,6 +139,7 @@ class HighloadWalletV2 extends AbstractWallet implements Wallet
                 $e,
             );
         }
+        // @codeCoverageIgnoreEnd
     }
 
     private function generateQueryId(int $timeout): int

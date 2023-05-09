@@ -23,6 +23,7 @@ class NullTransport implements Transport
             if ($contract instanceof Contract) {
                 $contract->getAddress();
             }
+        // @codeCoverageIgnoreStart
         } catch (ContractException $e) {
             throw new TransportException(
                 "Address error: " . $e->getMessage(),
@@ -30,6 +31,7 @@ class NullTransport implements Transport
                 $e,
             );
         }
+        // @codeCoverageIgnoreEnd
 
         return ToncenterResponseStack::empty();
     }

@@ -27,8 +27,10 @@ abstract class WalletV2 extends AbstractWallet
             }
 
             return $cell;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new WalletException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 }

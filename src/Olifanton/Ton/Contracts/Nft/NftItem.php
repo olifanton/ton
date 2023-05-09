@@ -45,9 +45,11 @@ class NftItem extends AbstractContract
                 ->writeUint($this->options->index, 64)
                 ->writeAddress($this->options->collectionAddress)
                 ->cell();
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public static function getName(): string
@@ -58,7 +60,7 @@ class NftItem extends AbstractContract
     /**
      * @throws ContractException
      */
-    public function createTransferBody(NftTransferOptions $options): Cell
+    public static function createTransferBody(NftTransferOptions $options): Cell
     {
         try {
             $bodyBuilder = (new Builder())
@@ -75,24 +77,28 @@ class NftItem extends AbstractContract
             }
 
             return $bodyBuilder->cell();
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
      * @throws ContractException
      */
-    public function getStaticDataBody(int $queryId = 0): Cell
+    public static function getStaticDataBody(int $queryId = 0): Cell
     {
         try {
             return (new Builder())
                 ->writeUint(0x2fcb26a2, 32)
                 ->writeUint($queryId, 64)
                 ->cell();
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -140,8 +146,10 @@ class NftItem extends AbstractContract
                 contentUrl: $contentUrl,
                 ownerAddress: $ownerAddress,
             );
+        // @codeCoverageIgnoreStart
         } catch (SliceException|CellException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 }

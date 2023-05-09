@@ -38,9 +38,11 @@ abstract class WalletV4 extends AbstractWallet implements Wallet
             }
 
             return $cell;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new WalletException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     protected function createData(): Cell
@@ -55,9 +57,11 @@ abstract class WalletV4 extends AbstractWallet implements Wallet
                 ->writeUint(0, 1);
 
             return $cell;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new WalletException("Wallet data creation error: " . $e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     protected function getWalletId(): int

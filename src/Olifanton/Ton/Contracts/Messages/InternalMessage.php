@@ -46,9 +46,11 @@ class InternalMessage extends Message
                 ->writeCoins($fwdFee)
                 ->writeUint($createdLt, 64)
                 ->writeUint($createdAt, 32);
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new MessageException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
 
         parent::__construct($header, $body, $state);
     }

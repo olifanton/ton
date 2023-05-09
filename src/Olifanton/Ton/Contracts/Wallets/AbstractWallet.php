@@ -96,9 +96,11 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                         ? $sendMode->value
                         : $sendMode,
                 );
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new WalletException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
 
         foreach ($transfers as $transfer) {
             try {
@@ -117,6 +119,7 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                     )
                 );
                 $signingMessage->refs[] = $internalMessage->cell();
+            // @codeCoverageIgnoreStart
             } catch (BitStringException|MessageException|ContractException $e) {
                 throw new WalletException(
                     $e->getMessage(),
@@ -124,6 +127,7 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                     $e,
                 );
             }
+            // @codeCoverageIgnoreEnd
         }
 
         try {
@@ -137,6 +141,7 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                     $seqno === 0 ? $this->getStateInit()->cell() : null,
                 )
             );
+        // @codeCoverageIgnoreStart
         } catch (MessageException|ContractException $e) {
             throw new WalletException(
                 $e->getMessage(),
@@ -144,6 +149,7 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                 $e,
             );
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public function createSigningMessage(int $seqno): Cell
@@ -154,9 +160,11 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
             $cell
                 ->bits
                 ->writeUint($seqno, 32);
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new WalletException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
 
         return $cell;
     }

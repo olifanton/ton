@@ -112,9 +112,11 @@ class DnsClient implements LoggerAwareInterface
                         ]
                     );
                 $this->cacheSmcGetterResponse($domainCellBoc, $responseStack);
+            // @codeCoverageIgnoreStart
             } catch (TransportException $e) {
                 throw new DnsException($e->getMessage(), $e->getCode(), $e);
             }
+            // @codeCoverageIgnoreEnd
         }
 
         if ($responseStack->count() !== 2) {
@@ -168,6 +170,7 @@ class DnsClient implements LoggerAwareInterface
             if ($cached = $this->readCachedValue("resolved_" . $domainCellBoc)) {
                 return unserialize($cached);
             }
+        // @codeCoverageIgnoreStart
         } catch (\JsonException|ResponseStackParsingException $e) {
             $this
                 ->logger
@@ -178,6 +181,7 @@ class DnsClient implements LoggerAwareInterface
                     ],
                 );
         }
+        // @codeCoverageIgnoreEnd
 
         return null;
     }
@@ -191,6 +195,7 @@ class DnsClient implements LoggerAwareInterface
                 serialize($responseStack),
                 $this->cacheTtl,
             );
+        // @codeCoverageIgnoreStart
         } catch (\JsonException $e) {
             $this
                 ->logger
@@ -201,6 +206,7 @@ class DnsClient implements LoggerAwareInterface
                     ],
                 );
         }
+        // @codeCoverageIgnoreEnd
     }
 
     protected function cacheValue(string $key, string $value, int $ttl): void
@@ -213,6 +219,7 @@ class DnsClient implements LoggerAwareInterface
                     $value,
                     $ttl,
                 );
+        // @codeCoverageIgnoreStart
         } catch (CacheException $e) {
             $this
                 ->logger
@@ -223,12 +230,14 @@ class DnsClient implements LoggerAwareInterface
                     ]
                 );
         }
+        // @codeCoverageIgnoreEnd
     }
 
     protected function readCachedValue(string $key): ?string
     {
         try {
             return $this->cache?->get("olfnt_ton_dns_" . $key);
+        // @codeCoverageIgnoreStart
         } catch (CacheException $e) {
             $this
                 ->logger
@@ -239,6 +248,7 @@ class DnsClient implements LoggerAwareInterface
                     ]
                 );
         }
+        // @codeCoverageIgnoreEnd
 
         return null;
     }
@@ -264,9 +274,11 @@ class DnsClient implements LoggerAwareInterface
             }
 
             return AddressHelper::parseAddressSlice($slice);
+        // @codeCoverageIgnoreStart
         } catch (SliceException|CellException $e) {
             throw new DnsException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -306,8 +318,10 @@ class DnsClient implements LoggerAwareInterface
                 ));
 
             $this->cacheValue("root", $this->rootDnsAddress->toString(), $this->rootResolverCacheTtl);
+        // @codeCoverageIgnoreStart
         } catch (CellException|SliceException $e) {
             throw new DnsInitializationException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 }

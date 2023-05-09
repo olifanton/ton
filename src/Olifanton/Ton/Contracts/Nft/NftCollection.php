@@ -53,9 +53,11 @@ class NftCollection extends AbstractContract
             $contentCell->refs[] = $commonContentCell;
 
             return $contentCell;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -69,9 +71,11 @@ class NftCollection extends AbstractContract
                 ->writeUint($options->royaltyBase, 16)
                 ->writeAddress($options->royaltyAddress)
                 ->cell();
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     protected function createCode(): Cell
@@ -98,9 +102,11 @@ class NftCollection extends AbstractContract
             ));
 
             return $cell;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -125,9 +131,11 @@ class NftCollection extends AbstractContract
             $body->refs[] = $nftItemContent;
 
             return $body;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -140,9 +148,11 @@ class NftCollection extends AbstractContract
                 ->writeUint(0x693d3950, 32)
                 ->writeUint($queryId, 64)
                 ->cell();
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -156,9 +166,11 @@ class NftCollection extends AbstractContract
                 ->writeUint($queryId, 64)
                 ->writeAddress($newOwnerAddress)
                 ->cell();
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -182,9 +194,11 @@ class NftCollection extends AbstractContract
             ));
 
             return $body;
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -213,8 +227,34 @@ class NftCollection extends AbstractContract
                 $collectionContentCell,
                 $collectionContentUrl,
             );
+        // @codeCoverageIgnoreStart
         } catch (CellException|SliceException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * @throws TransportException
+     * @throws ContractException
+     */
+    public function getNftItemAddress(Transport $transport, int $itemIndex): Address
+    {
+        try {
+            $stack = $transport
+                ->runGetMethod(
+                    $this,
+                    "get_nft_address_by_index",
+                    [
+                        ["num", "0x" . dechex($itemIndex)]
+                    ]
+                );
+
+            return AddressHelper::parseAddressSlice($stack->currentCell()->beginParse());
+        // @codeCoverageIgnoreStart
+        } catch (SliceException|CellException $e) {
+            throw new ContractException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
     }
 }

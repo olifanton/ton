@@ -27,6 +27,7 @@ class StateInit
                 ->writeBit(!!$this->code)
                 ->writeBit(!!$this->data)
                 ->writeBit(0);
+        // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new MessageException(
                 "StateInit serialization error: " . $e->getMessage(),
@@ -34,6 +35,7 @@ class StateInit
                 $e,
             );
         }
+        // @codeCoverageIgnoreEnd
 
         if ($this->code) {
             $cell->refs[] = $this->code;

@@ -28,6 +28,4 @@ interface Wallet extends Contract
     public function createSigningMessage(int $seqno): Cell;
 
     public function getPublicKey(): Uint8Array;
-
-    public function getWc(): int;
 }
