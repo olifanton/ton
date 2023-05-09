@@ -85,7 +85,9 @@ See [`examples/common.php`](./examples/common.php) for complex Toncenter example
 
 ### SDK components
 
-_@WIP_
+#### Primitives
+
+To read description of primitives (Address, Cell, Slice, Builder, Hashmap), refer to documentation in the [`olifanton/interop`](https://github.com/olifanton/interop) repository.
 
 ### Framework integration
 
