@@ -5,6 +5,8 @@ namespace Olifanton\Ton\Tests\Contracts\Jetton;
 use Brick\Math\BigInteger;
 use Hamcrest\Core\IsEqual;
 use Hamcrest\Type\IsArray;
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Units;
 use Olifanton\Ton\Contracts\Jetton\JettonMinter;
@@ -47,6 +49,8 @@ class JettonMinterTest extends TestCase
     {
         $transportMock = \Mockery::mock(Transport::class);
 
+        /** @var Transport & MockInterface $transportMock */
+        // @phpstan-ignore-next-line
         $transportMock
             ->shouldReceive("runGetMethod")
             ->with(
@@ -55,6 +59,7 @@ class JettonMinterTest extends TestCase
             )
             ->andReturnUsing(fn() => ToncenterResponseStack::parse(include STUB_DATA_DIR . "/stacks/get_jetton_data.php"));
 
+        // @phpstan-ignore-next-line
         $instance = JettonMinter::fromAddress(
             $transportMock,
             new Address("UQDEgvMWV4rnD7q3MQmAmYXWc3VhiNrJR3x_TNHabIXKVZjR"),
@@ -139,7 +144,9 @@ class JettonMinterTest extends TestCase
         ));
 
         $ownerAddress = new Address("EQBfiu4Ta8S1n9cgpnZDKqNlMqiFn2K7GGLEfc-h-GmghL7s");
+        /** @var Transport & MockInterface $transportMock */
         $transportMock = \Mockery::mock(Transport::class);
+        // @phpstan-ignore-next-line
         $transportMock
             ->shouldReceive("runGetMethod")
             ->with(

@@ -27,7 +27,7 @@ $httpClient = new HttpMethodsClient(
 $toncenter = new ToncenterHttpV2Client(
     $httpClient,
     new ClientOptions(
-        (defined("MAIN_NET") && MAIN_NET) ?  "https://toncenter.com/api/v2" : "https://testnet.toncenter.com/api/v2",
+        (defined("MAIN_NET") && MAIN_NET) ? "https://toncenter.com/api/v2" : "https://testnet.toncenter.com/api/v2",
         $_ENV["TONCENTER_API_KEY"],
     ),
 );

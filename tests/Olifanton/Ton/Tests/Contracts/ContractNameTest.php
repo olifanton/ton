@@ -23,7 +23,7 @@ class ContractNameTest extends TestCase
 {
     public function testGetName(): void
     {
-        /** @var class-string<Contract> $cases */
+        /** @var class-string<Contract>[] $cases */
         $cases = [
             SimpleWalletR1::class,
             WalletV3R1::class,
@@ -42,7 +42,8 @@ class ContractNameTest extends TestCase
         ];
 
         foreach ($cases as $smcClass) {
-            $this->assertIsString($smcClass::getName(), $smcClass);
+            /** @var class-string<Contract> $smcClass */
+            $this->assertIsString(call_user_func([$smcClass, "getName"]), $smcClass);
         }
     }
 }
