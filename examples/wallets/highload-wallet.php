@@ -8,12 +8,10 @@ use Olifanton\Ton\ContractAwaiter;
 use Olifanton\Ton\Contracts\Wallets\Highload\HighloadV2Options;
 use Olifanton\Ton\Contracts\Wallets\Highload\HighloadWalletV2;
 use Olifanton\Ton\Contracts\Wallets\Transfer;
-use Olifanton\Ton\Contracts\Wallets\TransferOptions;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3Options;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R1;
 use Olifanton\Ton\Deployer;
 use Olifanton\Ton\DeployOptions;
-use Olifanton\Ton\SendMode;
 
 require dirname(__DIR__) . "/common.php";
 
@@ -62,9 +60,6 @@ $extMsg = $hlWallet->createTransferMessage(
             amount: Units::toNano("0.012"),
         ),
     ],
-    new TransferOptions(
-        sendMode: SendMode::IGNORE_ERRORS->combine(SendMode::PAY_GAS_SEPARATELY),
-    ),
 );
 
 $transport->sendMessage($extMsg, $hlWalletKp->secretKey);

@@ -34,6 +34,10 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
     }
 
     /**
+     * Returns current wallet seqno.
+     *
+     * Note: If wallet uninitialized, null will be returned.
+     *
      * @throws WalletException
      */
     public function seqno(Transport $transport): ?int
@@ -86,21 +90,6 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
         }
 
         $signingMessage = $this->createSigningMessage($seqno);
-        $sendMode = $options->sendMode;
-
-        try {
-            $signingMessage
-                ->bits
-                ->writeUint8(
-                    $sendMode instanceof SendMode
-                        ? $sendMode->value
-                        : $sendMode,
-                );
-        // @codeCoverageIgnoreStart
-        } catch (BitStringException $e) {
-            throw new WalletException($e->getMessage(), $e->getCode(), $e);
-        }
-        // @codeCoverageIgnoreEnd
 
         foreach ($transfers as $transfer) {
             try {
@@ -118,6 +107,14 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
                         $body,
                     )
                 );
+                $sendMode = $transfer->sendMode;
+                $signingMessage
+                    ->bits
+                    ->writeUint8(
+                        $sendMode instanceof SendMode
+                            ? $sendMode->value
+                            : $sendMode,
+                    );
                 $signingMessage->refs[] = $internalMessage->cell();
             // @codeCoverageIgnoreStart
             } catch (BitStringException|MessageException|ContractException $e) {
@@ -154,19 +151,13 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
 
     public function createSigningMessage(int $seqno): Cell
     {
-        $cell = new Cell();
-
         try {
-            $cell
-                ->bits
-                ->writeUint($seqno, 32);
+            return (new Builder())->writeUint($seqno, 32)->cell();
         // @codeCoverageIgnoreStart
         } catch (BitStringException $e) {
             throw new WalletException($e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
-
-        return $cell;
     }
 
     public function getPublicKey(): Uint8Array

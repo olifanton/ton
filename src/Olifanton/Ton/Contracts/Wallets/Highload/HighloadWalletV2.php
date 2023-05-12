@@ -69,6 +69,8 @@ class HighloadWalletV2 extends AbstractWallet implements Wallet
             throw new WalletException("Sending no more than 254 transfers is possible");
         }
 
+        $options = $options ?? new TransferOptions();
+
         try {
             $signingMessage = (new Builder())
                 ->writeUint($this->options->subwalletId, 32)

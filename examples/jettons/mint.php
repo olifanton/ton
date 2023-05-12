@@ -14,7 +14,6 @@ use Olifanton\Ton\Contracts\Wallets\V3\WalletV3Options;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R1;
 use Olifanton\Ton\Deployer;
 use Olifanton\Ton\DeployOptions;
-use Olifanton\Ton\SendMode;
 
 require dirname(__DIR__) . "/common.php";
 
@@ -67,8 +66,7 @@ $transfer = $deployWallet->createTransferMessage(
         ),
     ],
     new TransferOptions(
-        seqno: $deployWallet->seqno($transport),
-        sendMode: SendMode::PAY_GAS_SEPARATELY->combine(SendMode::IGNORE_ERRORS),
+        seqno: (int)$deployWallet->seqno($transport),
     )
 );
 $transport->sendMessage($transfer, $kp->secretKey);

@@ -8,7 +8,6 @@ use Olifanton\Ton\Contracts\Wallets\Transfer;
 use Olifanton\Ton\Contracts\Wallets\TransferOptions;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3Options;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R1;
-use Olifanton\Ton\SendMode;
 
 require dirname(__DIR__) . "/common.php";
 
@@ -36,8 +35,7 @@ $extMsg = $wallet->createTransferMessage(
         ),
     ],
     new TransferOptions(
-        $wallet->seqno($transport),
-        sendMode: SendMode::IGNORE_ERRORS->combine(SendMode::PAY_GAS_SEPARATELY),
+        (int)$wallet->seqno($transport),
     ),
 );
 

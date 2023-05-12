@@ -36,7 +36,7 @@ $external = $ownerWallet->createTransferMessage(
         ),
     ],
     new TransferOptions(
-        seqno: $ownerWallet->seqno($transport),
+        seqno: (int)$ownerWallet->seqno($transport),
     ),
 );
 

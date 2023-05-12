@@ -144,7 +144,7 @@ foreach ($itemsMetadataUrls as $i => $itemsMetadataUrl) {
             )
         ],
         new TransferOptions(
-            $ownerWallet->seqno($transport),
+            (int)$ownerWallet->seqno($transport),
         )
     );
     $transport->sendMessage($external, $kp->secretKey);
