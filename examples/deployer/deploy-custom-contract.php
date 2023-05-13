@@ -23,8 +23,7 @@ $deployWallet = new WalletV3R1(
     )
 );
 
-$exampleContractPk = \Olifanton\Ton\Helpers\KeyPair::random();
-$exampleContract = new class(new ContractOptions(publicKey: $exampleContractPk->publicKey)) extends AbstractContract
+$exampleContract = new class(new ContractOptions()) extends AbstractContract
 {
     protected function createCode(): Cell
     {

@@ -4,12 +4,13 @@ namespace Olifanton\Ton\Contracts\Wallets;
 
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contract;
+use Olifanton\Ton\Contracts\Interfaces\Deployable;
 use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Transport;
 use Olifanton\TypedArrays\Uint8Array;
 
-interface Wallet extends Contract
+interface Wallet extends Contract, Deployable
 {
     /**
      * @param Transfer[] $transfers

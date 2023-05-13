@@ -50,7 +50,7 @@ class Deployer implements LoggerAwareInterface
             $externalMessage = $this->createExternal(
                 $options,
                 $deployable,
-                $options->deployerWallet->seqno($this->transport),
+                (int)$options->deployerWallet->seqno($this->transport),
             );
         } catch (MessageException | ContractException | BitStringException $e) {
             $this
@@ -182,6 +182,9 @@ class Deployer implements LoggerAwareInterface
             ),
             new MessageData(
                 $sm,
+                $seqno === 0
+                    ? $options->deployerWallet->getStateInit()->cell()
+                    : null,
             )
         );
     }

@@ -4,6 +4,7 @@ parameters:
   paths:
     - src
     - tests
+    - examples
   tmpDir: build
   ignoreErrors:
     - message: '#has an uninitialized readonly property#'
