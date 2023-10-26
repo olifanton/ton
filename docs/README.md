@@ -1,4 +1,4 @@
-Olifanton ton is a PHP SDK for building and interacting with applications in ["The Open Network"](https://t.me/olifanton_en) blockchain ecosystem.
+Olifanton ton is a PHP SDK for building and interacting with applications in ["The Open Network"](https://ton.org/) blockchain ecosystem.
 
 ---
 ![Code Coverage Badge](coverage.svg)
