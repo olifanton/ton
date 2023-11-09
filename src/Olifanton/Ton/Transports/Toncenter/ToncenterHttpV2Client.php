@@ -623,6 +623,10 @@ class ToncenterHttpV2Client implements ToncenterV2Client
             $statusCode = $response->getStatusCode();
 
             if ($statusCode === 200) {
+                if ($this->options->requestDelay > 0) {
+                    usleep((int)($this->options->requestDelay * 1000000));
+                }
+
                 return $this->hydrateJsonRpcResponse($response->getBody()->getContents());
             }
 

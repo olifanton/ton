@@ -26,6 +26,7 @@ abstract class ToncenterHttpClientITestCase extends TestCase
         return new ClientOptions(
             baseUri: "https://testnet.toncenter.com/api/v2",
             apiKey: $_ENV["TONCENTER_API_KEY"],
+            requestDelay: 1.0,
         );
     }
 }
