@@ -40,12 +40,22 @@ class ToncenterTransport implements Transport
         }
 
         try {
+            $sStack = ToncenterStackSerializer::serialize($stack);
+        } catch (\Throwable $e) {
+            throw new TransportException(
+                "Stack serialization error: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
+
+        try {
             $response = $this
                 ->client
                 ->runGetMethod(
                     $address,
                     $method,
-                    $stack,
+                    $sStack,
                 );
 
             if (!in_array($response->exitCode, [0, 1], true)) {

@@ -14,7 +14,10 @@
   "autoload": {
     "psr-4": {
       "Olifanton\\Ton\\": "src/Olifanton/Ton/"
-    }
+    },
+    "files": [
+      "src/stack.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

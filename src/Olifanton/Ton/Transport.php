@@ -8,11 +8,13 @@ use Olifanton\Interop\Boc\Cell;
 use Olifanton\Ton\Contracts\Messages\ExternalMessage;
 use Olifanton\Ton\Contracts\Messages\ResponseStack;
 use Olifanton\Ton\Exceptions\TransportException;
+use Olifanton\Ton\Marshalling\Tvm\TvmStackEntry;
 use Olifanton\TypedArrays\Uint8Array;
 
 interface Transport
 {
     /**
+     * @param array[]|TvmStackEntry[] $stack
      * @throws TransportException
      */
     public function runGetMethod(Contract|Address $contract, string $method, array $stack = []): ResponseStack;
