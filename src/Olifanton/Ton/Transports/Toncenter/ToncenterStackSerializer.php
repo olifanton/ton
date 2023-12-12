@@ -26,17 +26,18 @@ final class ToncenterStackSerializer
         foreach ($stack as $idx => $entry) {
             if ($entry instanceof TvmStackEntry) {
                 if ($entry instanceof Cell) {
-                    $entry[] = self::serializeCell($entry);
+                    $result[] = self::serializeCell($entry);
                     continue;
                 }
 
                 if ($entry instanceof Slice) {
-                    $entry[] = self::serializeSlice($entry);
+                    $result[] = self::serializeSlice($entry);
                     continue;
                 }
 
                 if ($entry instanceof Number) {
-                    $entry[] = self::serializeNumber($entry);
+                    $result[] = self::serializeNumber($entry);
+                    continue;
                 }
 
                 throw new \RuntimeException("Not implemented serializer for " . $entry::class);

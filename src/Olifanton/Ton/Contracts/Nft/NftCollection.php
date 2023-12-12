@@ -15,6 +15,7 @@ use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Helpers\AddressHelper;
 use Olifanton\Ton\Helpers\OffchainHelper;
 use Olifanton\Ton\Transport;
+use function Olifanton\Ton\Marshalling\Tvm\num;
 
 class NftCollection extends AbstractContract
 {
@@ -246,7 +247,7 @@ class NftCollection extends AbstractContract
                     $this,
                     "get_nft_address_by_index",
                     [
-                        ["num", "0x" . dechex($itemIndex)]
+                        num($itemIndex),
                     ]
                 );
 

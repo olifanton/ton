@@ -16,6 +16,7 @@ use Olifanton\Ton\Exceptions\TransportException;
 use Olifanton\Ton\Helpers\AddressHelper;
 use Olifanton\Ton\Helpers\OffchainHelper;
 use Olifanton\Ton\Transport;
+use function Olifanton\Ton\Marshalling\Tvm\slice;
 
 class JettonMinter extends AbstractContract
 {
@@ -170,15 +171,12 @@ class JettonMinter extends AbstractContract
                     $this,
                     "get_wallet_address",
                     [
-                        [
-                            "tvm.Slice",
-                            Bytes::bytesToBase64(
-                                (new Builder())
-                                    ->writeAddress($ownerAddress)
-                                    ->cell()
-                                    ->toBoc(false),
-                            ),
-                        ]
+                        slice(
+                            (new Builder())
+                                ->writeAddress($ownerAddress)
+                                ->cell()
+                                ->beginParse()
+                        ),
                     ]
                 );
             $cell = $stack->currentCell();
