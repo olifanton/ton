@@ -2,6 +2,7 @@
 
 namespace Olifanton\Ton\Contracts\Wallets\V4;
 
+use Brick\Math\BigInteger;
 use Olifanton\Interop\Address;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\BitStringException;
@@ -13,6 +14,7 @@ use Olifanton\Ton\Contracts\Messages\ExternalMessageOptions;
 use Olifanton\Ton\Contracts\Messages\MessageData;
 use Olifanton\Ton\Contracts\Wallets\Exceptions\WalletException;
 use Olifanton\Ton\Transport;
+use function Olifanton\Ton\Marshalling\Tvm\num;
 
 class WalletV4R2 extends WalletV4
 {
@@ -87,14 +89,8 @@ class WalletV4R2 extends WalletV4
                 $this,
                 "is_plugin_installed",
                 [
-                    [
-                        "num",
-                        $pluginAddress->getWorkchain(),
-                    ],
-                    [
-                        "num",
-                        "0x" . Bytes::bytesToHexString($pluginAddress->getHashPart()),
-                    ]
+                    num($pluginAddress->getWorkchain()),
+                    num(BigInteger::fromBase(Bytes::bytesToHexString($pluginAddress->getHashPart()), 16)),
                 ]
             );
 

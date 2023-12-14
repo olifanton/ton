@@ -5,6 +5,7 @@ namespace Olifanton\Ton\Contracts\Wallets;
 use Olifanton\Interop\Boc\Builder;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\BitStringException;
+use Olifanton\Interop\Boc\SnakeString;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Contracts\Messages\Exceptions\MessageException;
@@ -187,14 +188,12 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
      */
     protected function createTxtPayload(string $textMessage): Cell
     {
-        $payload = new Builder();
+        $len = strlen($textMessage);
 
-        if (strlen($textMessage) > 0) {
-            $payload
-                ->writeUint(0, 32)
-                ->writeString($textMessage);
+        if (!$len) {
+            return new Cell();
         }
 
-        return $payload->cell();
+        return SnakeString::fromString($textMessage)->cell(true);
     }
 }
