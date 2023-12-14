@@ -32,6 +32,8 @@ $extMsg = $wallet->createTransferMessage(
         new Transfer(
             dest: new Address("EQCrrSblmeNMAw27AXbchzG6MUja9iac7PHjyK3Xn8EMeqbG"),
             amount: Units::toNano("0.012"),
+            payload: "Very long message string. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur aut consectetur et explicabo fuga in incidunt laboriosam minima nemo nulla obcaecati placeat praesentium quam quisquam sint, sunt voluptatibus? Ad, vel?",
+            sendMode: \Olifanton\Ton\SendMode::PAY_GAS_SEPARATELY,
         ),
     ],
     new TransferOptions(

@@ -24,6 +24,7 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\SimpleCache\CacheException;
 use Psr\SimpleCache\CacheInterface;
+use function Olifanton\Ton\Marshalling\Tvm\num;
 
 class DnsClient implements LoggerAwareInterface
 {
@@ -105,10 +106,7 @@ class DnsClient implements LoggerAwareInterface
                                 "tvm.Slice",
                                 $domainCellBoc,
                             ],
-                            [
-                                "num",
-                                "0x0",
-                            ]
+                            num(0),
                         ]
                     );
                 $this->cacheSmcGetterResponse($domainCellBoc, $responseStack);
