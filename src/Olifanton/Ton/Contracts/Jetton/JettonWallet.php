@@ -58,7 +58,7 @@ class JettonWallet extends AbstractContract
                 ->writeUint($options->queryId, 64)
                 ->writeCoins($options->jettonAmount)
                 ->writeAddress($options->toAddress)
-                ->writeAddress($options->responseAddress)
+                ->writeAddress($options->responseAddress ?? $options->toAddress)
                 ->writeBit(false)
                 ->writeCoins($options->forwardAmount ?? BigInteger::zero())
                 ->writeBit(false);

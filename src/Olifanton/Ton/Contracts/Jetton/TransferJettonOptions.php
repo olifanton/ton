@@ -14,5 +14,6 @@ class TransferJettonOptions
         public readonly ?Address $responseAddress,
         public readonly int $queryId = 0,
         public readonly ?Uint8Array $forwardPayload = null,
+        public readonly ?BigInteger $forwardAmount = null,
     ) {}
 }
