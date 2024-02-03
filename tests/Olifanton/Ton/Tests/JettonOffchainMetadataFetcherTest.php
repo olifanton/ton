@@ -57,6 +57,7 @@ class JettonOffchainMetadataFetcherTest extends TestCase
         ));
 
         // Mocks
+        // @phpstan-ignore-next-line
         $this
             ->transportMock
             ->shouldReceive("runGetMethod")
@@ -74,6 +75,7 @@ class JettonOffchainMetadataFetcherTest extends TestCase
                 ["cell", JettonWallet::getDefaultCode()], // Wallet code
             ]));
 
+        // @phpstan-ignore-next-line
         $this
             ->httpMethodsClientMock
             ->shouldReceive("get")
