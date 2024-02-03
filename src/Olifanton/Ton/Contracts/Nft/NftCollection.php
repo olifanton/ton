@@ -12,7 +12,6 @@ use Olifanton\Interop\Bytes;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Exceptions\TransportException;
-use Olifanton\Ton\Helpers\AddressHelper;
 use Olifanton\Ton\Helpers\OffchainHelper;
 use Olifanton\Ton\Transport;
 use function Olifanton\Ton\Marshalling\Tvm\num;
@@ -224,7 +223,7 @@ class NftCollection extends AbstractContract
         try {
             return new NftCollectionData(
                 $itemsCount->toInt(),
-                AddressHelper::parseAddressSlice($ownerAddressCell->beginParse()),
+                $ownerAddressCell->beginParse()->loadAddress(),
                 $collectionContentCell,
                 $collectionContentUrl,
             );
@@ -251,7 +250,7 @@ class NftCollection extends AbstractContract
                     ]
                 );
 
-            return AddressHelper::parseAddressSlice($stack->currentCell()->beginParse());
+            return $stack->currentCell()->beginParse()->loadAddress();
         // @codeCoverageIgnoreStart
         } catch (SliceException|CellException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);

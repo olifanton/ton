@@ -17,7 +17,6 @@ use Olifanton\Ton\Dns\Exceptions\DnsInitializationException;
 use Olifanton\Ton\Dns\Exceptions\DomainDataParsingException;
 use Olifanton\Ton\Dns\Helpers\DomainHelper;
 use Olifanton\Ton\Exceptions\TransportException;
-use Olifanton\Ton\Helpers\AddressHelper;
 use Olifanton\Ton\Transport;
 use Olifanton\TypedArrays\Uint8Array;
 use Psr\Log\LoggerAwareInterface;
@@ -271,7 +270,7 @@ class DnsClient implements LoggerAwareInterface
                 throw new DnsException("Invalid DNS record value prefix");
             }
 
-            return AddressHelper::parseAddressSlice($slice);
+            return $slice->loadAddress();
         // @codeCoverageIgnoreStart
         } catch (SliceException|CellException $e) {
             throw new DnsException($e->getMessage(), $e->getCode(), $e);

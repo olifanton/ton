@@ -11,7 +11,6 @@ use Olifanton\Interop\Boc\Exceptions\SliceException;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Exceptions\TransportException;
-use Olifanton\Ton\Helpers\AddressHelper;
 use Olifanton\Ton\Helpers\OffchainHelper;
 use Olifanton\Ton\Transport;
 
@@ -119,13 +118,13 @@ class NftItem extends AbstractContract
             $collectionAddress = null;
 
             try {
-                $collectionAddress = AddressHelper::parseAddressSlice($stack->currentCell()->beginParse());
+                $collectionAddress = $stack->currentCell()->beginParse()->loadAddress();
                 $stack->next();
             } catch (\InvalidArgumentException $_) {}
 
             $ownerAddressCell = $stack->currentCell();
             $stack->next();
-            $ownerAddress = $isInitialized ? AddressHelper::parseAddressSlice($ownerAddressCell->beginParse()) : null;
+            $ownerAddress = $isInitialized ? $ownerAddressCell->beginParse()->loadAddress() : null;
 
             $contentCell = $stack->currentCell();
             $contentUrl = null;

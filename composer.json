@@ -65,8 +65,8 @@
   },
   "scripts": {
     "test:unit": "XDEBUG_MODE=coverage phpunit --testsuite unit",
-    "test:cr": "XDEBUG_MODE=coverage phpunit --coverage-html build",
-    "test:unit:cr": "XDEBUG_MODE=coverage phpunit --testsuite unit  --coverage-html build",
+    "test:cr": "XDEBUG_MODE=coverage phpunit --coverage-html build/coverage-all",
+    "test:unit:cr": "XDEBUG_MODE=coverage phpunit --testsuite unit  --coverage-html build/coverage-unit",
     "test:integration": "phpunit --testsuite integration --no-coverage",
     "phplint": "phplint -c .phplint.yml",
     "phpstan": "phpstan analyse -c phpstan.neon --ansi --xdebug",

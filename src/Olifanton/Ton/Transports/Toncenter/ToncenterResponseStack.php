@@ -124,7 +124,7 @@ class ToncenterResponseStack extends \SplQueue implements ResponseStack
         return new self();
     }
 
-    private function __construct() {}
+    protected function __construct() {}
 
     /**
      * @throws ResponseStackParsingException

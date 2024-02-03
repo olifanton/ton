@@ -11,7 +11,6 @@ use Olifanton\Interop\Boc\Exceptions\SliceException;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Exceptions\TransportException;
-use Olifanton\Ton\Helpers\AddressHelper;
 use Olifanton\Ton\Transport;
 
 class JettonWallet extends AbstractContract
@@ -110,10 +109,10 @@ class JettonWallet extends AbstractContract
             $balance = $stack->currentBigInteger();
             $stack->next();
 
-            $ownerAddress = AddressHelper::parseAddressSlice($stack->currentCell()->beginParse());
+            $ownerAddress = $stack->currentCell()->beginParse()->loadAddress();
             $stack->next();
 
-            $minterAddress = AddressHelper::parseAddressSlice($stack->currentCell()->beginParse());
+            $minterAddress = $stack->currentCell()->beginParse()->loadAddress();
             $stack->next();
 
             $walletCode = $stack->currentCell();

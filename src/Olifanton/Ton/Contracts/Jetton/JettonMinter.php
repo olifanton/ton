@@ -9,11 +9,9 @@ use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\BitStringException;
 use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Interop\Boc\Exceptions\SliceException;
-use Olifanton\Interop\Bytes;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Exceptions\TransportException;
-use Olifanton\Ton\Helpers\AddressHelper;
 use Olifanton\Ton\Helpers\OffchainHelper;
 use Olifanton\Ton\Transport;
 use function Olifanton\Ton\Marshalling\Tvm\slice;
@@ -185,7 +183,7 @@ class JettonMinter extends AbstractContract
                 throw new ContractException("Getter response stack parsing error, empty cell");
             }
 
-            return AddressHelper::parseAddressSlice($cell->beginParse());
+            return $cell->beginParse()->loadAddress();
         // @codeCoverageIgnoreStart
         } catch (BitStringException|CellException|SliceException $e) {
             throw new ContractException($e->getMessage(), $e->getCode(), $e);
@@ -212,7 +210,7 @@ class JettonMinter extends AbstractContract
             $isMutable = $stack->currentBigInteger()->isNegative();
             $stack->next();
 
-            $adminAddress = AddressHelper::parseAddressSlice($stack->currentCell()->beginParse());
+            $adminAddress = $stack->currentCell()->beginParse()->loadAddress();
             $stack->next();
 
             $jettonContentUrl = null;
@@ -221,8 +219,7 @@ class JettonMinter extends AbstractContract
 
             try {
                 $jettonContentUrl = OffchainHelper::parseUrlCell($jettonContentCell);
-            } catch (\InvalidArgumentException $e) {
-            }
+            } catch (\InvalidArgumentException $_) {}
 
             $jettonWalletCode = $stack->currentCell();
 

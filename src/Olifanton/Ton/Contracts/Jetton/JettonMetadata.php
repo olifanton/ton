@@ -8,8 +8,9 @@ class JettonMetadata implements \JsonSerializable
         public readonly string $name,
         public readonly string $description,
         public readonly string $symbol,
-        public readonly string $imageData,
+        public readonly ?string $imageData,
         public readonly int $decimals = 9,
+        public readonly ?string $image = null,
     ) {}
 
     public function jsonSerialize(): array
@@ -36,7 +37,8 @@ class JettonMetadata implements \JsonSerializable
         $name = $json["name"] ?? throw new \InvalidArgumentException("`name` is required");
         $description = $json["description"] ?? throw new \InvalidArgumentException("`description` is required");
         $symbol = $json["symbol"] ?? throw new \InvalidArgumentException("`symbol` is required");
-        $imageData = $json["image_data"] ?? throw new \InvalidArgumentException("`image_data` is required");
+        $imageData = $json["image_data"] ?? null;
+        $image = $json["image"] ?? null;
         $decimals = $json["decimals"] ?? throw new \InvalidArgumentException("`decimals` is required");
 
         return new self(
@@ -45,6 +47,7 @@ class JettonMetadata implements \JsonSerializable
             $symbol,
             $imageData,
             (int)$decimals,
+            $image,
         );
     }
 }

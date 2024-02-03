@@ -13,6 +13,8 @@ global $httpClient, $transport, $logger;
 $metadataFetcher = new JettonOffchainMetadataFetcher($transport, $httpClient);
 
 $minter = JettonMinter::fromAddress($transport, new Address("EQDOTr21oyFE5Aylolo0NxG9eNxSxPz0bW2OWzaswOrP7WTK"));
-$metadata = $metadataFetcher->getMetadata($minter);
+$jettonData = $minter->getJettonData($transport);
+$metadata = $metadataFetcher->getMetadataFromData($jettonData);
 
+$logger->info("Offchain data: " . json_encode($jettonData->asPrintableArray(), JSON_PRETTY_PRINT));
 $logger->info("Metadata: " . json_encode($metadata, JSON_PRETTY_PRINT));
