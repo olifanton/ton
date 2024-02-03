@@ -5,18 +5,27 @@ declare(strict_types=1);
 use Olifanton\Interop\Units;
 use Olifanton\Ton\ContractAwaiter;
 use Olifanton\Ton\Contracts\Nft\MintOptions;
-use Olifanton\Ton\Contracts\Nft\NftAttribute;
+use Olifanton\Ton\Contracts\Nft\NftAttributesCollection;
 use Olifanton\Ton\Contracts\Nft\NftCollection;
 use Olifanton\Ton\Contracts\Nft\NftCollectionMetadata;
 use Olifanton\Ton\Contracts\Nft\NftCollectionOptions;
 use Olifanton\Ton\Contracts\Nft\NftItem;
 use Olifanton\Ton\Contracts\Nft\NftItemMetadata;
+use Olifanton\Ton\Contracts\Nft\NftTrait;
 use Olifanton\Ton\Contracts\Wallets\Transfer;
 use Olifanton\Ton\Contracts\Wallets\TransferOptions;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3Options;
 use Olifanton\Ton\Contracts\Wallets\V3\WalletV3R1;
 use Olifanton\Ton\Deployer;
 use Olifanton\Ton\DeployOptions;
+
+/**
+ *
+ *
+ * Check the result of running this example on Getgems: https://testnet.getgems.io/collection/EQDT7J2iKS0ZJ3HHi43-xETP_1EJ28wEbZNS9Mk-dbiqvwxn
+ *
+ *
+ */
 
 require dirname(__DIR__) . "/common.php";
 
@@ -62,8 +71,53 @@ $deployer->setLogger($logger);
 $awaiter = new ContractAwaiter($transport);
 $awaiter->setLogger($logger);
 
+class RarityTrait extends NftTrait
+{
+    public const COMMON = "Common";
+    public const RARE = "Rare";
+    public const LEGENDARY = "Legendary";
+
+    public function __construct()
+    {
+        parent::__construct(
+            "Rarity",
+            self::COMMON,
+        );
+    }
+}
+
+class BoolAsStringTrait extends NftTrait
+{
+    public function __construct(string $traitType, bool $value)
+    {
+        parent::__construct($traitType, $value ? "Yes" : "No");
+    }
+
+    public function valued(bool|int|string|null|float $value): array
+    {
+        $v = (bool)$value;
+
+        return [
+            "type" => $this->traitType,
+            "value" => $v ? "Yes" : "No",
+        ];
+    }
+}
+
+$rarityTrait = new RarityTrait();
+$traitNature = new BoolAsStringTrait("Nature", false);
+$traitAnimal = new BoolAsStringTrait("Animal", false);
+$traitObjects = new BoolAsStringTrait("Objects", false);
+
+$attribCollection = new NftAttributesCollection(
+    $rarityTrait,
+    $traitNature,
+    $traitAnimal,
+    $traitObjects,
+);
+
 $collectionMetadata = new NftCollectionMetadata(
-    "Abstracts",
+    "Abstracts 3.0",
     "Test NFT collection",
     "https://ipfs.io/ipfs/bafybeieb6fimrcevkrpxpz6lmyudhomiseeayzbevhemxfrqxllrujd7s4",
 );
@@ -72,38 +126,45 @@ $itemsMetadata = [
         "Window",
         "Window abstract photo",
         "https://ipfs.io/ipfs/bafybeieb6fimrcevkrpxpz6lmyudhomiseeayzbevhemxfrqxllrujd7s4",
-        attributes: [],
+        attributes: $attribCollection->forItem(
+            $traitObjects->valued(true),
+            $rarityTrait->valued(RarityTrait::RARE),
+        ),
     ),
     new NftItemMetadata(
         "Steps",
         "Snow steps abstract photo",
         "https://ipfs.io/ipfs/QmSJ4cJ5vyqMG4JLqDEK4HaNwd5QfANqsdnkxP5pgHeWHY",
-        attributes: [
-            new NftAttribute("Nature", "Yes"),
-        ],
+        attributes: $attribCollection->forItem(
+            $traitNature->valued(true),
+        ),
     ),
     new NftItemMetadata(
         "Rabbit",
         "Rabbit abstract photo",
         "https://ipfs.io/ipfs/QmUJxLV6Gjrzny3TpLhbvDPwPuYBXbSQJj9WgWbm3YaXpB",
-        attributes: [
-            new NftAttribute("Nature", "Yes"),
-            new NftAttribute("Animal", "Yes"),
-        ],
+        attributes: $attribCollection->forItem(
+            $traitNature->valued(true),
+            $traitAnimal->valued(true),
+            $rarityTrait->valued(RarityTrait::LEGENDARY),
+        ),
     ),
     new NftItemMetadata(
         "Mannequin",
         "Mannequin abstract photo",
         "https://ipfs.io/ipfs/QmXXxZJ3PXZE9XbB2EMhq83VGgv7nkzRYMoav1t2K7YveD",
-        attributes: [
-            new NftAttribute("Nature", "Yes"),
-        ],
+        attributes: $attribCollection->forItem(
+            $traitObjects->valued(true),
+        ),
     ),
     new NftItemMetadata(
         "Sands",
         "Sands abstract photo",
         "https://ipfs.io/ipfs/QmaC35VmUYybswq5Mvog8kZKUckth3dDMYyptqsjrgsxab",
-        attributes: [],
+        attributes: $attribCollection->forItem(
+            $traitObjects->valued(true),
+            $traitNature->valued(true),
+        ),
     ),
 ];
 

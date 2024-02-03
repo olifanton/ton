@@ -6,7 +6,7 @@ class NftAttribute implements \JsonSerializable
 {
     public function __construct(
         public readonly string $traitType,
-        public readonly string $value,
+        public readonly string|bool|int|float|null $value = null,
     ) {}
 
     public function jsonSerialize(): array
@@ -15,5 +15,13 @@ class NftAttribute implements \JsonSerializable
             "trait_type" => $this->traitType,
             "value" => $this->value,
         ];
+    }
+
+    public function withValue(string|bool|int|float|null $value): self
+    {
+        return new self(
+            $this->traitType,
+            $value,
+        );
     }
 }

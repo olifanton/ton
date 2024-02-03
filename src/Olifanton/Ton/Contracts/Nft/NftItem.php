@@ -121,8 +121,7 @@ class NftItem extends AbstractContract
             try {
                 $collectionAddress = AddressHelper::parseAddressSlice($stack->currentCell()->beginParse());
                 $stack->next();
-            } catch (\InvalidArgumentException $_) {
-            }
+            } catch (\InvalidArgumentException $_) {}
 
             $ownerAddressCell = $stack->currentCell();
             $stack->next();
@@ -134,8 +133,7 @@ class NftItem extends AbstractContract
             if ($isInitialized && $collectionAddress === null) {
                 try {
                     $contentUrl = OffchainHelper::parseUrlCell($contentCell);
-                } catch (\InvalidArgumentException $_) {
-                }
+                } catch (\InvalidArgumentException $_) {}
             }
 
             return new NftItemData(

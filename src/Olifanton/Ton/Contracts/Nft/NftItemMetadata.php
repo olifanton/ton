@@ -13,6 +13,8 @@ class NftItemMetadata implements \JsonSerializable
         public readonly ?string $image,
         public readonly ?string $imageData = null,
         public readonly array $attributes = [],
+        public readonly ?string $contentUrl = null,
+        public readonly ?string $contentType = null,
     ) {}
 
     public function jsonSerialize(): array
@@ -34,6 +36,14 @@ class NftItemMetadata implements \JsonSerializable
 
         if ($this->imageData) {
             $json["image_data"] = $this->imageData;
+        }
+
+        if ($this->contentUrl) {
+            $json["content_url"] = $this->contentUrl;
+        }
+
+        if ($this->contentType) {
+            $json["content_type"] = $this->contentType;
         }
 
         return $json;

@@ -22,8 +22,11 @@ class NftCollectionMetadata implements \JsonSerializable
         $json = [
             "name" => $this->name,
             "description" => $this->description,
-            "social_links" => $this->socialLinks,
         ];
+
+        if (!empty($this->socialLinks)) {
+            $json["social_links"] = $this->socialLinks;
+        }
 
         if ($this->image) {
             $json["image"] = $this->image;
