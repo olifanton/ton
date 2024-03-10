@@ -24,7 +24,7 @@ class WalletApplicationsManager implements LoggerAwareInterface
 
     public function __construct(
         private readonly HttpMethodsClientInterface $httpClient,
-        private ?CacheInterface $cache,
+        private ?CacheInterface $cache = null,
     ) {}
 
     /**
@@ -41,7 +41,7 @@ class WalletApplicationsManager implements LoggerAwareInterface
                     ->httpClient
                     ->get(self::WALLETS_LIST_URL);
                 $body = $response->getBody()->getContents();
-                $json = json_decode($body, true, JSON_THROW_ON_ERROR);
+                $json = json_decode($body, true, flags: JSON_THROW_ON_ERROR);
                 $jsonList = $this->validateAndCleanup($json);
 
                 if ($jsonList) {
@@ -50,7 +50,7 @@ class WalletApplicationsManager implements LoggerAwareInterface
             } catch (\Throwable $e) {
                 $this
                     ->logger
-                    ->error("Wallets list downloading error: " . $e->getMessage(), [
+                    ?->error("Wallets list downloading error: " . $e->getMessage(), [
                         "exception" => $e,
                     ]);
             }
@@ -98,6 +98,8 @@ class WalletApplicationsManager implements LoggerAwareInterface
                         "key" => "tonkeeper",
                     ],
                 ],
+                ["ios", "android", "chrome", "firefox"],
+                aboutUrl: "https://tonkeeper.com",
             ),
             WalletApplication::create(
                 "tonhub",
@@ -114,6 +116,8 @@ class WalletApplicationsManager implements LoggerAwareInterface
                         "key" => "tonhub",
                     ]
                 ],
+                ["ios", "android"],
+                aboutUrl: "https://tonhub.com",
             ),
             WalletApplication::create(
                 "mytonwallet",
@@ -130,6 +134,8 @@ class WalletApplicationsManager implements LoggerAwareInterface
                         "key" => "mytonwallet",
                     ]
                 ],
+                ["chrome", "windows", "macos", "linux"],
+                aboutUrl: "https://mytonwallet.io",
             ),
         ];
     }
@@ -184,15 +190,65 @@ class WalletApplicationsManager implements LoggerAwareInterface
         // @codeCoverageIgnoreEnd
     }
 
-    private function validateAndCleanup(mixed $json): ?array
+    private function validateAndCleanup(array $data): ?array
     {
         try {
+            $result = [];
 
+            foreach ($data as $row) {
+                $v = Validator::validate(
+                    $row,
+                    [
+                        Validator::REQUIRED,
+                        [
+                            "app_name",
+                            "name",
+                            "image",
+                            "platforms",
+                            "bridge",
+                        ],
+                    ],
+                    [
+                        Validator::STRING,
+                        [
+                            "app_name",
+                            "name",
+                            "image",
+                        ],
+                    ],
+                    [
+                        Validator::ARRAY,
+                        [
+                            "platforms",
+                            "bridge",
+                        ],
+                    ],
+                );
+
+                if (!$v) {
+                    $result[] = $row;
+                    continue;
+                }
+
+                $this
+                    ->logger
+                    ?->warning(
+                        "Wallets json row validation error: ",
+                        [
+                            "errors" => $v,
+                        ],
+                    );
+            }
+
+            return !empty($result) ? $result : null;
         } catch (\Throwable $e) {
             $this
                 ->logger
                 ?->warning(
-
+                    "Wallets json validation error: " . $e->getMessage(),
+                    [
+                        "exception" => $e,
+                    ],
                 );
         }
 

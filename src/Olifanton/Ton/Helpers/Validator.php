@@ -4,7 +4,7 @@ namespace Olifanton\Ton\Helpers;
 
 /**
  * @phpstan-type Field string
- * @phpstan-type Rule array{0: string, 1: Field|Field[], [2]: Rule|undefined}
+ * @phpstan-type Rule array
  */
 final class Validator
 {
@@ -29,7 +29,7 @@ final class Validator
      */
     public static function validate(array $data, array ...$rules): ?array
     {
-        /** @phpstan-type array<Field, Rule[]> $ruleMap */
+        /** @var  array<Field, Rule[]> $ruleMap */
         $ruleMap = [];
 
         foreach ($rules as $rule) {

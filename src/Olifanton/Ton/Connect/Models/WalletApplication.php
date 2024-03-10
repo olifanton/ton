@@ -31,7 +31,6 @@ class WalletApplication
 
     /**
      * @param array[] $bridge
-     * @return static
      * @throws \Olifanton\Ton\Marshalling\Exceptions\MarshallingException
      */
     public static function create(
@@ -41,7 +40,8 @@ class WalletApplication
         string $universalUrl,
         array $bridge,
         array $platforms = [],
-    ): self
+        string $aboutUrl = null,
+    ): WalletApplication
     {
         return Hydrator::extract(self::class, [
             "app_name" => $appName,
@@ -50,6 +50,7 @@ class WalletApplication
             "universal_url" => $universalUrl,
             "bridge" => $bridge,
             "platforms" => $platforms,
+            "about_url" => $aboutUrl,
         ]);
     }
 }
