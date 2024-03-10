@@ -131,6 +131,7 @@ class HighloadWalletV2 extends AbstractWallet implements Wallet
                 ),
                 new MessageData(
                     $signingMessage->cell(),
+                    $options->seqno === 0 ? $this->getStateInit()->cell() : null,
                 )
             );
         // @codeCoverageIgnoreStart

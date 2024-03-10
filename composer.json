@@ -58,11 +58,6 @@
     "http-interop/http-factory-guzzle": "^1.2",
     "php-http/guzzle7-adapter": "^1.0"
   },
-  "replace": {
-    "symfony/polyfill-mbstring": "*",
-    "symfony/polyfill-php80": "*",
-    "symfony/polyfill-ctype": "*"
-  },
   "scripts": {
     "test:unit": "XDEBUG_MODE=coverage phpunit --testsuite unit",
     "test:cr": "XDEBUG_MODE=coverage phpunit --coverage-html build/coverage-all",
