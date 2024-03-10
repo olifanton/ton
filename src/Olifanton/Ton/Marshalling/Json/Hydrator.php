@@ -143,6 +143,34 @@ class Hydrator
             return null;
         }
 
+        if ($typeClazz === "string") {
+            return (string)$jsonValue;
+        }
+
+        if ($typeClazz === "int" || $typeClazz === "integer") {
+            return (int)$jsonValue;
+        }
+
+        if ($typeClazz === "float") {
+            return (float)$jsonValue;
+        }
+
+        if ($typeClazz === "bool" || $typeClazz === "boolean") {
+            return (bool)$jsonValue;
+        }
+
+        if ($typeClazz === "array") {
+            if (!is_array($jsonValue)) {
+                if ($typeAllowsNull) {
+                    return null;
+                }
+
+                throw new \TypeError("Unexpected value for array type");
+            }
+
+            return $jsonValue;
+        }
+
         return self::extract($typeClazz, $jsonValue);
     }
 
