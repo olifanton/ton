@@ -3,6 +3,7 @@
 namespace Olifanton\Ton\Connect\Models;
 
 use Olifanton\Ton\Marshalling\Attributes\JsonMap;
+use Olifanton\Ton\Marshalling\Json\Hydrator;
 
 class Bridge
 {
@@ -14,4 +15,15 @@ class Bridge
 
     #[JsonMap("key")]
     public readonly ?string $key;
+
+    /**
+     * @throws \Olifanton\Ton\Marshalling\Exceptions\MarshallingException
+     */
+    public static function createSSE(string $url): self
+    {
+        return Hydrator::extract(self::class, [
+            "type" => BridgeType::SSE->value,
+            "url" => $url,
+        ]);
+    }
 }
