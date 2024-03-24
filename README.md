@@ -5,6 +5,7 @@ PHP SDK for "The Open Network" blockchain
 [![Latest Stable Version](https://poser.pugx.org/olifanton/ton/v/stable)](https://packagist.org/packages/olifanton/ton)
 [![Total Downloads](https://poser.pugx.org/olifanton/ton/downloads)](https://packagist.org/packages/olifanton/ton)
 ![Based on TON](https://img.shields.io/badge/Based%20on-TON-blue)
+[![Donation](https://img.shields.io/badge/Donate-Support-%230098ea?style=flat&logo=ton&logoColor=white)](https://github.com/olifanton#donation)
 
 ---
 [💬 En chat](https://t.me/olifanton_en) | [💬 Ру чат](https://t.me/olifanton_ru)
