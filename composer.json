@@ -35,8 +35,9 @@
   "require": {
     "php": ">=8.1",
     "ext-json": "*",
+    "ext-sodium": "*",
     "olifanton/interop": "^1.1",
-    "olifanton/mnemonic": "^1.0",
+    "olifanton/mnemonic": "^1.0.2",
     "php-http/client-common": "^2.0",
     "php-http/discovery": "^1.0",
     "php-http/httplug": "^2.0",
@@ -47,16 +48,16 @@
     "psr/simple-cache": "^3.0"
   },
   "require-dev": {
-    "ext-sodium": "*",
-    "phpunit/phpunit": "^9.5",
-    "vlucas/phpdotenv": "^5.4",
-    "mockery/mockery": "^1.5",
-    "overtrue/phplint": "^9.0",
-    "phpstan/phpstan": "^1.9",
-    "jetbrains/phpstorm-attributes": "^1.0",
+    "cakephp/cache": "^5.0",
     "guzzlehttp/guzzle": "^7.5",
     "http-interop/http-factory-guzzle": "^1.2",
-    "php-http/guzzle7-adapter": "^1.0"
+    "jetbrains/phpstorm-attributes": "^1.0",
+    "mockery/mockery": "^1.5",
+    "overtrue/phplint": "^9.0",
+    "php-http/guzzle7-adapter": "^1.0",
+    "phpstan/phpstan": "^1.9",
+    "phpunit/phpunit": "^9.5",
+    "vlucas/phpdotenv": "^5.4"
   },
   "scripts": {
     "test:unit": "XDEBUG_MODE=coverage phpunit --testsuite unit",

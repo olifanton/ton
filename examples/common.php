@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Http\Client\Common\HttpMethodsClient;
-use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
 use Olifanton\Mnemonic\TonMnemonic;
 use Olifanton\Ton\Transports\Toncenter\ClientOptions;
 use Olifanton\Ton\Transports\Toncenter\ToncenterHttpV2Client;
@@ -19,7 +19,7 @@ $dotenv = Dotenv\Dotenv::createMutable(ROOT_DIR);
 $dotenv->load();
 
 $httpClient = new HttpMethodsClient(
-    HttpClientDiscovery::find(),
+    Psr18ClientDiscovery::find(),
     Psr17FactoryDiscovery::findRequestFactory(),
     Psr17FactoryDiscovery::findStreamFactory(),
 );
