@@ -24,7 +24,7 @@
 
 namespace Olifanton\Ton\Connect\Sse;
 
-class Event
+class Event implements \Stringable
 {
     const END_OF_LINE = "/\r\n|\n|\r/";
 
@@ -96,5 +96,15 @@ class Event
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function __toString()
+    {
+        return sprintf(
+            "[Event] type: %s, id: %s, data: %s",
+            $this->eventType,
+            $this->id !== null ? $this->id : "NULL",
+            $this->data,
+        );
     }
 }

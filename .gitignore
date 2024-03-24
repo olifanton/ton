@@ -4,3 +4,5 @@
 composer.lock
 clover.xml
 /.env
+/examples/connect/preconnect.json
+/examples/connect/connected.json

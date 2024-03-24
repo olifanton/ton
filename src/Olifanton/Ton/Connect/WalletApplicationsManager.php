@@ -16,7 +16,12 @@ class WalletApplicationsManager implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    protected const WALLETS_LIST_URL = "https://raw.githubusercontent.com/ton-blockchain/wallets-list/main/wallets.json";
+    public const TG_WALLET = "telegram-wallet";
+    public const TONKEEPER = "tonkeeper";
+    public const TONHUB = "tonhub";
+    public const MYTONWALLET = "mytonwallet";
+
+    protected const WALLETS_LIST_URL = "https://raw.githubusercontent.com/ton-blockchain/wallets-list/main/wallets-v2.json";
 
     protected const CACHE_KEY = "olfnt_conn_wallets_list";
 
@@ -84,6 +89,20 @@ class WalletApplicationsManager implements LoggerAwareInterface
     {
         return [
             WalletApplication::create(
+                "telegram-wallet",
+                "Wallet",
+                "https://wallet.tg/images/logo-288.png",
+                "https://t.me/wallet?attach=wallet",
+                [
+                    [
+                        "type" => "sse",
+                        "url" => "https://bridge.tonapi.io/bridge",
+                    ],
+                ],
+                ["ios", "android", "macos", "windows", "linux"],
+                aboutUrl: "https://wallet.tg/",
+            ),
+            WalletApplication::create(
                 "tonkeeper",
                 "Tonkeeper",
                 "https://tonkeeper.com/assets/tonconnect-icon.png",
@@ -93,12 +112,8 @@ class WalletApplicationsManager implements LoggerAwareInterface
                         "type" => "sse",
                         "url" => "https://bridge.tonapi.io/bridge",
                     ],
-                    [
-                        "type" => "js",
-                        "key" => "tonkeeper",
-                    ],
                 ],
-                ["ios", "android", "chrome", "firefox"],
+                ["ios", "android", "chrome", "firefox", "macos"],
                 aboutUrl: "https://tonkeeper.com",
             ),
             WalletApplication::create(
@@ -111,10 +126,6 @@ class WalletApplicationsManager implements LoggerAwareInterface
                         "type" => "sse",
                         "url" => "https://connect.tonhubapi.com/tonconnect",
                     ],
-                    [
-                        "type" => "js",
-                        "key" => "tonhub",
-                    ]
                 ],
                 ["ios", "android"],
                 aboutUrl: "https://tonhub.com",
@@ -129,15 +140,25 @@ class WalletApplicationsManager implements LoggerAwareInterface
                         "type" => "sse",
                         "url" => "https://tonconnectbridge.mytonwallet.org/bridge/",
                     ],
-                    [
-                        "type" => "js",
-                        "key" => "mytonwallet",
-                    ]
                 ],
                 ["chrome", "windows", "macos", "linux"],
                 aboutUrl: "https://mytonwallet.io",
             ),
         ];
+    }
+
+    /**
+     * @throws MarshallingException
+     */
+    public static function getFromDefaults(string $appName): ?WalletApplication
+    {
+        foreach (self::getDefaultApps() as $app) {
+            if ($app->appName === $appName) {
+                return $app;
+            }
+        }
+
+        return null;
     }
 
     /**

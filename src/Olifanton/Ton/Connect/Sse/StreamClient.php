@@ -11,18 +11,12 @@ class StreamClient implements Client, LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    private ?string $lastEventId = null;
-
     public function __construct(
         private readonly float $timeout = 60.0,
         private readonly bool $ignoreSslErrors = false,
     ) {}
 
-    /**
-     * @param callable(Event): void $onMessage
-     * @throws ConnectionException
-     */
-    public function listen(string $url, callable $onMessage, Cancellation $cancellation): void
+    public function listen(string $url, Cancellation $cancellation): \Generator
     {
         $stream = $this->connect($url);
 
@@ -33,11 +27,15 @@ class StreamClient implements Client, LoggerAwareInterface
                 if (feof($stream)) {
                     $this->close($stream);
                     usleep(500_000);
+                    $this
+                        ->logger
+                        ?->debug("Reconnect...");
                     $stream = $this->connect($url);
                     $buffer = "";
                 }
 
                 $buffer .= fread($stream, 1);
+                $event = null;
 
                 if (preg_match("/\r\n\r\n|\n\n|\r\r/", $buffer)) {
                     $parts = preg_split(
@@ -65,14 +63,14 @@ class StreamClient implements Client, LoggerAwareInterface
 
                         continue;
                     }
-
-                    if ($event->getId()) {
-                        $this->lastEventId = $event->getId();
-                    }
-
-                    call_user_func_array($onMessage, [$event]);
                 }
+
+                yield $event;
             }
+
+            $this
+                ->logger
+                ?->debug("Cancellation signal received");
         } finally {
             $this->close($stream);
         }
@@ -88,10 +86,6 @@ class StreamClient implements Client, LoggerAwareInterface
             "Connection: keep-alive",
             "Cache-Control: no-cache",
         ];
-
-        if ($this->lastEventId) {
-            $headers[] = "Last-Event-ID: " . $this->lastEventId;
-        }
 
         $options = [
             "http" => [
@@ -113,7 +107,7 @@ class StreamClient implements Client, LoggerAwareInterface
 
         if (!$stream) {
             $lastErr = error_get_last();
-            $message = "Unable to connect SSE server";
+            $message = "Unable to connect to SSE server";
             $code = 0;
 
             if (isset($lastErr["message"])) {
@@ -123,6 +117,12 @@ class StreamClient implements Client, LoggerAwareInterface
 
             throw new ConnectionException($message, $code);
         }
+
+        stream_set_blocking($stream, false);
+
+        $this
+            ->logger
+            ?->debug("SSE channel connected, URL: " . $url);
 
         return $stream;
     }

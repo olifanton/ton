@@ -37,7 +37,7 @@
     "ext-json": "*",
     "ext-sodium": "*",
     "olifanton/interop": "^1.1",
-    "olifanton/mnemonic": "^1.0",
+    "olifanton/mnemonic": "^1.0.2",
     "php-http/client-common": "^2.0",
     "php-http/discovery": "^1.0",
     "php-http/httplug": "^2.0",

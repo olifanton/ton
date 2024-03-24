@@ -53,14 +53,17 @@ class WalletApplicationsManagerTest extends TestCase
     {
         $apps = WalletApplicationsManager::getDefaultApps();
 
-        $this->assertCount(3, $apps);
+        $this->assertCount(4, $apps);
 
-        $tk = $apps[0];
+        $tk = $apps[1];
 
         $this->assertEquals("tonkeeper", $tk->appName);
         $this->assertEquals("Tonkeeper", $tk->name);
         $this->assertEquals(BridgeType::SSE, $tk->bridge[0]->type);
         $this->assertEquals("https://bridge.tonapi.io/bridge", $tk->bridge[0]->url);
+
+        $tgWallet = $apps[0];
+        $this->assertEquals("telegram-wallet", $tgWallet->appName);
     }
 
     /**
@@ -87,6 +90,32 @@ class WalletApplicationsManagerTest extends TestCase
 
         $this->assertCount(8, $wallets);
         $this->assertTonkeeper($wallets[0]);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testDownloadListV2(): void
+    {
+        // Stubs
+        $json = trim(file_get_contents(STUB_DATA_DIR . "/connect/wallets-v2.json"));
+
+        // Mocks
+        $this
+            ->httpClientMock
+            ->shouldReceive("get")
+            ->andReturn(new Response(
+                headers: [
+                    "Content-Type" => "application/json",
+                ],
+                body: $json
+            ));
+
+        // Test
+        $wallets = $this->getInstance()->getList();
+
+        $this->assertCount(8, $wallets);
+        $this->assertTonkeeper($wallets[1]);
     }
 
     /**
@@ -163,8 +192,8 @@ class WalletApplicationsManagerTest extends TestCase
         $instance->setLogger(new NullLogger());
 
         $wallets = $instance->getList();
-        $this->assertCount(3, $wallets);
-        $this->assertTonkeeper($wallets[0]);
+        $this->assertCount(4, $wallets);
+        $this->assertTonkeeper($wallets[1]);
     }
 
     private function assertTonkeeper(WalletApplication $app): void
@@ -174,10 +203,7 @@ class WalletApplicationsManagerTest extends TestCase
         $this->assertEquals("https://tonkeeper.com/assets/tonconnect-icon.png", $app->image);
         $this->assertEquals("https://tonkeeper.com", $app->aboutUrl);
         $this->assertEquals("https://app.tonkeeper.com/ton-connect", $app->universalUrl);
-        $this->assertEquals(["ios", "android", "chrome", "firefox"], $app->platforms);
         $this->assertEquals(BridgeType::SSE, $app->bridge[0]->type);
         $this->assertEquals("https://bridge.tonapi.io/bridge", $app->bridge[0]->url);
-        $this->assertEquals(BridgeType::JS, $app->bridge[1]->type);
-        $this->assertEquals("tonkeeper", $app->bridge[1]->key);
     }
 }

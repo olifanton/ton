@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Olifanton\Ton\Connect\Sse;
-
-use Olifanton\Ton\Connect\Cancellation;
+namespace Olifanton\Ton\Connect;
 
 class TimeoutCancellation implements Cancellation
 {
@@ -16,5 +14,10 @@ class TimeoutCancellation implements Cancellation
     public function isCanceled(): bool
     {
         return microtime(true) > $this->endTime;
+    }
+
+    public function forceCancel(): void
+    {
+        $this->endTime = 0;
     }
 }

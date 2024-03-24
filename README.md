@@ -1,7 +1,6 @@
 PHP SDK for "The Open Network" blockchain
 ---
 
-![Code Coverage Badge](./.github/badges/coverage.svg)
 ![Tests](https://github.com/olifanton/ton/actions/workflows/tests.yml/badge.svg)
 [![Latest Stable Version](https://poser.pugx.org/olifanton/ton/v/stable)](https://packagist.org/packages/olifanton/ton)
 [![Total Downloads](https://poser.pugx.org/olifanton/ton/downloads)](https://packagist.org/packages/olifanton/ton)

@@ -53,4 +53,30 @@ class WalletApplication
             "about_url" => $aboutUrl,
         ]);
     }
+
+    public function getBridge(BridgeType $type): Bridge
+    {
+        foreach ($this->bridge as $bridge) {
+            if ($bridge->type === $type) {
+                return $bridge;
+            }
+        }
+
+        throw new \InvalidArgumentException(sprintf(
+            "%s doesn't support \"%s\" bridge type",
+            $this->name,
+            $type->value,
+        ));
+    }
+
+    public function hasBridge(BridgeType $type): bool
+    {
+        foreach ($this->bridge as $bridge) {
+            if ($bridge->type === $type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
