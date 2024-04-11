@@ -88,7 +88,7 @@ class HighloadWalletV2 extends AbstractWallet implements Wallet
                     : $transfer->payload;
                 $internalMessage = new InternalMessage(
                     new InternalMessageOptions(
-                        bounce: $transfer->dest->isBounceable(),
+                        bounce: $transfer->bounce,
                         dest: $transfer->dest,
                         value: $transfer->amount,
                         src: $this->getAddress(),
