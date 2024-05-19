@@ -18,6 +18,17 @@ if (!file_exists(__DIR__ . "/connected.json") || !file_exists(__DIR__ . "/precon
     exit(1);
 }
 
+// Use `PdoPreconnectStorage` or own implementation in production:
+/*
+$pdo = new \PDO(
+    "mysql:dbname=db;host=127.0.0.1",
+    "user",
+    "pwd",
+);
+$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+$storage = new \Olifanton\Ton\Connect\Storages\PdoPreconnectStorage($pdo);
+ */
+
 $storage = new JsonFilePreconnectStorage(__DIR__ . "/preconnect.json");
 /** @var array{
  *     preconnected_id: string,

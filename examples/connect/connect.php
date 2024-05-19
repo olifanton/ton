@@ -49,7 +49,17 @@ $connectionRequest = new ConnectRequest(
 );
 
 // The storage is required to store bridge connection session data. Storage must be persistent.
-// Use own implementation in production
+// Use `PdoPreconnectStorage` or own implementation in production:
+/*
+$pdo = new \PDO(
+    "mysql:dbname=db;host=127.0.0.1",
+    "user",
+    "pwd",
+);
+$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+$storage = new \Olifanton\Ton\Connect\Storages\PdoPreconnectStorage($pdo);
+ */
+
 $storage = new \Olifanton\Ton\Connect\Storages\JsonFilePreconnectStorage(PRECONNECT_STORAGE_FILE);
 $connector = new Connector(
     $storage,
