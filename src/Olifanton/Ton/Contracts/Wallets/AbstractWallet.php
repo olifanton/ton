@@ -6,6 +6,7 @@ use Olifanton\Interop\Boc\Builder;
 use Olifanton\Interop\Boc\Cell;
 use Olifanton\Interop\Boc\Exceptions\BitStringException;
 use Olifanton\Interop\Boc\SnakeString;
+use Olifanton\Interop\Bytes;
 use Olifanton\Ton\Contracts\AbstractContract;
 use Olifanton\Ton\Contracts\Exceptions\ContractException;
 use Olifanton\Ton\Contracts\Messages\Exceptions\MessageException;
@@ -165,6 +166,28 @@ abstract class AbstractWallet extends AbstractContract implements Wallet
     {
         return $this->publicKey;
     }
+
+    public static function getCodeHash(): string
+    {
+        try {
+            return Bytes::bytesToHexString(self::deserializeCode(static::getHexCodeString())->hash());
+        // @codeCoverageIgnoreStart
+        } catch (\Throwable $e) {
+            throw new WalletException(
+                "Wallet code hash calculation error: " . $e->getMessage(),
+                $e->getCode(),
+                $e,
+            );
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    protected function createCode(): Cell
+    {
+        return self::deserializeCode(static::getHexCodeString());
+    }
+
+    protected static abstract function getHexCodeString(): string;
 
     protected function createData(): Cell
     {

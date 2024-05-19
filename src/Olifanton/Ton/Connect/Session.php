@@ -48,7 +48,11 @@ class Session implements LoggerAwareInterface, \JsonSerializable
                 sodium_hex2bin($data["secret_key"]),
                 $data["bridge_url"],
             );
-            $instance->clientId = sodium_hex2bin($data["client_id"]);
+
+            if (isset($data["client_id"]) && $data["client_id"]) {
+                $instance->clientId = sodium_hex2bin($data["client_id"]);
+            }
+
             $instance->lastEventId = $data["last_event_id"];
             $instance->lastRequestId = $data["last_request_id"] ?? 0;
             $instance->preconnectedId = $data["preconnected_id"] ?? null;
@@ -82,7 +86,7 @@ class Session implements LoggerAwareInterface, \JsonSerializable
     public function pollEvents(Client $sseClient, Cancellation $cancellation): \Generator
     {
         try {
-            $url = $this->bridgeUrl . "/events";
+            $url = rtrim($this->bridgeUrl, '/') . "/events";
             $params = [
                 "client_id" => $this->getId(),
             ];
@@ -198,7 +202,7 @@ class Session implements LoggerAwareInterface, \JsonSerializable
         }
 
         try {
-            $url = $this->bridgeUrl . "/message";
+            $url = rtrim($this->bridgeUrl, '/') . "/message";
             $params = [
                 "client_id" => $this->getId(),
                 "to" => $this->getClientId(),
@@ -375,6 +379,7 @@ class Session implements LoggerAwareInterface, \JsonSerializable
      */
     protected final function encrypt(string $message): string
     {
+        /** @noinspection PhpUnhandledExceptionInspection */
         $nonce = random_bytes(24);
 
         return base64_encode(

@@ -2,4 +2,6 @@
 
 namespace Olifanton\Ton\Connect\Exceptions;
 
-class StorageException extends \Exception {}
+use Olifanton\Ton\Exceptions\TonException;
+
+class StorageException extends TonException {}

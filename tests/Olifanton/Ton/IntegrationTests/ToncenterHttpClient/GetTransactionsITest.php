@@ -15,7 +15,10 @@ class GetTransactionsITest extends ToncenterHttpClientITestCase
         $client = $this->getInstance();
 
         try {
-            $resp = $client->getTransactions(new Address("Ef8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAU"));
+            $resp = $client->getTransactions(
+                new Address("Ef8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAU"),
+                lt: 20165746000001,
+            );
         } catch (ClientException $e) {
             if (str_contains($e->getMessage(), "lt not in db")) {
                 // FIXME: Dirty hack, should be reworked later

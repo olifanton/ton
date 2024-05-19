@@ -2,4 +2,6 @@
 
 namespace Olifanton\Ton\Connect\Sse\Exceptions;
 
-class SseClientException extends \Exception {}
+use Olifanton\Ton\Exceptions\TonException;
+
+class SseClientException extends TonException {}

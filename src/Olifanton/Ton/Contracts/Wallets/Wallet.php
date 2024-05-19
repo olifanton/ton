@@ -29,4 +29,9 @@ interface Wallet extends Contract, Deployable
     public function createSigningMessage(int $seqno): Cell;
 
     public function getPublicKey(): Uint8Array;
+
+    /**
+     * @throws WalletException
+     */
+    public static function getCodeHash(): string;
 }

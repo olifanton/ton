@@ -2,4 +2,6 @@
 
 namespace Olifanton\Ton\Connect\Exceptions;
 
-class SessionException extends \Exception {}
+use Olifanton\Ton\Exceptions\TonException;
+
+class SessionException extends TonException {}

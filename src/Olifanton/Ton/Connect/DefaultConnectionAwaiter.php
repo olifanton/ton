@@ -44,46 +44,48 @@ class DefaultConnectionAwaiter implements ConnectionAwaiter, LoggerAwareInterfac
             foreach ($iterators as $sessionEventPoll) {
                 $sessionEvent = $sessionEventPoll->current();
 
-                try {
-                    switch ($sessionEvent::class) {
-                        case Events\Connect::class:
-                            /** @var ?TonProof $proof */
-                            $proof = $sessionEvent->getItem(TonProof::class);
-                            /** @var ?TonAddr $address */
-                            $address = $sessionEvent->getItem(TonAddr::class);
+                if ($sessionEvent) {
+                    try {
+                        switch ($sessionEvent::class) {
+                            case Events\Connect::class:
+                                /** @var ?TonProof $proof */
+                                $proof = $sessionEvent->getItem(TonProof::class);
+                                /** @var ?TonAddr $address */
+                                $address = $sessionEvent->getItem(TonAddr::class);
 
-                            if ($proof && $address) {
-                                if ($proof->check($address)) {
-                                    $connectedSession = $sessionEvent->session;
-                                    $result = new ConnectionResult(
-                                        $this->preconnectedId,
-                                        $address,
-                                        $proof,
-                                        $connectedSession,
-                                        $sessions->getWalletApp($connectedSession),
-                                        $sessionEvent,
-                                    );
-                                    $this->cancellation->forceCancel();
-                                    $this
-                                        ->logger
-                                        ?->info(sprintf(
-                                            "Wallet connected: %s",
-                                            $address
-                                                ->getAddress()
-                                                ->toString(true, isBounceable: false),
-                                        ));
+                                if ($proof && $address) {
+                                    if ($proof->check($address)) {
+                                        $connectedSession = $sessionEvent->session;
+                                        $result = new ConnectionResult(
+                                            $this->preconnectedId,
+                                            $address,
+                                            $proof,
+                                            $connectedSession,
+                                            $sessions->getWalletApp($connectedSession),
+                                            $sessionEvent,
+                                        );
+                                        $this->cancellation->forceCancel();
+                                        $this
+                                            ->logger
+                                            ?->info(sprintf(
+                                                "Wallet connected: %s",
+                                                $address
+                                                    ->getAddress()
+                                                    ->toString(true, isBounceable: false),
+                                            ));
+                                    }
                                 }
-                            }
-                            break;
+                                break;
 
-                        // @TODO: Handle other events
+                            // @TODO: Handle other events
+                        }
+                    } catch (\Throwable $e) {
+                        $this
+                            ->logger
+                            ?->error("Polling error in DefaultConnectionAwaiter: " . $e->getMessage(), [
+                                "exception" => $e,
+                            ]);
                     }
-                } catch (\Throwable $e) {
-                    $this
-                        ->logger
-                        ?->error("Polling error in DefaultConnectionAwaiter: " . $e->getMessage(), [
-                            "exception" => $e,
-                        ]);
                 }
 
                 if ($sessionEventPoll->valid()) {

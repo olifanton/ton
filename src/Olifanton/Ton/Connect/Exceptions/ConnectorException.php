@@ -2,4 +2,6 @@
 
 namespace Olifanton\Ton\Connect\Exceptions;
 
-class ConnectorException extends \Exception {}
+use Olifanton\Ton\Exceptions\TonException;
+
+class ConnectorException extends TonException {}

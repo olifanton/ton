@@ -98,7 +98,7 @@ abstract class AbstractContract implements Contract, Deployable
             return Cell::oneFromBoc($serializedBoc, $isBase64);
         // @codeCoverageIgnoreStart
         } catch (CellException $e) {
-            throw new WalletException("Wallet code creation error: " . $e->getMessage(), $e->getCode(), $e);
+            throw new WalletException("Smartcontract code creation error: " . $e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
     }

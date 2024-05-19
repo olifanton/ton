@@ -28,7 +28,7 @@ $isMainnet = (defined("MAIN_NET") && MAIN_NET); // @phpstan-ignore-line
 $toncenter = new ToncenterHttpV2Client(
     $httpClient,
     new ClientOptions(
-        $isMainnet ? "https://toncenter.com/api/v2" : "https://testnet.toncenter.com/api/v2",
+        $isMainnet ? ClientOptions::MAIN_BASE_URL : ClientOptions::TEST_BASE_URL,
         $isMainnet ? $_ENV["TONCENTER_API_KEY_MAINNET"] : $_ENV["TONCENTER_API_KEY"],
     ),
 );

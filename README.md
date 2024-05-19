@@ -52,7 +52,7 @@ composer require guzzlehttp/guzzle http-interop/http-factory-guzzle php-http/guz
 <?php
 
 use Http\Client\Common\HttpMethodsClient;
-use Http\Discovery\HttpClientDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Olifanton\Ton\Transports\Toncenter\ToncenterHttpV2Client;
 use Olifanton\Ton\Transports\Toncenter\ClientOptions;
@@ -63,7 +63,7 @@ $toncenterApiKey = "..."; // Request API key from https://t.me/tontestnetapibot 
 
 // HTTP client initialization
 $httpClient = new HttpMethodsClient(
-    HttpClientDiscovery::find(),
+    Psr18ClientDiscovery::find(),
     Psr17FactoryDiscovery::findRequestFactory(),
     Psr17FactoryDiscovery::findStreamFactory(),
 );
