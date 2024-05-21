@@ -20,8 +20,8 @@ class GetTransactionsITest extends ToncenterHttpClientITestCase
                 lt: 20165746000001,
             );
         } catch (ClientException $e) {
-            if (str_contains($e->getMessage(), "lt not in db")) {
-                // FIXME: Dirty hack, should be reworked later
+            if (str_contains($e->getMessage(), "lt not in db") || str_contains($e->getMessage(), "cannot locate transaction in block with specified logical time")) {
+                // FIXME: Dirty hack, should be reworked later (never)
                 $this->addToAssertionCount(1);
                 return;
             }

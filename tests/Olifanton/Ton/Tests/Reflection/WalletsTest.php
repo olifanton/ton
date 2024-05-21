@@ -175,6 +175,16 @@ class WalletsTest extends TestCase
                     ))->getStateInit();
                 },
             ],
+
+            WalletsSmc\V5\WalletV5R1::class => [
+                "factory" => static function () use ($kp): StateInit {
+                    return (new WalletsSmc\V5\WalletV5R1(
+                        new WalletsSmc\V5\WalletV5Options(
+                            publicKey: $kp->publicKey,
+                        ),
+                    ))->getStateInit();
+                },
+            ],
         ];
     }
 }

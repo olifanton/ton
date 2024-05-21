@@ -6,6 +6,7 @@ use Olifanton\Interop\Boc\Exceptions\CellException;
 use Olifanton\Interop\Bytes;
 use Olifanton\Ton\Contracts\Messages\StateInit;
 use Olifanton\Ton\Contracts\Wallets as WalletsSmc;
+use Olifanton\Ton\Network;
 use Olifanton\Ton\Reflection\Exceptions\WalletReflectionException;
 use Olifanton\Ton\Reflection\Models\AddressPubkeyPair;
 
@@ -100,6 +101,26 @@ class Wallets
                     $instance = new $walletClass($options);
                     break;
 
+                case WalletsSmc\V5\WalletV5R1::class:
+                    $slice->skipBits(33); // seqno
+                    $network = $slice->loadInt(32)->toInt();
+                    $wc = $slice->loadInt(8)->toInt();
+                    $walletVersionId = $slice->loadUint(8)->toInt();
+                    $subwalletId = $slice->loadUint(32)->toInt();
+                    $publicKey = $slice->loadBits(256);
+                    $options = new WalletsSmc\V5\WalletV5Options(
+                        publicKey: $publicKey,
+                        walletId: new WalletsSmc\WalletId(
+                            networkId: Network::from($network),
+                            subwalletId: $subwalletId,
+                            walletVersion: array_flip(WalletsSmc\V5\WalletV5R1::WALLET_VERSIONS_MAP)[$walletVersionId] ?? "v5",
+                            workchain: $wc,
+                        ),
+                        workchain: $wc,
+                    );
+                    $instance = new $walletClass($options);
+                    break;
+
                 default:
                     throw new \InvalidArgumentException("Unknown wallet class: " . $walletClass);
             }
@@ -134,6 +155,8 @@ class Wallets
 
                 WalletsSmc\V4\WalletV4R1::class,
                 WalletsSmc\V4\WalletV4R2::class,
+
+                WalletsSmc\V5\WalletV5R1::class,
             ];
 
             foreach ($wallets as $walletClass) {

@@ -12,11 +12,20 @@ use Olifanton\TypedArrays\Uint8Array;
 
 abstract class Message
 {
+    protected bool $tailSigned = false;
+
     public function __construct(
         private readonly Cell $header,
         private readonly ?Cell $body = null,
         private readonly ?Cell $state = null,
     ) {}
+
+    public function tailSigned(bool $isTailSigned): self
+    {
+        $this->tailSigned = $isTailSigned;
+
+        return $this;
+    }
 
     /**
      * @throws MessageException
@@ -42,7 +51,7 @@ abstract class Message
         try {
             $message = new Cell();
             $bs = $message->bits;
-            $body = $this->body && $key ? self::signed($this->body, $key) : $this->body;
+            $body = $this->body && $key ? self::signed($this->body, $key, $this->tailSigned) : $this->body;
             $message->writeCell($this->header);
 
             if ($this->state) {
@@ -86,17 +95,24 @@ abstract class Message
     /**
      * @throws MessageException
      */
-    protected static function signed(Cell $data, Uint8Array $key): Cell
+    protected static function signed(Cell $data, Uint8Array $key, bool $isSignTail): Cell
     {
         try {
             $hash = $data->hash();
             $signature = Crypto::sign($hash, $key);
-
             $message = new Cell();
-            $message
-                ->bits
-                ->writeBytes($signature);
-            $message->writeCell($data);
+
+            if ($isSignTail) {
+                $message->writeCell($data);
+                $message
+                    ->bits
+                    ->writeBytes($signature);
+            } else {
+                $message
+                    ->bits
+                    ->writeBytes($signature);
+                $message->writeCell($data);
+            }
 
             return $message;
         // @codeCoverageIgnoreStart
