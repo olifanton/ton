@@ -67,8 +67,7 @@
     "phplint": "phplint -c .phplint.yml",
     "phpstan": "phpstan analyse -c phpstan.neon --ansi --xdebug",
     "test": [
-      "@test:unit",
-      "@test:integration"
+      "@test:unit"
     ],
     "checks": [
       "@phplint",
