@@ -25,7 +25,7 @@ $logger->info(
 );
 $transfers = [];
 
-for ($i = 0; $i < 128; $i++) {
+for ($i = 0; $i < 250; $i++) {
     $transfers[] = new Transfer(
         dest: new Address("EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c"),
         amount: Units::toNano(0.001),
