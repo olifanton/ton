@@ -137,9 +137,11 @@ class ToncenterResponseStack extends \SplQueue implements ResponseStack
             return match ($typeName) {
                 "tvm.list", "tvm.tuple" => array_map(static fn(array $e) => self::parseObject($e), $entry["elements"]),
                 "tvm.cell" => Cell::oneFromBoc($entry["bytes"], true),
+                "tvm.slice" => Cell::oneFromBoc($entry["bytes"], true)->beginParse(),
                 "tvm.stackEntryCell" => self::parseObject($entry["cell"]),
                 "tvm.stackEntryTuple" => self::parseObject($entry["tuple"]),
                 "tvm.stackEntryNumber" => self::parseObject($entry["number"]),
+                "tvm.stackEntrySlice" => self::parseObject($entry["slice"]),
                 "tvm.numberDecimal" => BigInteger::fromBase($entry["number"], 10),
                 default => throw new ResponseStackParsingException(
                     "Unknown type: " . $typeName,
