@@ -3,6 +3,7 @@
 namespace Olifanton\Ton\Tests\Transports\Toncenter\ToncenterTransport;
 
 use Olifanton\Interop\Boc\Cell;
+use Olifanton\Interop\Boc\Slice;
 use Olifanton\Ton\Transports\Toncenter\ToncenterResponseStack;
 use PHPUnit\Framework\TestCase;
 
@@ -123,5 +124,31 @@ class ToncenterResponseStackTest extends TestCase
         $hibernated = unserialize(serialize($stack));
         
         $this->assertEquals($stack, $hibernated);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testParseSlice(): void
+    {
+        $stack = ToncenterResponseStack::parse([
+            [
+                'tuple',
+                [
+                    'elements' => [
+                        'slice' => [
+                            '@type' => 'tvm.slice',
+                            'bytes' => 'te6cckEBAQEAJAAAQ4AAfVvsWElajYlLb4F8fIyqLMQ5C7fmIG3GgSHEjI54E7D+9neY',
+                        ],
+                    ],
+                ]
+            ],
+        ]);
+
+        $this->assertCount(1, $stack);
+        $slice = $stack->currentTuple()['slice'];
+        $this->assertInstanceOf(Slice::class, $slice);
+        $address = $slice->loadAddress()->toString(true, true, true);
+        $this->assertEquals('EQAD6t9iwkrUbEpbfAvj5GVRZiHIXb8xA240CQ4kZHPAnSuo', $address);
     }
 }
