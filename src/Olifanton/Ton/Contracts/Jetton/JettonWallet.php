@@ -61,14 +61,13 @@ class JettonWallet extends AbstractContract
                 ->writeBit(false)
                 ->writeCoins($options->forwardAmount ?? BigInteger::zero());
 
-                if($options->forwardPayload){
-                    if($options->forwardPayload instanceof Cell){
+                if ($options->forwardPayload) {
+                    if ($options->forwardPayload instanceof Cell) {
                         $body->writeMaybeRef($options->forwardPayload);
-                    }else{
-                        $body->writeBit(false)
-                        ->writeBytes($options->forwardPayload);
+                    } else {
+                        $body->writeBit(false)->writeBytes($options->forwardPayload);
                     }
-                }else {
+                } else {
                     $body->writeBit(false);
                 }
 

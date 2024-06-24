@@ -70,14 +70,13 @@ class NftItem extends AbstractContract
                 ->writeBit(false)
                 ->writeCoins($options->forwardAmount ?? BigInteger::zero());
 
-                if($options->forwardPayload){
-                    if($options->forwardPayload instanceof Cell){
+                if ($options->forwardPayload) {
+                    if ($options->forwardPayload instanceof Cell) {
                         $bodyBuilder->writeMaybeRef($options->forwardPayload);
-                    }else{
-                        $bodyBuilder->writeBit(false)
-                        ->writeBytes($options->forwardPayload);
+                    } else {
+                        $bodyBuilder->writeBit(false)->writeBytes($options->forwardPayload);
                     }
-                }else {
+                } else {
                     $bodyBuilder->writeBit(false);
                 }
 
