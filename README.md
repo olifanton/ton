@@ -93,9 +93,11 @@ See [`examples/common.php`](./examples/common.php) for complex Toncenter example
 
 To read description of primitives (Address, Cell, Slice, Builder, Hashmap), refer to documentation in the [`olifanton/interop`](https://github.com/olifanton/interop) repository.
 
-### Framework integration
+### Performance tips
 
-_@WIP_
+- First of all, use the latest version of PHP, despite the fact that the minimum version is 8.1
+- __Install__ the `bcmath` extension for PHP. This dramatically speeds up the work with large integers, which is necessary for interacting with TVM
+- __Disable__ `xdebug` (or other debuggers) in your production. BoC serialisation/deserialisation speedup can be up to 5 times with `XDEBUG_MODE=off`
 
 ---
 
