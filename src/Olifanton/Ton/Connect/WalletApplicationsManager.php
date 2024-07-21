@@ -96,7 +96,7 @@ class WalletApplicationsManager implements LoggerAwareInterface
                 [
                     [
                         "type" => "sse",
-                        "url" => "https://bridge.tonapi.io/bridge",
+                        "url" => "https://bridge.ton.space/bridge",
                     ],
                 ],
                 ["ios", "android", "macos", "windows", "linux"],
