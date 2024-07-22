@@ -13,7 +13,7 @@ use Olifanton\Ton\Contracts\Jetton\TransferJettonOptions;
 use Olifanton\Ton\Contracts\Wallets\Transfer;
 use Olifanton\Ton\Contracts\Wallets\TransferOptions;
 use Olifanton\Ton\Contracts\Wallets\V5\WalletV5Options;
-use Olifanton\Ton\Contracts\Wallets\V5\WalletV5R1;
+use Olifanton\Ton\Contracts\Wallets\V5\WalletV5Beta;
 use Olifanton\Ton\SendMode;
 
 define("MAIN_NET", true);
@@ -27,7 +27,7 @@ $textComment = "(૭ ｡•̀ ᵕ •́｡ )૭";
 $usdtAmount = "0.1";
 
 define("USDT_JETTON_MINTER_ADDR", "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs"); // https://tonviewer.com/EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs
-$wallet = new WalletV5R1( // W5, why not? :]
+$wallet = new WalletV5Beta( // W5, why not? :]
     new WalletV5Options(
         publicKey: $kp->publicKey,
     ),

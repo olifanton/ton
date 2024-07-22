@@ -101,7 +101,7 @@ class Wallets
                     $instance = new $walletClass($options);
                     break;
 
-                case WalletsSmc\V5\WalletV5R1::class:
+                case WalletsSmc\V5\WalletV5Beta::class:
                     $slice->skipBits(33); // seqno
                     $network = $slice->loadInt(32)->toInt();
                     $wc = $slice->loadInt(8)->toInt();
@@ -113,7 +113,7 @@ class Wallets
                         walletId: new WalletsSmc\WalletId(
                             networkId: Network::from($network),
                             subwalletId: $subwalletId,
-                            walletVersion: array_flip(WalletsSmc\V5\WalletV5R1::WALLET_VERSIONS_MAP)[$walletVersionId] ?? "v5",
+                            walletVersion: array_flip(WalletsSmc\V5\WalletV5Beta::WALLET_VERSIONS_MAP)[$walletVersionId] ?? "v5",
                             workchain: $wc,
                         ),
                         workchain: $wc,
@@ -156,7 +156,7 @@ class Wallets
                 WalletsSmc\V4\WalletV4R1::class,
                 WalletsSmc\V4\WalletV4R2::class,
 
-                WalletsSmc\V5\WalletV5R1::class,
+                WalletsSmc\V5\WalletV5Beta::class,
             ];
 
             foreach ($wallets as $walletClass) {

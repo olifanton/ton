@@ -6,7 +6,7 @@ use Olifanton\Interop\Address;
 use Olifanton\Interop\Units;
 use Olifanton\Ton\Contracts\Wallets\Transfer;
 use Olifanton\Ton\Contracts\Wallets\V5\WalletV5Options;
-use Olifanton\Ton\Contracts\Wallets\V5\WalletV5R1;
+use Olifanton\Ton\Contracts\Wallets\V5\WalletV5Beta;
 use Olifanton\Ton\Contracts\Wallets\V5\WalletV5TransferOptions;
 use Olifanton\Ton\SendMode;
 
@@ -14,7 +14,7 @@ require dirname(__DIR__) . "/common.php";
 
 global $kp, $transport, $logger;
 
-$wallet = new WalletV5R1(
+$wallet = new WalletV5Beta(
     new WalletV5Options(
         $kp->publicKey,
     ),

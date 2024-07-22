@@ -21,7 +21,7 @@ use Olifanton\Ton\Contracts\Wallets\TransferOptions;
 use Olifanton\Ton\Contracts\Wallets\Wallet;
 use Olifanton\Ton\Contracts\Wallets\WalletId;
 
-class WalletV5R1 extends AbstractWallet implements Wallet
+abstract class WalletV5 extends AbstractWallet implements Wallet
 {
     protected WalletId $walletId;
 
@@ -41,16 +41,6 @@ class WalletV5R1 extends AbstractWallet implements Wallet
         }
     }
 
-    protected static function getHexCodeString(): string
-    {
-        return "b5ee9c7241010101002300084202e4cf3b2f4c6d6a61ea0f2b5447d266785b26af3637db2deee6bcd1aa826f34120dcd8e11"; // O ma G!
-    }
-
-    public static function getName(): string
-    {
-        return "v5r1";
-    }
-
     protected function createData(): Cell
     {
         try {
@@ -62,7 +52,7 @@ class WalletV5R1 extends AbstractWallet implements Wallet
                 ->writeBit(0); // Empty plugins dict
 
             return $b->cell();
-        // @codeCoverageIgnoreStart
+            // @codeCoverageIgnoreStart
         } catch (BitStringException | CellException $e) {
             throw new WalletException("Wallet data creation error: " . $e->getMessage(), $e->getCode(), $e);
         }
@@ -122,7 +112,7 @@ class WalletV5R1 extends AbstractWallet implements Wallet
                 ->writeRef(
                     (new Builder())->writeSlice($this->createTransfersCell($transfers))->cell(),
                 );
-        // @codeCoverageIgnoreStart
+            // @codeCoverageIgnoreStart
         } catch (\Throwable $e) {
             throw new WalletException(
                 "Signing message construction error: " . $e->getMessage(),
@@ -146,7 +136,7 @@ class WalletV5R1 extends AbstractWallet implements Wallet
                     $seqno === 0 ? $this->getStateInit()->cell() : null,
                 ),
             ))->tailSigned(true);
-        // @codeCoverageIgnoreStart
+            // @codeCoverageIgnoreStart
         } catch (MessageException|ContractException $e) {
             throw new WalletException(
                 $e->getMessage(),
@@ -157,7 +147,7 @@ class WalletV5R1 extends AbstractWallet implements Wallet
         // @codeCoverageIgnoreEnd
     }
 
-    public function createSigningMessage(int $seqno, ): Cell
+    public function createSigningMessage(int $seqno): Cell
     {
         throw new \DomainException("Not applicable");
     }
@@ -170,7 +160,7 @@ class WalletV5R1 extends AbstractWallet implements Wallet
      * @throws ContractException
      * @throws MessageException
      */
-    private function createTransfersCell(array $transfers): Slice
+    protected function createTransfersCell(array $transfers): Slice
     {
         return array_reduce($transfers, function (Cell $cell, Transfer $transfer) {
             $body = is_string($transfer->payload)

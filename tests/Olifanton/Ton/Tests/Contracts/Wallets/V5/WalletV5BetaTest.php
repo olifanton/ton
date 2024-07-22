@@ -7,14 +7,14 @@ use Olifanton\Interop\Units;
 use Olifanton\Mnemonic\TonMnemonic;
 use Olifanton\Ton\Contracts\Wallets\Transfer;
 use Olifanton\Ton\Contracts\Wallets\V5\WalletV5Options;
-use Olifanton\Ton\Contracts\Wallets\V5\WalletV5R1;
+use Olifanton\Ton\Contracts\Wallets\V5\WalletV5Beta;
 use Olifanton\Ton\Contracts\Wallets\V5\WalletV5TransferOptions;
 use Olifanton\Ton\Helpers\KeyPair;
 use Olifanton\Ton\SendMode;
 use Olifanton\Ton\Transports\NullTransport\NullTransport;
 use PHPUnit\Framework\TestCase;
 
-class WalletV5R1Test extends TestCase
+class WalletV5BetaTest extends TestCase
 {
     /**
      * @throws \Throwable
@@ -25,7 +25,7 @@ class WalletV5R1Test extends TestCase
         $words = "point august abandon hamster pilot cousin rug bargain century rate rule armed host rate balcony ordinary advance forward unknown border tip art luxury return";
         $kp = TonMnemonic::mnemonicToKeyPair(explode(" ", $words));
 
-        $instance = new WalletV5R1(
+        $instance = new WalletV5Beta(
             new WalletV5Options(
                 publicKey: $kp->publicKey,
             ),
@@ -43,7 +43,7 @@ class WalletV5R1Test extends TestCase
     public function testCreateTransferMessage(): void
     {
         $kp = KeyPair::random();
-        $instance = new WalletV5R1(
+        $instance = new WalletV5Beta(
             new WalletV5Options(
                 publicKey: $kp->publicKey,
             ),

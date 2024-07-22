@@ -52,7 +52,7 @@
     "http-interop/http-factory-guzzle": "^1.2",
     "jetbrains/phpstorm-attributes": "^1.0",
     "mockery/mockery": "^1.5",
-    "overtrue/phplint": "^9.0",
+    "overtrue/phplint": "9.3.1",
     "php-http/guzzle7-adapter": "^1.0",
     "phpstan/phpstan": "^1.9",
     "phpunit/phpunit": "^9.5",

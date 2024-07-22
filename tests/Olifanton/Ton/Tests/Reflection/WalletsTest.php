@@ -176,9 +176,9 @@ class WalletsTest extends TestCase
                 },
             ],
 
-            WalletsSmc\V5\WalletV5R1::class => [
+            WalletsSmc\V5\WalletV5Beta::class => [
                 "factory" => static function () use ($kp): StateInit {
-                    return (new WalletsSmc\V5\WalletV5R1(
+                    return (new WalletsSmc\V5\WalletV5Beta(
                         new WalletsSmc\V5\WalletV5Options(
                             publicKey: $kp->publicKey,
                         ),
