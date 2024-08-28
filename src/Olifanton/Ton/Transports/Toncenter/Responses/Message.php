@@ -35,5 +35,5 @@ class Message
     public readonly MessageData $msgData;
 
     #[JsonMap]
-    public readonly string $message;
+    public readonly ?string $message;
 }
