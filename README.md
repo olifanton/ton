@@ -31,7 +31,7 @@ See [`examples`](./examples) directory.
 ### Running examples
 
 1. Clone repository and install with development dependencies;
-2. Get own testnet API key for Toncenter from [Telegram bot](https://t.me/tontestnetapibot);
+2. Get own testnet API key for Toncenter from [Telegram bot](https://t.me/tonapibot);
 3. Copy `.env.dist` to `.env`;
 4. Put API key and seed phrase variables to `.env` file;
 5. Run examples in console.
