@@ -110,7 +110,7 @@ class JettonMinterTest extends TestCase
         $body = JettonMinter::createChangeAdminBody($newAdminAddress);
         $slice = $body->beginParse();
 
-        $this->assertEquals(BigInteger::of("2"), $slice->loadUint(32));
+        $this->assertEquals(BigInteger::of("3"), $slice->loadUint(32));
         $this->assertEquals(BigInteger::zero(), $slice->loadUint(64));
         $this->assertEquals(
             $newAdminAddress->getHashPart(),

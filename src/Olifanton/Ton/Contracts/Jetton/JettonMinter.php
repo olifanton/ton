@@ -117,7 +117,7 @@ class JettonMinter extends AbstractContract
     {
         try {
             return (new Builder())
-                ->writeUint(2, 32)
+                ->writeUint(3, 32)
                 ->writeUint($queryId, 64)
                 ->writeAddress($newAdminAddress)
                 ->cell();
