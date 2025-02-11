@@ -40,7 +40,7 @@ class WalletApplication
         string $universalUrl,
         array $bridge,
         array $platforms = [],
-        string $aboutUrl = null,
+        ?string $aboutUrl = null,
     ): WalletApplication
     {
         return Hydrator::extract(self::class, [
