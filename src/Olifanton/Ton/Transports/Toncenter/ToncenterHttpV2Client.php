@@ -673,13 +673,13 @@ class ToncenterHttpV2Client implements ToncenterV2Client
         try {
             $body = json_decode($responseBody, true, 512, JSON_THROW_ON_ERROR);
 
-            if (isset($body["ok"], $body["result"], $body["jsonrpc"])) {
+            if (isset($body["ok"], $body["result"])) {
                 return new JsonRpcResponse(
                     ok: (bool)$body["ok"],
                     result: $body["result"],
                     error: isset($body["error"]) ? (string)$body["error"] : null,
                     code: isset($body["code"])? (int)$body["code"] : null,
-                    jsonrpc: (string)$body["jsonrpc"],
+                    jsonrpc: (string)($body["jsonrpc"] ?? "2.0"),
                     id: isset($body["id"]) ? (string)$body["id"] : null,
                 );
             }

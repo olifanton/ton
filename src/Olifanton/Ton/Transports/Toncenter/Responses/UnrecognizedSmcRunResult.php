@@ -17,7 +17,7 @@ class UnrecognizedSmcRunResult
     public readonly int $exitCode;
 
     #[JsonMap("@extra")]
-    public readonly string $extra;
+    public readonly ?string $extra;
 
     #[JsonMap]
     public readonly array $stack;
