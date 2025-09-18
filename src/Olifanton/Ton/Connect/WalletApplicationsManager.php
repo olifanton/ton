@@ -21,7 +21,7 @@ class WalletApplicationsManager implements LoggerAwareInterface
     public const TONHUB = "tonhub";
     public const MYTONWALLET = "mytonwallet";
 
-    protected const WALLETS_LIST_URL = "https://raw.githubusercontent.com/ton-blockchain/wallets-list/main/wallets-v2.json";
+    protected const WALLETS_LIST_URL = "https://whatever-zeta-two.vercel.app/wallets-v2.json";
 
     protected const CACHE_KEY = "olfnt_conn_wallets_list";
 
